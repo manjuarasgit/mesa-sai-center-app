@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#191919] text-[#d3d3d3]">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesa Sathya Sai Center - Notion / Google Site Hub (Option 3)</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Alpine.js -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <style>
+    [x-cloak] { display: none !important; }
+    /* Notion Dark Theme Colors */
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif; }
+    .notion-bg { background-color: #191919; }
+    .notion-card { background-color: #202020; border: 1px solid #2f2f2f; }
+    .notion-card:hover { border-color: #404040; }
+    .notion-sidebar { background-color: #121212; border-right: 1px solid #252525; }
+    .notion-callout { background-color: #25231f; border: 1px solid #3d3522; }
+    .notion-callout-emerald { background-color: #18261e; border: 1px solid #22422d; }
+  </style>
+</head>
+
+<body class="h-full flex flex-col md:flex-row font-sans text-sm selection:bg-amber-500/30"
+      x-data="notionHub()" x-init="init()">
+
+  <!-- Sidebar (Notion Navigation Style) -->
+  <aside class="w-full md:w-64 notion-sidebar p-4 flex flex-col justify-between shrink-0">
+    <div class="space-y-4">
+      <!-- Workspace Header -->
+      <div class="flex items-center space-x-2.5 px-2 py-1.5 rounded hover:bg-white/5 cursor-pointer">
+        <span class="text-xl">🌸</span>
+        <div class="overflow-hidden">
+          <h1 class="font-bold text-slate-100 text-sm truncate">Mesa Sai Workspace</h1>
+          <p class="text-[11px] text-slate-400 truncate">Option 3: Central Notion Wiki</p>
+        </div>
+      </div>
+
+      <div class="text-[11px] font-semibold text-slate-500 uppercase px-2 tracking-wider">Pages & Databases</div>
+
+      <!-- Nav Links -->
+      <nav class="space-y-1 text-xs">
+        <button @click="activePage = 'main'" :class="activePage === 'main' ? 'bg-white/10 text-white font-semibold' : 'text-slate-400 hover:bg-white/5 hover:text-slate-200'"
+                class="w-full text-left px-2.5 py-1.5 rounded flex items-center space-x-2 transition">
+          <i data-lucide="book-open" class="w-4 h-4 text-amber-400"></i>
+          <span>🏠 Main Wiki Home</span>
+        </button>
+
+        <button @click="activePage = 'recaps'" :class="activePage === 'recaps' ? 'bg-white/10 text-white font-semibold' : 'text-slate-400 hover:bg-white/5 hover:text-slate-200'"
+                class="w-full text-left px-2.5 py-1.5 rounded flex items-center space-x-2 transition">
+          <i data-lucide="history" class="w-4 h-4 text-sky-400"></i>
+          <span>📝 Missed Session Recaps</span>
+        </button>
+
+        <button @click="activePage = 'fmsc'" :class="activePage === 'fmsc' ? 'bg-white/10 text-white font-semibold' : 'text-slate-400 hover:bg-white/5 hover:text-slate-200'"
+                class="w-full text-left px-2.5 py-1.5 rounded flex items-center space-x-2 transition">
+          <i data-lucide="package" class="w-4 h-4 text-emerald-400"></i>
+          <span>📦 FMSC Seva Tracker</span>
+        </button>
+
+        <button @click="activePage = 'breakfast'" :class="activePage === 'breakfast' ? 'bg-white/10 text-white font-semibold' : 'text-slate-400 hover:bg-white/5 hover:text-slate-200'"
+                class="w-full text-left px-2.5 py-1.5 rounded flex items-center space-x-2 transition">
+          <i data-lucide="utensils" class="w-4 h-4 text-orange-400"></i>
+          <span>🍲 Hot Breakfast Signups</span>
+        </button>
+
+        <button @click="activePage = 'whatsapp'" :class="activePage === 'whatsapp' ? 'bg-white/10 text-white font-semibold' : 'text-slate-400 hover:bg-white/5 hover:text-slate-200'"
+                class="w-full text-left px-2.5 py-1.5 rounded flex items-center space-x-2 transition">
+          <i data-lucide="message-square" class="w-4 h-4 text-emerald-400"></i>
+          <span>📲 WhatsApp Generator</span>
+        </button>
+      </nav>
+    </div>
+
+    <!-- Switcher Banner -->
+    <div class="mt-6 pt-4 border-t border-slate-800 space-y-2">
+      <div class="text-[11px] text-slate-400">Comparing Options?</div>
+      <a href="http://localhost:8000" target="_blank"
+         class="block text-center bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 rounded py-1.5 text-xs font-semibold transition">
+        🚀 View Option 1 (Custom PWA)
+      </a>
+    </div>
+  </aside>
+
+  <!-- Main Content Viewer -->
+  <main class="flex-1 overflow-y-auto p-4 md:p-10 max-w-5xl mx-auto space-y-8">
+
+    <!-- ================= PAGE 1: MAIN NOTION WIKI ================= -->
+    <div x-show="activePage === 'main'" class="space-y-6">
+      
+      <!-- Banner & Title -->
+      <div class="space-y-3 border-b border-slate-800 pb-6">
+        <div class="text-4xl">🌸</div>
+        <h1 class="text-3xl font-extrabold text-white tracking-tight">Mesa Sathya Sai Center — Central Knowledge Hub</h1>
+        <p class="text-slate-400 text-sm">Welcome to our center's one-stop wiki. Access weekly meeting recaps, Balvikas materials, Study Circle readings, and Seva signups.</p>
+        
+        <div class="flex flex-wrap gap-2 text-xs pt-1">
+          <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">📍 Mesa, Arizona (AZ)</span>
+          <span class="px-2.5 py-1 rounded bg-slate-800 text-slate-300">🗓 Sundays 9:30 AM - 12:00 PM</span>
+          <a href="https://chat.whatsapp.com/MesaSaiCenterAZ" target="_blank" class="px-2.5 py-1 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 flex items-center space-x-1">
+            <i data-lucide="message-circle" class="w-3.5 h-3.5"></i><span>Join WhatsApp Group</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Notion Callout Box -->
+      <div class="notion-callout p-4 rounded-xl flex items-start space-x-3 text-amber-200 text-xs leading-relaxed">
+        <span class="text-lg">📢</span>
+        <div>
+          <strong class="block text-amber-300 font-bold mb-0.5">Quick Announcement: FMSC Volunteer Drive</strong>
+          Join us on Saturday, Sept 12 for Feed My Starving Children (FMSC) packing. Open to kids (5+) & adults. Check the <button @click="activePage = 'fmsc'" class="underline font-bold">FMSC Tracker</button> page to register your family!
+        </div>
+      </div>
+
+      <!-- Database Gallery Section -->
+      <div>
+        <h2 class="text-base font-bold text-white mb-3 flex items-center space-x-2">
+          <i data-lucide="layout-grid" class="w-4 h-4 text-amber-400"></i>
+          <span>Center Hub Modules (Toggle or Click to View)</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          
+          <!-- Card 1: Missed Session Recaps -->
+          <div @click="activePage = 'recaps'" class="notion-card p-5 rounded-xl cursor-pointer transition space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-2xl">📖</span>
+              <span class="text-[11px] bg-sky-950 text-sky-300 px-2 py-0.5 rounded border border-sky-800">Weekly Database</span>
+            </div>
+            <h3 class="font-bold text-white text-base">Missed Session Recaps</h3>
+            <p class="text-xs text-slate-400">Catch up on Sunday Balvikas lessons, Study Circle key takeaways & Bhajan recordings.</p>
+          </div>
+
+          <!-- Card 2: FMSC Seva -->
+          <div @click="activePage = 'fmsc'" class="notion-card p-5 rounded-xl cursor-pointer transition space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-2xl">📦</span>
+              <span class="text-[11px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded border border-emerald-800">Monthly Seva</span>
+            </div>
+            <h3 class="font-bold text-white text-base">FMSC Feed My Starving Children</h3>
+            <p class="text-xs text-slate-400">Kids & adults volunteer headcount, guidelines, and direct fmsc.org group registration link.</p>
+          </div>
+
+          <!-- Card 3: Hot Breakfast Seva -->
+          <div @click="activePage = 'breakfast'" class="notion-card p-5 rounded-xl cursor-pointer transition space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-2xl">🍲</span>
+              <span class="text-[11px] bg-amber-950 text-amber-300 px-2 py-0.5 rounded border border-amber-800">Bi-Weekly Seva</span>
+            </div>
+            <h3 class="font-bold text-white text-base">Homeless Hot Breakfast Signups</h3>
+            <p class="text-xs text-slate-400">Food item signup checklist (Oatmeal, Eggs, Fruit, Coffee) and serving team volunteer list.</p>
+          </div>
+
+          <!-- Card 4: WhatsApp Generator -->
+          <div @click="activePage = 'whatsapp'" class="notion-card p-5 rounded-xl cursor-pointer transition space-y-2">
+            <div class="flex justify-between items-center">
+              <span class="text-2xl">💬</span>
+              <span class="text-[11px] bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded border border-emerald-800">Coordinator Tool</span>
+            </div>
+            <h3 class="font-bold text-white text-base">WhatsApp Broadcast Generator</h3>
+            <p class="text-xs text-slate-400">Generate copy-pasteable weekly broadcast messages to post on WhatsApp groups.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Embedded Google Calendar / Schedule Mockup -->
+      <div class="space-y-3 pt-4">
+        <h2 class="text-base font-bold text-white flex items-center space-x-2">
+          <i data-lucide="calendar" class="w-4 h-4 text-amber-400"></i>
+          <span>Weekly Meeting Agenda (Sundays)</span>
+        </h2>
+
+        <div class="notion-card p-4 rounded-xl space-y-2 text-xs divide-y divide-slate-800">
+          <div class="pt-2 flex justify-between items-center">
+            <div>
+              <strong class="text-amber-400 block">9:30 AM - 10:45 AM</strong>
+              <span class="text-white font-medium">Balvikas Spiritual Education (SSE)</span>
+            </div>
+            <span class="text-slate-400">Group 1, 2, 3, 4 Classrooms</span>
+          </div>
+          <div class="pt-2 flex justify-between items-center">
+            <div>
+              <strong class="text-amber-400 block">10:45 AM - 11:30 AM</strong>
+              <span class="text-white font-medium">Devotional Bhajans & Aarti</span>
+            </div>
+            <span class="text-slate-400">Main Prayer Hall</span>
+          </div>
+          <div class="pt-2 flex justify-between items-center">
+            <div>
+              <strong class="text-amber-400 block">11:30 AM - 12:00 PM</strong>
+              <span class="text-white font-medium">Adult Study Circle & Reflection</span>
+            </div>
+            <span class="text-slate-400">Study Circle Hall</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- ================= PAGE 2: MISSED SESSION RECAPS ================= -->
+    <div x-show="activePage === 'recaps'" class="space-y-6">
+      <div class="border-b border-slate-800 pb-4 flex justify-between items-end">
+        <div>
+          <div class="text-2xl">📝</div>
+          <h1 class="text-2xl font-bold text-white">Missed Session Recaps Database</h1>
+          <p class="text-xs text-slate-400">Archive of weekly summaries for members who missed class or meeting.</p>
+        </div>
+        <button @click="activePage = 'main'" class="text-xs text-amber-400 hover:underline">&larr; Back to Main Wiki</button>
+      </div>
+
+      <!-- Recaps Database Table View -->
+      <div class="notion-card rounded-xl overflow-hidden border border-slate-800">
+        <table class="w-full text-left text-xs">
+          <thead class="bg-slate-900 text-slate-400 border-b border-slate-800">
+            <tr>
+              <th class="p-3">Date</th>
+              <th class="p-3">Balvikas Summary & Slides</th>
+              <th class="p-3">Study Circle Topic</th>
+              <th class="p-3">Bhajans</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800 text-slate-300">
+            <tr>
+              <td class="p-3 font-semibold text-amber-400 whitespace-nowrap">Aug 30, 2026</td>
+              <td class="p-3 space-y-1">
+                <p>Lesson 21: Omnipresent God 🌟</p>
+                <a href="/Sai/Lesson21_Slides.html" target="_blank" class="text-amber-400 hover:underline font-semibold block text-[11px]">
+                  📊 Open Slide Deck (PDF/HTML)
+                </a>
+              </td>
+              <td class="p-3">Geetha Vahini Ch 4: Nishkama Karma (Action without attachment)</td>
+              <td class="p-3">8 Bhajans sung (Devi & Shiva focus)</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-semibold text-amber-400 whitespace-nowrap">Aug 23, 2026</td>
+              <td class="p-3 space-y-1">
+                <p>Lesson 22: Service to Man is Service to God</p>
+                <a href="/Sai/Lesson22_Slides.html" target="_blank" class="text-amber-400 hover:underline font-semibold block text-[11px]">
+                  📊 Open Slide Deck (PDF/HTML)
+                </a>
+              </td>
+              <td class="p-3">Cease to do evil, learn to do good. Controlling speech.</td>
+              <td class="p-3">7 Bhajans (Ganesha, Krishna, Sarva Dharma)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <!-- ================= PAGE 3: FMSC SEVA TRACKER ================= -->
+    <div x-show="activePage === 'fmsc'" class="space-y-6">
+      <div class="border-b border-slate-800 pb-4 flex justify-between items-end">
+        <div>
+          <div class="text-2xl">📦</div>
+          <h1 class="text-2xl font-bold text-white">FMSC Feed My Starving Children Seva Tracker</h1>
+          <p class="text-xs text-slate-400">Monthly volunteer packing drive at FMSC Mesa site for kids (5+) & adults.</p>
+        </div>
+        <button @click="activePage = 'main'" class="text-xs text-amber-400 hover:underline">&larr; Back to Main Wiki</button>
+      </div>
+
+      <!-- Callout -->
+      <div class="notion-callout-emerald p-4 rounded-xl space-y-2 text-xs">
+        <div class="flex justify-between items-center">
+          <strong class="text-emerald-300 text-sm">🗓 Next Event: Saturday, Sept 12, 2026 (2:00 PM - 3:45 PM)</strong>
+          <span class="bg-emerald-900 text-emerald-200 font-mono px-2 py-0.5 rounded text-[11px]">Code: MESA-SAI-2026</span>
+        </div>
+        <p class="text-slate-300">📍 Location: FMSC Mesa Site, 1345 S Alma School Rd, Mesa, AZ 85210</p>
+        <div class="pt-2">
+          <a href="https://www.fmsc.org/join-group?code=MESA-SAI-2026" target="_blank"
+             class="inline-block bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-3 py-1.5 rounded transition">
+            🔗 Register Directly on FMSC.org
+          </a>
+        </div>
+      </div>
+
+      <!-- Embedded Form Mockup / Registration List -->
+      <div class="space-y-3">
+        <h3 class="font-bold text-white text-base">Center Family Roster (Embedded Form Submissions)</h3>
+        
+        <div class="notion-card rounded-xl p-4 space-y-3 border border-slate-800">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+            <div class="bg-slate-900 p-3 rounded border border-slate-800">
+              <span class="text-slate-400 block">Behera Family</span>
+              <span class="text-white font-bold block mt-1">2 Adults • 2 Kids (8, 11 yrs)</span>
+              <span class="text-emerald-400 text-[11px]">✓ Registered on FMSC site</span>
+            </div>
+
+            <div class="bg-slate-900 p-3 rounded border border-slate-800">
+              <span class="text-slate-400 block">Sharma Family</span>
+              <span class="text-white font-bold block mt-1">1 Adult • 1 Kid (14 yrs)</span>
+              <span class="text-emerald-400 text-[11px]">✓ Registered on FMSC site</span>
+            </div>
+
+            <div class="bg-slate-900 p-3 rounded border border-slate-800">
+              <span class="text-slate-400 block">Rao Family</span>
+              <span class="text-white font-bold block mt-1">2 Adults • 0 Kids</span>
+              <span class="text-amber-400 text-[11px]">Pending FMSC.org registration</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ================= PAGE 4: HOT BREAKFAST SEVA ================= -->
+    <div x-show="activePage === 'breakfast'" class="space-y-6">
+      <div class="border-b border-slate-800 pb-4 flex justify-between items-end">
+        <div>
+          <div class="text-2xl">🍲</div>
+          <h1 class="text-2xl font-bold text-white">Homeless Hot Breakfast Serving Drive</h1>
+          <p class="text-xs text-slate-400">Bi-weekly community service at Pioneer Park / Mesa Shelter area.</p>
+        </div>
+        <button @click="activePage = 'main'" class="text-xs text-amber-400 hover:underline">&larr; Back to Main Wiki</button>
+      </div>
+
+      <!-- Item Checklist Table -->
+      <div class="space-y-3">
+        <h3 class="font-bold text-white text-base">Food & Item Signups (Embedded Google Sheet / Notion Table)</h3>
+
+        <div class="notion-card rounded-xl overflow-hidden border border-slate-800">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-900 text-slate-400 border-b border-slate-800">
+              <tr>
+                <th class="p-3">Item Needed</th>
+                <th class="p-3">Quantity Needed</th>
+                <th class="p-3">Volunteers Pledged</th>
+                <th class="p-3">Status</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800 text-slate-300">
+              <tr>
+                <td class="p-3 font-semibold text-white">Hot Oatmeal (Large Foil Tray)</td>
+                <td class="p-3">2 Trays</td>
+                <td class="p-3">Sunita Patel (1 Tray)</td>
+                <td class="p-3"><span class="bg-amber-950 text-amber-300 px-2 py-0.5 rounded text-[11px]">1 / 2 Pledged</span></td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold text-white">Boiled Eggs (Batch of 25)</td>
+                <td class="p-3">3 Batches</td>
+                <td class="p-3">Ravi Kumar (2 Batches)</td>
+                <td class="p-3"><span class="bg-amber-950 text-amber-300 px-2 py-0.5 rounded text-[11px]">2 / 3 Pledged</span></td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold text-white">Fresh Bananas / Oranges</td>
+                <td class="p-3">3 Boxes</td>
+                <td class="p-3">Anitha S. (1 Box)</td>
+                <td class="p-3"><span class="bg-amber-950 text-amber-300 px-2 py-0.5 rounded text-[11px]">1 / 3 Pledged</span></td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold text-white">Orange Juice (Gallons)</td>
+                <td class="p-3">4 Gallons</td>
+                <td class="p-3">Deepak Shah (2 Gallons)</td>
+                <td class="p-3"><span class="bg-amber-950 text-amber-300 px-2 py-0.5 rounded text-[11px]">2 / 4 Pledged</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ================= PAGE 5: WHATSAPP GENERATOR TOOL ================= -->
+    <div x-show="activePage === 'whatsapp'" class="space-y-6">
+      <div class="border-b border-slate-800 pb-4 flex justify-between items-end">
+        <div>
+          <div class="text-2xl">💬</div>
+          <h1 class="text-2xl font-bold text-white">WhatsApp Weekly Broadcast Generator</h1>
+          <p class="text-xs text-slate-400">Generate clean, copy-pasteable broadcast texts to send to Mesa Sai Center WhatsApp groups.</p>
+        </div>
+        <button @click="activePage = 'main'" class="text-xs text-amber-400 hover:underline">&larr; Back to Main Wiki</button>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        
+        <!-- Template 1: FMSC Seva -->
+        <div class="notion-card p-4 rounded-xl space-y-3 border border-slate-800">
+          <div class="flex justify-between items-center">
+            <strong class="text-emerald-400 font-bold">📦 FMSC Seva Announcement</strong>
+            <button @click="copyText(fmscTemplate)" class="text-xs bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-2.5 py-1 rounded">
+              Copy Text
+            </button>
+          </div>
+          <textarea x-model="fmscTemplate" rows="8" class="w-full bg-slate-950 text-slate-200 p-2.5 rounded text-xs font-mono border border-slate-800 focus:outline-none"></textarea>
+        </div>
+
+        <!-- Template 2: Weekly Recap -->
+        <div class="notion-card p-4 rounded-xl space-y-3 border border-slate-800">
+          <div class="flex justify-between items-center">
+            <strong class="text-amber-400 font-bold">📖 Sunday Meeting Recap Digest</strong>
+            <button @click="copyText(recapTemplate)" class="text-xs bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold px-2.5 py-1 rounded">
+              Copy Text
+            </button>
+          </div>
+          <textarea x-model="recapTemplate" rows="8" class="w-full bg-slate-950 text-slate-200 p-2.5 rounded text-xs font-mono border border-slate-800 focus:outline-none"></textarea>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    function notionHub() {
+      return {
+        activePage: 'main',
+
+        fmscTemplate: `*Mesa Sathya Sai Center - FMSC Volunteer Drive* 📦\n\n🗓 *Date:* Saturday, Sept 12, 2026 (2:00 PM - 3:45 PM)\n📍 *Location:* FMSC Mesa Site (1345 S Alma School Rd, Mesa, AZ)\n🔑 *Group Join Code:* MESA-SAI-2026\n\nKids (5+) and adults welcome!\n\n👉 Register your family here:\nhttps://www.fmsc.org/join-group?code=MESA-SAI-2026`,
+
+        recapTemplate: `*Mesa Sathya Sai Center - Weekly Recap* 🌸\n\n📖 *Balvikas:* Group 1 & 2 covered Lesson 21 (Omnipresent God). Slides available on center hub.\n💡 *Study Circle:* Geetha Vahini Ch 4 - Nishkama Karma.\n🎵 *Bhajans:* Sung 8 devotional Bhajans.\n\nCatch up on our central Notion hub!`,
+
+        init() {
+          this.$nextTick(() => {
+            if (window.lucide) window.lucide.createIcons();
+          });
+        },
+
+        copyText(text) {
+          navigator.clipboard.writeText(text);
+          alert('Copied broadcast text to clipboard!');
+        }
+      };
+    }
+  </script>
+</body>
+</html>

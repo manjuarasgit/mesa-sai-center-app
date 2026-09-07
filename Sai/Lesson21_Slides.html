@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 21 – Omnipresent God 🌟</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #1a1a2e;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── Progress bar ── */
+  .progress-bar { height: 6px; background: rgba(255,255,255,0.15); flex-shrink: 0; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg,#f7c948,#ff6b35); transition: width .4s ease; }
+
+  /* ── Slide container ── */
+  .slideshow { flex: 1; position: relative; overflow: hidden; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 44px 56px; text-align: center;
+    animation: fadeUp .45s ease;
+  }
+  .slide.active { display: flex; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Colour themes ── */
+  .t-title  { background: linear-gradient(135deg,#b34700 0%,#f7a800 100%); }
+  .t-prayer { background: linear-gradient(135deg,#4a0080 0%,#9b45d0 100%); }
+  .t-swami  { background: linear-gradient(135deg,#00467f 0%,#2596be 100%); }
+  .t-think  { background: linear-gradient(135deg,#005c4b 0%,#00b894 100%); }
+  .t-story  { background: linear-gradient(135deg,#7b1fa2 0%,#e040fb 100%); }
+  .t-story2 { background: linear-gradient(135deg,#1565c0 0%,#42a5f5 100%); }
+  .t-story3 { background: linear-gradient(135deg,#004d40 0%,#26a69a 100%); }
+  .t-lang   { background: linear-gradient(135deg,#880e4f 0%,#f06292 100%); }
+  .t-disc   { background: linear-gradient(135deg,#1a237e 0%,#7c4dff 100%); }
+  .t-act    { background: linear-gradient(135deg,#e65100 0%,#ffc107 100%); }
+  .t-key    { background: linear-gradient(135deg,#1b5e20 0%,#66bb6a 100%); }
+  .t-close  { background: linear-gradient(135deg,#0d47a1 0%,#29b6f6 100%); }
+
+  /* ── Typography ── */
+  .label   { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; background: rgba(0,0,0,.28); color: rgba(255,255,255,.9); padding: 5px 16px; border-radius: 20px; margin-bottom: 18px; }
+  .big     { font-size: 56px; font-weight: 900; color: #fff; text-shadow: 2px 3px 10px rgba(0,0,0,.35); margin-bottom: 10px; line-height: 1.1; }
+  .sub     { font-size: 26px; color: rgba(255,255,255,.92); font-weight: 600; margin-bottom: 6px; }
+  .h2      { font-size: 36px; font-weight: 800; color: #fff; text-shadow: 1px 2px 6px rgba(0,0,0,.3); margin-bottom: 20px; line-height: 1.2; }
+  .h3      { font-size: 26px; font-weight: 700; color: #fff9c4; margin-bottom: 14px; }
+  .body    { font-size: 21px; color: #fff; line-height: 1.6; max-width: 870px; }
+  .body-sm { font-size: 18px; color: rgba(255,255,255,.9); line-height: 1.65; max-width: 870px; }
+  .emoji   { font-size: 64px; margin-bottom: 16px; line-height: 1; }
+
+  /* ── Cards / boxes ── */
+  .card {
+    background: rgba(255,255,255,.18);
+    border: 1.5px solid rgba(255,255,255,.35);
+    border-radius: 16px; padding: 18px 26px;
+    margin: 9px 0; max-width: 870px; width: 100%;
+  }
+  .card p { font-size: 20px; color: #fff; line-height: 1.55; }
+  .card p strong { color: #fff9c4; }
+
+  .quote-box {
+    background: rgba(0,0,0,.22);
+    border-left: 6px solid rgba(255,255,255,.8);
+    border-radius: 10px; padding: 18px 26px;
+    max-width: 830px; margin: 10px 0;
+  }
+  .quote-text { font-size: 23px; font-style: italic; color: #fff; line-height: 1.55; }
+  .quote-attr { font-size: 16px; color: rgba(255,255,255,.72); margin-top: 8px; }
+
+  .callout {
+    background: rgba(255,230,0,.18); border: 2.5px solid rgba(255,230,0,.7);
+    border-radius: 14px; padding: 16px 24px; max-width: 830px; margin: 12px 0;
+  }
+  .callout p { font-size: 20px; color: #fff; line-height: 1.5; }
+
+  ul.bl { list-style: none; padding: 0; max-width: 830px; width: 100%; text-align: left; }
+  ul.bl li { font-size: 20px; color: #fff; padding: 8px 0 8px 42px; position: relative; line-height: 1.45; }
+  ul.bl li::before { content: '✨'; position: absolute; left: 2px; }
+  ul.bl li strong { color: #fff9c4; }
+
+  ul.q { list-style: none; padding: 0; max-width: 830px; width: 100%; text-align: left; }
+  ul.q li { font-size: 20px; color: #fff; padding: 10px 0 10px 42px; position: relative; line-height: 1.45; border-bottom: 1px solid rgba(255,255,255,.15); }
+  ul.q li:last-child { border-bottom: none; }
+  ul.q li::before { content: '🤔'; position: absolute; left: 2px; top: 10px; }
+
+  /* story narration style */
+  .story-box {
+    background: rgba(0,0,0,.25); border-radius: 16px;
+    padding: 20px 28px; max-width: 860px; width: 100%;
+    border: 1.5px solid rgba(255,255,255,.25); text-align: left; margin: 8px 0;
+  }
+  .story-box p { font-size: 20px; color: #fff; line-height: 1.65; margin-bottom: 12px; }
+  .story-box p:last-child { margin-bottom: 0; }
+  .story-box p em { color: #fff9c4; font-style: normal; }
+  .story-box p strong { color: #ffe082; }
+
+  .quality-row { display: flex; gap: 16px; max-width: 830px; width: 100%; margin-top: 6px; }
+  .q-chip { flex: 1; background: rgba(255,255,255,.2); border-radius: 12px; padding: 14px 10px; text-align: center; border: 1.5px solid rgba(255,255,255,.3); }
+  .q-chip .qe { font-size: 34px; margin-bottom: 6px; }
+  .q-chip .qt { font-size: 17px; font-weight: 700; color: #fff; }
+
+  /* ── Nav ── */
+  .nav { background: rgba(0,0,0,.55); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+  .btn { background: #fff; color: #1a1a2e; border: none; padding: 11px 28px; font-size: 17px; font-weight: 700; border-radius: 30px; cursor: pointer; transition: all .2s; }
+  .btn:hover:not(:disabled) { background: #f7c948; transform: scale(1.05); }
+  .btn:disabled { opacity: .3; cursor: not-allowed; }
+  .counter { color: #fff; font-size: 16px; font-weight: 600; letter-spacing: 1px; }
+
+  /* slide number badge */
+  .slide-num { position: absolute; top: 14px; right: 20px; font-size: 13px; color: rgba(255,255,255,.5); font-weight: 600; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progress" style="width:6.25%"></div></div>
+
+<div class="slideshow">
+
+<!-- ══════════════════════════════════════════════════════
+     1 · TITLE
+══════════════════════════════════════════════════════ -->
+<div class="slide t-title active">
+  <div class="slide-num">1 / 16</div>
+  <div class="emoji">🌟</div>
+  <div class="label">Sai Sunday School · Lesson 21</div>
+  <div class="big">God is Everywhere!</div>
+  <div class="sub">Omnipresent God</div>
+  <div class="body-sm" style="margin-top:20px;">
+    <strong>Value:</strong> &nbsp;Love &nbsp;·&nbsp; <strong>Sub-Value:</strong> Kindness · Knowing · Faith<br>
+    <span style="opacity:.8">For 4th – 6th Graders · Sathya Sai Spiritual Education</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     2 · PRAYER & QUALITY
+══════════════════════════════════════════════════════ -->
+<div class="slide t-prayer">
+  <div class="slide-num">2 / 16</div>
+  <div class="emoji">🙏</div>
+  <div class="h2">Let's Begin Together</div>
+  <div class="quality-row">
+    <div class="q-chip"><div class="qe">💛</div><div class="qt">Kindness</div></div>
+    <div class="q-chip"><div class="qe">💡</div><div class="qt">Knowing</div></div>
+    <div class="q-chip"><div class="qe">🎁</div><div class="qt">Gifts from God</div></div>
+  </div>
+  <div class="callout" style="margin-top:18px;">
+    <p>🕉️ <em>Open with Prayer</em> · <strong>Sai Ram, let us close our eyes for a moment…</strong><br>
+    Feel the stillness. God is right here with us, in this room, right now.</p>
+  </div>
+  <div class="body-sm" style="margin-top:12px;">
+    🪷 <strong>Bhajan / Song of the day</strong> — "Love is God · God is Love"
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     3 · SWAMI'S MESSAGE
+══════════════════════════════════════════════════════ -->
+<div class="slide t-swami">
+  <div class="slide-num">3 / 16</div>
+  <div class="emoji">🪷</div>
+  <div class="h2">Swami's Message</div>
+  <div class="quote-box">
+    <div class="quote-text">
+      "God's words are divine and profound. Even if you lack faith, they will never fail you.
+      Have faith — and that faith will protect you under <em>any</em> circumstance."
+    </div>
+    <div class="quote-attr">— Bhagawan Sri Sathya Sai Baba</div>
+  </div>
+  <div class="callout" style="margin-top:16px;">
+    <p>📖 Read it together aloud. Then read it silently.<br>
+    👉 <strong>What is your favorite line from Swami's message? Why?</strong></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     4 · BIG WORD
+══════════════════════════════════════════════════════ -->
+<div class="slide t-swami" style="background: linear-gradient(135deg,#1a3a6e 0%,#4067c8 100%);">
+  <div class="slide-num">4 / 16</div>
+  <div class="emoji">📖</div>
+  <div class="h2">Today's Big Word 🚨</div>
+  <div class="card" style="margin-bottom:8px;">
+    <p style="font-size:32px; font-weight:900; color:#fff9c4; letter-spacing:3px;">OMNI · PRESENT</p>
+    <p style="margin-top:10px;"><strong>OMNI</strong> = All, Every &nbsp;·&nbsp; <strong>PRESENT</strong> = Here, Right Now</p>
+  </div>
+  <div class="body" style="margin-bottom:14px;">
+    God is not in <em>one</em> special place.<br>
+    <strong>God is in ALL places — at the SAME time!</strong>
+  </div>
+  <div class="callout">
+    <p>🌬️ Like the air — invisible, yet <em>always</em> all around you, filling everything.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     5 · PRE-STORY QUESTIONS SET-UP
+══════════════════════════════════════════════════════ -->
+<div class="slide t-think">
+  <div class="slide-num">5 / 16</div>
+  <div class="emoji">💭</div>
+  <div class="h2">Before the Story… Let's Think! 🧠</div>
+  <div class="body" style="margin-bottom:18px;">
+    Imagine your <strong>best friend</strong> sends you a message:<br>
+    <em>"I'm coming to your house today for a play date!"</em>
+  </div>
+  <div class="card">
+    <p>😊 Would you <strong>believe</strong> them? How would you <strong>feel</strong>?</p>
+  </div>
+  <div class="card">
+    <p>😔 What if they then said <em>"Sorry, I can't come today — maybe next time?"</em><br>
+    How would you feel <strong>now</strong>?</p>
+  </div>
+  <div class="callout" style="margin-top:6px;">
+    <p>👫 Turn and talk — share your answers with a neighbor! (30 seconds)</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     6 · PRE-STORY Q2 – GOD COMING
+══════════════════════════════════════════════════════ -->
+<div class="slide t-think" style="background:linear-gradient(135deg,#004d6e 0%,#00acc1 100%);">
+  <div class="slide-num">6 / 16</div>
+  <div class="emoji">🏠</div>
+  <div class="h2">Now imagine… GOD is coming! 🌟</div>
+  <ul class="q">
+    <li>If God announced He was coming to your house — how would you <strong>prepare</strong>? 🧹</li>
+    <li>Would you clean differently? Cook differently? <strong>Act</strong> differently?</li>
+    <li>When would you <strong>next see</strong> God?</li>
+    <li>How would you <strong>welcome</strong> Him?</li>
+    <li>Does God always come in the way we <strong>expect</strong> Him to? 🤔</li>
+  </ul>
+  <div class="callout" style="margin-top:14px;">
+    <p>🌈 Keep these questions in your heart as you listen to today's story!</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     7 · STORY INTRO
+══════════════════════════════════════════════════════ -->
+<div class="slide t-story">
+  <div class="slide-num">7 / 16</div>
+  <div class="emoji">📖</div>
+  <div class="h2">Story Time! ✨</div>
+  <div class="card">
+    <p style="font-size:18px; opacity:.8; margin-bottom:6px;">A Story from the SSSE Collection · India</p>
+    <p style="font-size:26px; font-weight:800; color:#fff9c4;">"Where Does God Live?"</p>
+  </div>
+  <div class="body" style="margin-top:14px;">
+    A curious boy kept asking one question that nobody could answer…
+  </div>
+  <div class="callout" style="margin-top:16px;">
+    <p>👂 Listen carefully — the answer may surprise you!</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     8 · STORY PART 1
+══════════════════════════════════════════════════════ -->
+<div class="slide t-story">
+  <div class="slide-num">8 / 16</div>
+  <div class="h3">🏫 Part 1 — The Question</div>
+  <div class="story-box">
+    <p>Raju was a boy in a small school in India. Every single day, he asked his teacher the same question:</p>
+    <p><em>"Teacher, WHERE does God live? I want to see God!"</em></p>
+    <p>The teacher smiled and said: <strong>"Alright, Raju. Let's go find God together — right now!"</strong></p>
+    <p>Raju was surprised. <em>"We can find God? Right here? Today?"</em></p>
+    <p>The teacher nodded. <strong>"Put on your shoes. We are going for a walk."</strong></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     9 · STORY PART 2
+══════════════════════════════════════════════════════ -->
+<div class="slide t-story2">
+  <div class="slide-num">9 / 16</div>
+  <div class="h3">🚶 Part 2 — The Search</div>
+  <div class="story-box">
+    <p>They walked through the school. The teacher stopped at a student helping a friend with math homework.</p>
+    <p><em>"Did you see God, Raju?"</em> — <strong>"No, Teacher! I only saw students."</strong></p>
+    <p>They walked past a worker carefully sweeping the courtyard with a wide smile.</p>
+    <p><em>"Did you see God there?"</em> — <strong>"No, Teacher! I only saw a sweeper."</strong></p>
+    <p>They passed the kitchen, where a kind lady was serving lunch, placing food on each plate with love.</p>
+    <p><em>"Did you see God there?"</em> — <strong>"No, Teacher! I only saw the cook!"</strong></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     10 · STORY PART 3 – THE REVEAL
+══════════════════════════════════════════════════════ -->
+<div class="slide t-story3">
+  <div class="slide-num">10 / 16</div>
+  <div class="h3">🌟 Part 3 — The Answer!</div>
+  <div class="story-box">
+    <p>The teacher sat down with Raju and said gently:</p>
+    <p><strong>"Look again, my child."</strong></p>
+    <p><em>"The student who helped his friend — God was in those hands. The worker who swept with a smile — God was in that joy. The cook who served with love — God was in that kindness."</em></p>
+    <p>Raju's eyes went wide: <strong>"So… God is not far away?"</strong></p>
+    <p>The teacher smiled: <em>"God is <strong>right here</strong> — in every act of love, in every kind heart, in every helping hand. God is in me. God is in you. God is everywhere, always."</em></p>
+    <p><strong>That day, Raju finally saw God — and he could not stop smiling. 😊</strong></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     11 · STORY MORAL
+══════════════════════════════════════════════════════ -->
+<div class="slide t-lang">
+  <div class="slide-num">11 / 16</div>
+  <div class="emoji">💡</div>
+  <div class="h2">What does the Story Teach Us?</div>
+  <ul class="bl">
+    <li>God doesn't live only in a temple — God lives <strong>in every person</strong></li>
+    <li>Every act of <strong>love, kindness, and service</strong> is God showing up</li>
+    <li>God visits us every day — in friends, family, teachers, and strangers 🙏</li>
+    <li>We don't need to <em>look</em> for God — we need to <em>feel</em> God with our heart ❤️</li>
+  </ul>
+  <div class="quote-box" style="margin-top:16px;">
+    <div class="quote-text">"God is in every name and every form."</div>
+    <div class="quote-attr">— Bhagawan Sri Sathya Sai Baba</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     12 · THE LANGUAGE OF THE HEART
+══════════════════════════════════════════════════════ -->
+<div class="slide t-lang" style="background:linear-gradient(135deg,#6a1b9a 0%,#f48fb1 100%);">
+  <div class="slide-num">12 / 16</div>
+  <div class="emoji">💗</div>
+  <div class="h2">The Language of the Heart</div>
+  <div class="body" style="margin-bottom:18px;">
+    People across the world speak thousands of languages.<br>
+    But God speaks just <strong>ONE universal language —</strong>
+  </div>
+  <div class="card" style="margin-bottom:14px;">
+    <p style="font-size:34px; font-weight:900; color:#fff9c4; letter-spacing:2px;">❤️ THE LANGUAGE OF LOVE ❤️</p>
+  </div>
+  <ul class="bl">
+    <li>A <strong>smile</strong> of kindness needs no translation 😊</li>
+    <li>A <strong>helping hand</strong> is understood everywhere 🤝</li>
+    <li>A <strong>loving heart</strong> finds God in everyone it meets 🌍</li>
+  </ul>
+  <div class="callout" style="margin-top:10px;">
+    <p>🌈 When we speak the language of love — we speak directly to God!</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     13 · DISCUSSION
+══════════════════════════════════════════════════════ -->
+<div class="slide t-disc">
+  <div class="slide-num">13 / 16</div>
+  <div class="emoji">💬</div>
+  <div class="h2">Let's Discuss! 🗣️</div>
+  <ul class="q">
+    <li>Go back to our earlier questions — did God come to Raju's house? <em>What form did God take?</em> 🏠</li>
+    <li>Can you think of a time God "visited" YOU — in a kind friend, a caring parent, a teacher? 💛</li>
+    <li>How does knowing God is everywhere change the way you <strong>treat people</strong>? 🤝</li>
+    <li>If God visited YOUR house today — what would you want to show Him? 🌸</li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     14 · ACTIVITY
+══════════════════════════════════════════════════════ -->
+<div class="slide t-act">
+  <div class="slide-num">14 / 16</div>
+  <div class="emoji">🎨</div>
+  <div class="h2">Activity Time! ✏️</div>
+  <div class="card">
+    <p><strong>✍️ "I Saw God Today" — Quick Write or Draw</strong></p>
+  </div>
+  <ul class="bl" style="margin-top:6px;">
+    <li>Think of <strong>3 moments this week</strong> where you saw God's presence</li>
+    <li>Could be a kind act, a beautiful sunset, someone's smile, a pet's love 🐾</li>
+    <li>Write 1–2 sentences or draw a picture for each moment</li>
+    <li><strong>Share with the class</strong> — discuss how God showed up differently for everyone!</li>
+  </ul>
+  <div class="callout" style="margin-top:12px;">
+    <p>🌈 <em>Bonus:</em> This week — try to find God in ONE unexpected place each day!</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     15 · KEY POINTS
+══════════════════════════════════════════════════════ -->
+<div class="slide t-key">
+  <div class="slide-num">15 / 16</div>
+  <div class="emoji">⭐</div>
+  <div class="h2">Remember This! 🧠</div>
+  <ul class="bl">
+    <li><strong>Omnipresent</strong> = God is everywhere, at the same time, always</li>
+    <li>God is in <strong>every person, every creature, every beautiful thing</strong> in nature</li>
+    <li>God visits us through <strong>acts of love and kindness</strong> — every single day</li>
+    <li>God speaks <strong>The Language of the Heart</strong> — love, kindness, service 💗</li>
+    <li>When you treat others with love — <strong>you are loving God</strong> 🙏</li>
+    <li>Have <strong>faith</strong> — even when you cannot see, God is always with you ✨</li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     16 · CLOSING
+══════════════════════════════════════════════════════ -->
+<div class="slide t-close">
+  <div class="slide-num">16 / 16</div>
+  <div class="emoji">🙏</div>
+  <div class="h2">Closing Prayer</div>
+  <div class="quote-box" style="margin-bottom:18px;">
+    <div class="quote-text" style="font-size:20px;">
+      "Samastha Lokah Sukhino Bhavantu"<br>
+      <strong>May all beings in all worlds be happy!</strong>
+    </div>
+  </div>
+  <div class="body" style="margin-bottom:16px;">
+    This week — keep your eyes open.<br>
+    <strong>God is everywhere, waiting to be found.</strong> 🌍<br>
+    In every smile, every act of love, every moment of beauty.
+  </div>
+  <div class="callout">
+    <p>🏠 Take-home: Ask someone at home — <em>"Where do YOU see God?"</em> Share next Sunday!</p>
+  </div>
+  <div class="body-sm" style="margin-top:16px;">🪷 <strong>Sai Ram!</strong> See you next Sunday! ✨</div>
+</div>
+
+</div><!-- /slideshow -->
+
+<!-- ── Navigation ── -->
+<div class="nav">
+  <button class="btn" id="prevBtn" onclick="go(-1)" disabled>← Back</button>
+  <span class="counter" id="counter">1 / 16</span>
+  <button class="btn" id="nextBtn" onclick="go(1)">Next →</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total  = slides.length;
+  let cur = 0;
+
+  function go(dir) {
+    slides[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(total - 1, cur + dir));
+    slides[cur].classList.add('active');
+    document.getElementById('counter').textContent  = (cur+1) + ' / ' + total;
+    document.getElementById('prevBtn').disabled = cur === 0;
+    document.getElementById('nextBtn').disabled = cur === total - 1;
+    document.getElementById('progress').style.width = ((cur+1)/total*100) + '%';
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') go(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')  go(-1);
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 22 – How to do Service 🤲</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #0f2027;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* ── Progress bar ── */
+  .progress-bar { height: 6px; background: rgba(255,255,255,0.15); flex-shrink: 0; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg,#4ade80,#06b6d4); transition: width .4s ease; }
+
+  /* ── Slide container ── */
+  .slideshow { flex: 1; position: relative; overflow: hidden; }
+  .slide {
+    position: absolute; inset: 0;
+    display: none; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 40px 56px; text-align: center;
+    animation: fadeUp .45s ease;
+  }
+  .slide.active { display: flex; }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── Colour themes ── */
+  .t-title  { background: linear-gradient(135deg,#134e5e 0%,#71b280 100%); }
+  .t-prayer { background: linear-gradient(135deg,#1a237e 0%,#5c6bc0 100%); }
+  .t-swami  { background: linear-gradient(135deg,#004d40 0%,#26a69a 100%); }
+  .t-word   { background: linear-gradient(135deg,#1b5e20 0%,#66bb6a 100%); }
+  .t-think1 { background: linear-gradient(135deg,#4a148c 0%,#ab47bc 100%); }
+  .t-think2 { background: linear-gradient(135deg,#bf360c 0%,#ff8f00 100%); }
+  .t-si     { background: linear-gradient(135deg,#006064 0%,#26c6da 100%); }
+  .t-story1 { background: linear-gradient(135deg,#880e4f 0%,#e91e63 100%); }
+  .t-story2 { background: linear-gradient(135deg,#0d47a1 0%,#1976d2 100%); }
+  .t-story3 { background: linear-gradient(135deg,#1b5e20 0%,#43a047 100%); }
+  .t-moral  { background: linear-gradient(135deg,#4e342e 0%,#ff7043 100%); }
+  .t-right  { background: linear-gradient(135deg,#006064 0%,#00bcd4 100%); }
+  .t-disc   { background: linear-gradient(135deg,#1a237e 0%,#7c4dff 100%); }
+  .t-act    { background: linear-gradient(135deg,#e65100 0%,#ffc107 100%); }
+  .t-key    { background: linear-gradient(135deg,#004d40 0%,#009688 100%); }
+  .t-close  { background: linear-gradient(135deg,#003300 0%,#2e7d32 100%); }
+
+  /* ── Typography ── */
+  .label   { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; background: rgba(0,0,0,.28); color: rgba(255,255,255,.9); padding: 5px 16px; border-radius: 20px; margin-bottom: 18px; }
+  .big     { font-size: 54px; font-weight: 900; color: #fff; text-shadow: 2px 3px 10px rgba(0,0,0,.35); margin-bottom: 10px; line-height: 1.1; }
+  .sub     { font-size: 26px; color: rgba(255,255,255,.92); font-weight: 600; }
+  .h2      { font-size: 36px; font-weight: 800; color: #fff; text-shadow: 1px 2px 6px rgba(0,0,0,.3); margin-bottom: 20px; line-height: 1.2; }
+  .h3      { font-size: 25px; font-weight: 700; color: #d1fae5; margin-bottom: 14px; }
+  .body    { font-size: 21px; color: #fff; line-height: 1.6; max-width: 870px; }
+  .body-sm { font-size: 18px; color: rgba(255,255,255,.9); line-height: 1.65; max-width: 870px; }
+  .emoji   { font-size: 64px; margin-bottom: 16px; line-height: 1; }
+  .slide-num { position: absolute; top: 14px; right: 20px; font-size: 13px; color: rgba(255,255,255,.45); font-weight: 600; letter-spacing: 1px; }
+
+  /* ── Cards ── */
+  .card {
+    background: rgba(255,255,255,.18);
+    border: 1.5px solid rgba(255,255,255,.35);
+    border-radius: 16px; padding: 18px 26px;
+    margin: 9px 0; max-width: 870px; width: 100%;
+  }
+  .card p { font-size: 20px; color: #fff; line-height: 1.55; }
+  .card p strong { color: #d1fae5; }
+
+  .quote-box {
+    background: rgba(0,0,0,.22);
+    border-left: 6px solid rgba(255,255,255,.8);
+    border-radius: 10px; padding: 18px 26px;
+    max-width: 830px; margin: 10px 0;
+  }
+  .quote-text { font-size: 23px; font-style: italic; color: #fff; line-height: 1.55; }
+  .quote-attr { font-size: 16px; color: rgba(255,255,255,.72); margin-top: 8px; }
+
+  .callout {
+    background: rgba(255,230,0,.18); border: 2.5px solid rgba(255,230,0,.65);
+    border-radius: 14px; padding: 15px 24px; max-width: 830px; margin: 11px 0;
+  }
+  .callout p { font-size: 20px; color: #fff; line-height: 1.5; }
+
+  ul.bl { list-style: none; padding: 0; max-width: 830px; width: 100%; text-align: left; }
+  ul.bl li { font-size: 20px; color: #fff; padding: 8px 0 8px 42px; position: relative; line-height: 1.45; }
+  ul.bl li::before { content: '🌿'; position: absolute; left: 2px; }
+  ul.bl li strong { color: #d1fae5; }
+
+  ul.q { list-style: none; padding: 0; max-width: 830px; width: 100%; text-align: left; }
+  ul.q li { font-size: 20px; color: #fff; padding: 10px 0 10px 42px; position: relative; line-height: 1.45; border-bottom: 1px solid rgba(255,255,255,.15); }
+  ul.q li:last-child { border-bottom: none; }
+  ul.q li::before { content: '🤔'; position: absolute; left: 2px; top: 10px; }
+
+  .story-box {
+    background: rgba(0,0,0,.25); border-radius: 16px;
+    padding: 20px 28px; max-width: 860px; width: 100%;
+    border: 1.5px solid rgba(255,255,255,.22); text-align: left; margin: 8px 0;
+  }
+  .story-box p { font-size: 20px; color: #fff; line-height: 1.65; margin-bottom: 12px; }
+  .story-box p:last-child { margin-bottom: 0; }
+  .story-box p em  { color: #bbf7d0; font-style: normal; }
+  .story-box p strong { color: #fef08a; }
+
+  /* Do / Don't grid */
+  .dd-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; max-width: 860px; width: 100%; margin-top: 8px; }
+  .dd-box { border-radius: 14px; padding: 16px 18px; text-align: left; }
+  .dd-do  { background: rgba(74,222,128,.22); border: 2px solid rgba(74,222,128,.6); }
+  .dd-dont{ background: rgba(248, 113, 113,.2); border: 2px solid rgba(248,113,113,.55); }
+  .dd-box .dd-hd  { font-size: 18px; font-weight: 800; color: #d1fae5; margin-bottom: 10px; }
+  .dd-dont .dd-hd { color: #fecaca; }
+  .dd-box ul { list-style: none; padding: 0; }
+  .dd-box ul li { font-size: 17px; color: #fff; padding: 5px 0 5px 28px; position: relative; line-height: 1.4; }
+  .dd-do  ul li::before { content: '✅'; position: absolute; left: 0; font-size: 14px; top: 6px; }
+  .dd-dont ul li::before { content: '❌'; position: absolute; left: 0; font-size: 14px; top: 6px; }
+
+  .quality-row { display: flex; gap: 14px; max-width: 830px; width: 100%; margin-top: 8px; }
+  .q-chip { flex: 1; background: rgba(255,255,255,.2); border-radius: 12px; padding: 14px 10px; text-align: center; border: 1.5px solid rgba(255,255,255,.3); }
+  .q-chip .qe { font-size: 32px; margin-bottom: 6px; }
+  .q-chip .qt { font-size: 16px; font-weight: 700; color: #fff; }
+
+  .challenge-list { list-style: none; padding: 0; max-width: 820px; width: 100%; text-align: left; }
+  .challenge-list li { font-size: 19px; color: #fff; padding: 8px 0 8px 36px; position: relative; line-height: 1.45; border-bottom: 1px solid rgba(255,255,255,.12); }
+  .challenge-list li:last-child { border-bottom: none; }
+  .challenge-list li::before { content: '☐'; position: absolute; left: 4px; font-size: 18px; color: #d1fae5; }
+
+  /* ── Nav ── */
+  .nav { background: rgba(0,0,0,.55); padding: 12px 30px; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+  .btn { background: #fff; color: #0f2027; border: none; padding: 11px 28px; font-size: 17px; font-weight: 700; border-radius: 30px; cursor: pointer; transition: all .2s; }
+  .btn:hover:not(:disabled) { background: #4ade80; transform: scale(1.05); }
+  .btn:disabled { opacity: .3; cursor: not-allowed; }
+  .counter { color: #fff; font-size: 16px; font-weight: 600; letter-spacing: 1px; }
+</style>
+</head>
+<body>
+
+<div class="progress-bar"><div class="progress-fill" id="progress" style="width:5.88%"></div></div>
+
+<div class="slideshow">
+
+<!-- ══════════════════════════════════════════════════════
+     1 · TITLE
+══════════════════════════════════════════════════════ -->
+<div class="slide t-title active">
+  <div class="slide-num">1 / 17</div>
+  <div class="emoji">🤲</div>
+  <div class="label">Sai Sunday School · Lesson 22</div>
+  <div class="big">How to do Service</div>
+  <div class="sub">Seva — Love in Action!</div>
+  <div class="body-sm" style="margin-top:20px;">
+    <strong>Value:</strong> &nbsp;Love &nbsp;·&nbsp; <strong>Sub-Value:</strong> Selflessness · Responsibility · Compassion<br>
+    <span style="opacity:.8">For 4th – 6th Graders · Sathya Sai Spiritual Education</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     2 · PRAYER & QUALITY
+══════════════════════════════════════════════════════ -->
+<div class="slide t-prayer">
+  <div class="slide-num">2 / 17</div>
+  <div class="emoji">🙏</div>
+  <div class="h2">Let's Begin Together</div>
+  <div class="quality-row">
+    <div class="q-chip"><div class="qe">🤝</div><div class="qt">Selflessness</div></div>
+    <div class="q-chip"><div class="qe">💪</div><div class="qt">Responsibility</div></div>
+    <div class="q-chip"><div class="qe">❤️</div><div class="qt">Compassion</div></div>
+  </div>
+  <div class="callout" style="margin-top:18px;">
+    <p>🕉️ <em>Open with Prayer</em> · <strong>Sai Ram — let us close our eyes and breathe…</strong><br>
+    Think of one person who has served you with love. Feel grateful for them.</p>
+  </div>
+  <div class="body-sm" style="margin-top:12px;">
+    🪷 <strong>Bhajan / Song of the day</strong> — "Love is God · God is Love"
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     3 · SWAMI'S MESSAGE
+══════════════════════════════════════════════════════ -->
+<div class="slide t-swami">
+  <div class="slide-num">3 / 17</div>
+  <div class="emoji">🪷</div>
+  <div class="h2">Swami's Message</div>
+  <div class="quote-box">
+    <div class="quote-text">
+      "Can a small act of service, done with the sole intention of pleasing the Lord —
+      will He not love you greatly for this?
+      Every act of service offered with a pure heart reaches God directly."
+    </div>
+    <div class="quote-attr">— Bhagawan Sri Sathya Sai Baba</div>
+  </div>
+  <div class="callout" style="margin-top:16px;">
+    <p>📖 Read it together aloud, then silently.<br>
+    👉 <strong>What is your favorite line? What does it mean to YOU?</strong></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     4 · GOLDEN QUOTE
+══════════════════════════════════════════════════════ -->
+<div class="slide t-word">
+  <div class="slide-num">4 / 17</div>
+  <div class="emoji">✋</div>
+  <div class="h2">Swami's Golden Rule of Service</div>
+  <div class="quote-box" style="margin-bottom:18px;">
+    <div class="quote-text" style="font-size:27px; font-weight:700;">
+      "Hands that serve are holier than lips that pray."
+    </div>
+    <div class="quote-attr">— Bhagawan Sri Sathya Sai Baba</div>
+  </div>
+  <div class="body" style="margin-bottom:14px;">
+    Saying prayers is beautiful. But <strong>actually going out and helping someone</strong> is even more powerful!
+  </div>
+  <div class="callout">
+    <p>🌱 Why do you think Swami said this?<br>
+    What does it mean for how we live each day?</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     5 · PRE-STORY QUESTIONS SET 1
+══════════════════════════════════════════════════════ -->
+<div class="slide t-think1">
+  <div class="slide-num">5 / 17</div>
+  <div class="emoji">💭</div>
+  <div class="h2">Before the Story… Let's Think! 🧠</div>
+  <div class="body" style="margin-bottom:16px;">
+    Imagine a <strong>good project comes along</strong> — maybe a food drive at school, or helping clean a park, or collecting clothes for people in need.
+  </div>
+  <ul class="q">
+    <li>Would you <strong>volunteer yourself</strong> to help — or wait for someone to ask you?</li>
+    <li>What if the job was <strong>boring or messy</strong> — like washing dishes or sweeping? Would you still do it?</li>
+    <li>What if <strong>nobody saw you</strong> doing it and you got no praise at all?</li>
+  </ul>
+  <div class="callout" style="margin-top:10px;">
+    <p>👫 Share your honest answers with a partner — no judgment! (30 seconds)</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     6 · PRE-STORY QUESTIONS SET 2
+══════════════════════════════════════════════════════ -->
+<div class="slide t-think2">
+  <div class="slide-num">6 / 17</div>
+  <div class="emoji">🤔</div>
+  <div class="h2">What Makes Service… Real Seva?</div>
+  <ul class="q">
+    <li>Is it service if you do it only when your <strong>friends are watching</strong>?</li>
+    <li>Is it service if you do it to <strong>get a reward</strong> or a "thank you"?</li>
+    <li>Is it service if you do it feeling <strong>angry or resentful</strong>?</li>
+    <li>Is it service if you do it feeling <strong>proud</strong> — "Look how much I'm giving!"?</li>
+    <li>So what IS the secret ingredient that makes service <strong>true Seva</strong>? 🌿</li>
+  </ul>
+  <div class="callout" style="margin-top:10px;">
+    <p>💛 Keep this question in your heart — the story will show us the answer!</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     7 · STORY INTRO
+══════════════════════════════════════════════════════ -->
+<div class="slide t-si">
+  <div class="slide-num">7 / 17</div>
+  <div class="emoji">📖</div>
+  <div class="h2">Story Time! ✨</div>
+  <div class="card">
+    <p style="font-size:17px; opacity:.8; margin-bottom:6px;">A Story from the SSSE Collection · India</p>
+    <p style="font-size:26px; font-weight:800; color:#d1fae5;">"Meena's Choice"</p>
+  </div>
+  <div class="body" style="margin-top:14px;">
+    A girl who wanted to serve — but had to learn <em>how</em>…
+  </div>
+  <div class="callout" style="margin-top:16px;">
+    <p>👂 Listen carefully — and ask yourself: <em>Am I more like Meena at the start, or at the end?</em></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     8 · STORY PART 1
+══════════════════════════════════════════════════════ -->
+<div class="slide t-story1">
+  <div class="slide-num">8 / 17</div>
+  <div class="h3">🏘️ Part 1 — The Service Project</div>
+  <div class="story-box">
+    <p>Meena was a 10-year-old girl who loved telling people about her good deeds. When her Sai center organized a <strong>food service project</strong> for poor children in the village, she jumped up immediately.</p>
+    <p><em>"I'll help! I'll help!"</em> she said — making sure everyone heard.</p>
+    <p>She imagined herself handing out food, smiling for everyone to see, getting praised.</p>
+    <p>But when she arrived, the organizer looked at the list and said: <strong>"Meena — we need you in the kitchen. Chopping vegetables, washing pots. Is that okay?"</strong></p>
+    <p>Meena's smile faded. <em>The kitchen? Where nobody can see me?</em></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     9 · STORY PART 2
+══════════════════════════════════════════════════════ -->
+<div class="slide t-story2">
+  <div class="slide-num">9 / 17</div>
+  <div class="h3">🍲 Part 2 — The Invisible Work</div>
+  <div class="story-box">
+    <p>Meena walked into the hot, steamy kitchen feeling grumpy. Her friends were outside, happily serving food. <em>This wasn't what I signed up for</em>, she thought.</p>
+    <p>But then an old grandmother in the kitchen noticed her and said warmly: <strong>"Come child, I'll show you how to chop. This food we make — it is prasad. We offer it to God first, then to the children."</strong></p>
+    <p>Something changed inside Meena. She began chopping — carefully, lovingly. She washed the pots. She stirred the big pots of rice. She worked for two hours — sweaty, tired, unseen.</p>
+    <p>When the food was ready, hundreds of children received hot, nourishing meals.</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     10 · STORY PART 3 – THE REVELATION
+══════════════════════════════════════════════════════ -->
+<div class="slide t-story3">
+  <div class="slide-num">10 / 17</div>
+  <div class="h3">🌟 Part 3 — The Joy No One Could See</div>
+  <div class="story-box">
+    <p>As Meena watched the children eating happily — laughing, licking their fingers — she felt something she had never felt before. A <strong>deep, quiet joy</strong> that started in her heart and filled her whole body.</p>
+    <p>Nobody had praised her. Nobody had even seen her work. But she felt as though she was <strong>glowing from inside.</strong></p>
+    <p>The old grandmother smiled at her: <em>"Do you feel it, child? That feeling — that is God's way of saying thank you."</em></p>
+    <p>Meena went home and told her mother: <strong>"Amma, I went to serve today. But I think it was God who served ME."</strong> 💛</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     11 · STORY MORAL
+══════════════════════════════════════════════════════ -->
+<div class="slide t-moral">
+  <div class="slide-num">11 / 17</div>
+  <div class="emoji">💡</div>
+  <div class="h2">What Does the Story Teach Us?</div>
+  <ul class="bl">
+    <li>True seva is done <strong>without expectation of praise or reward</strong></li>
+    <li>It doesn't matter if the job is big or small, glamorous or unglamorous — <strong>do it with love</strong> 💛</li>
+    <li>Service done with a pure heart is <strong>offered to God</strong> — it is prasad! 🙏</li>
+    <li>The <strong>joy you feel inside</strong> after real seva — that is God's thanks to you</li>
+    <li>We don't do service to <em>get</em> something — we do it because we already <em>have</em> love ❤️</li>
+  </ul>
+  <div class="quote-box" style="margin-top:14px;">
+    <div class="quote-text">"Service to man is service to God."</div>
+    <div class="quote-attr">— Bhagawan Sri Sathya Sai Baba</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     12 · THE RIGHT WAY TO SERVE
+══════════════════════════════════════════════════════ -->
+<div class="slide t-right">
+  <div class="slide-num">12 / 17</div>
+  <div class="emoji">🎯</div>
+  <div class="h2">The Right Way to Serve</div>
+  <div class="dd-grid">
+    <div class="dd-box dd-do">
+      <div class="dd-hd">✅ DO this:</div>
+      <ul>
+        <li>Serve with a <strong>smile</strong> and a willing heart</li>
+        <li>Treat everyone you serve with <strong>dignity</strong></li>
+        <li>Offer your service to <strong>God first</strong></li>
+        <li>Do the <strong>small, unseen jobs</strong> too</li>
+        <li>Feel <strong>grateful</strong> for the chance to serve</li>
+      </ul>
+    </div>
+    <div class="dd-box dd-dont">
+      <div class="dd-hd">❌ Avoid this:</div>
+      <ul>
+        <li>Serving only when <strong>people are watching</strong></li>
+        <li>Expecting <strong>praise or reward</strong></li>
+        <li>Feeling <strong>superior</strong> to those you help</li>
+        <li>Doing service with <strong>ego or pride</strong></li>
+        <li>Complaining or doing it <strong>half-heartedly</strong></li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout" style="margin-top:14px;">
+    <p>🌿 The secret ingredient? <strong>LOVE.</strong> That's what turns ordinary work into Seva!</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     13 · FORMS OF SERVICE
+══════════════════════════════════════════════════════ -->
+<div class="slide t-disc" style="background:linear-gradient(135deg,#004d40 0%,#1de9b6 100%);">
+  <div class="slide-num">13 / 17</div>
+  <div class="emoji">🌍</div>
+  <div class="h2">Many Ways to Serve!</div>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; max-width:840px; width:100%; margin-top:4px;">
+    <div class="card"><p>💪 <strong>Body</strong><br>Physical help — carry, cook, clean, build, care for someone sick</p></div>
+    <div class="card"><p>💬 <strong>Kind Words</strong><br>Encourage someone, help them study, pray for them, listen</p></div>
+    <div class="card"><p>🎁 <strong>Giving</strong><br>Share food, clothes, books, toys — whatever you can, with love</p></div>
+    <div class="card"><p>🧠 <strong>Mind</strong><br>Think of ways to help, plan service, be creative about serving</p></div>
+  </div>
+  <div class="callout" style="margin-top:12px;">
+    <p>🌈 Everyone here can serve in <em>at least one</em> of these ways — starting today!</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     14 · DISCUSSION
+══════════════════════════════════════════════════════ -->
+<div class="slide t-disc">
+  <div class="slide-num">14 / 17</div>
+  <div class="emoji">💬</div>
+  <div class="h2">Let's Discuss! 🗣️</div>
+  <ul class="q">
+    <li>Go back — was Meena's service at the start <em>real seva</em>? What changed? 🔄</li>
+    <li>Have you ever done something kind when <strong>nobody was watching</strong>? How did it feel? 💛</li>
+    <li>What's one service you could do this week that nobody would know about? 🤫</li>
+    <li>Why does Swami say that the <strong>joy inside</strong> is God's thanks? What does that mean? 🌟</li>
+    <li>Who in your life is a great <strong>example of selfless service</strong>? What can you learn from them?</li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     15 · ACTIVITY – SEVA CHALLENGE
+══════════════════════════════════════════════════════ -->
+<div class="slide t-act">
+  <div class="slide-num">15 / 17</div>
+  <div class="emoji">🏆</div>
+  <div class="h2">Your Seva Challenge This Week!</div>
+  <div class="card" style="margin-bottom:10px;"><p><strong>Pick at least 2 and do them with LOVE — no telling anyone! 🤫</strong></p></div>
+  <ul class="challenge-list">
+    <li>Help someone at home without being asked — and without mentioning it</li>
+    <li>Write an anonymous kind note and leave it for someone to find 📝</li>
+    <li>Do the chore or job nobody else wants to do — with a smile</li>
+    <li>Listen fully to someone who needs to talk — without checking your phone</li>
+    <li>Share food, a book, or a toy with someone who needs it more</li>
+    <li>Pick up litter or take care of a plant — serve nature too 🌱</li>
+  </ul>
+  <div class="callout" style="margin-top:10px;">
+    <p>📓 Keep a <strong>Secret Seva Journal</strong> — write how each act of service made you feel inside!</p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     16 · KEY POINTS
+══════════════════════════════════════════════════════ -->
+<div class="slide t-key">
+  <div class="slide-num">16 / 17</div>
+  <div class="emoji">⭐</div>
+  <div class="h2">Remember This! 🧠</div>
+  <ul class="bl">
+    <li><strong>Seva</strong> = selfless service, done with love, for God's pleasure 🙏</li>
+    <li><strong>Service to man is service to God</strong> — every person is God in disguise</li>
+    <li>It's not <em>what</em> you do that matters — it's the <strong>love and intention</strong> behind it 💛</li>
+    <li>Do the <strong>unglamorous jobs</strong> too — they are just as holy as the visible ones</li>
+    <li><em>"Hands that serve are holier than lips that pray"</em> — Swami ✋</li>
+    <li>The <strong>deep inner joy</strong> you feel after real seva — that is God smiling at you 🌟</li>
+  </ul>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     17 · CLOSING
+══════════════════════════════════════════════════════ -->
+<div class="slide t-close">
+  <div class="slide-num">17 / 17</div>
+  <div class="emoji">🙏</div>
+  <div class="h2">Closing Prayer</div>
+  <div class="quote-box" style="margin-bottom:16px;">
+    <div class="quote-text" style="font-size:20px;">
+      "Samastha Lokah Sukhino Bhavantu"<br>
+      <strong>May all beings in all worlds be happy!</strong>
+    </div>
+  </div>
+  <div class="body" style="margin-bottom:16px;">
+    This week — <strong>serve someone with your whole heart.</strong> 🤲<br>
+    Not for praise. Not for reward.<br>
+    Just because <strong>love is who you are.</strong> 💚
+  </div>
+  <div class="callout">
+    <p>🏠 Take-home: Ask someone at home — <em>"What is one thing I can do this week to serve our family?"</em></p>
+  </div>
+  <div class="body-sm" style="margin-top:14px;">🪷 <strong>Sai Ram!</strong> See you next Sunday! ✨</div>
+</div>
+
+</div><!-- /slideshow -->
+
+<!-- ── Navigation ── -->
+<div class="nav">
+  <button class="btn" id="prevBtn" onclick="go(-1)" disabled>← Back</button>
+  <span class="counter" id="counter">1 / 17</span>
+  <button class="btn" id="nextBtn" onclick="go(1)">Next →</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total  = slides.length;
+  let cur = 0;
+
+  function go(dir) {
+    slides[cur].classList.remove('active');
+    cur = Math.max(0, Math.min(total - 1, cur + dir));
+    slides[cur].classList.add('active');
+    document.getElementById('counter').textContent  = (cur+1) + ' / ' + total;
+    document.getElementById('prevBtn').disabled = cur === 0;
+    document.getElementById('nextBtn').disabled = cur === total - 1;
+    document.getElementById('progress').style.width = ((cur+1)/total*100) + '%';
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') go(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')  go(-1);
+  });
+</script>
+</body>
+</html>

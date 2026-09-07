@@ -1,0 +1,37 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(diff \"/c/Users/ma896807/Music/swara-abhyasa-alankaras.backup-20260817-182115.html\" \"/c/Users/ma896807/Music/swara-abhyasa-alankaras.html\" > /tmp/full.diff 2>/dev/null; wc -l /tmp/full.diff; echo \"---search for function defs added---\"; grep -n \"^function \\\\|^async function \" \"/c/Users/ma896807/Music/swara-abhyasa-alankaras.html\" | head -60)",
+      "Read(//tmp/**)",
+      "Bash(code \"C:/Users/ma896807/Music/swara-abhyasa-alankaras.html\")",
+      "Bash(node -e ' *)",
+      "Bash(node --check /tmp/_swara_check.js)",
+      "Bash(start \"\" \"C:/Users/ma896807/Music/swara-abhyasa-alankaras.html\")",
+      "Bash(python3 -c ' *)",
+      "Bash(grep -o '<div id=\"chart\">.\\\\{0,300\\\\}' /tmp/domY.html)",
+      "Bash(tasklist)",
+      "Bash(\"/c/Program Files \\(x86\\)/Microsoft/Edge/Application/msedge.exe\" --headless --disable-gpu --no-sandbox --allow-file-access-from-files --enable-logging=stderr --v=1 --dump-dom \"file:///C:/Users/ma896807/Music/hindustani-sangeetha-abhyasa.html\" > /tmp/pa1.html 2> /tmp/pa1.log *)",
+      "Bash(start \"\" \"C:/Users/ma896807/Music/hindustani-sangeetha-abhyasa.html\")",
+      "Bash(mkdir -p \"/c/Users/ma896807/.claude/session-ledger\" \"/c/Users/ma896807/.claude/skills/log\" \"/c/Users/ma896807/.claude/skills/wrapup\")",
+      "Edit(~/.claude/skills/log/**)",
+      "Edit(~/.claude/skills/wrapup/**)",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "PowerShell(powershell -NoProfile -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\ma896807\\\\.claude\\\\session-ledger\\\\print_resume.ps1\"; Write-Host \"EXIT:$LASTEXITCODE\")",
+      "Bash(cp \"/c/Users/ma896807/.claude/session-ledger/LEDGER.md\" \"/c/Users/ma896807/.claude/session-ledger/LEDGER.md.bak\")",
+      "PowerShell(powershell -NoProfile -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\ma896807\\\\.claude\\\\session-ledger\\\\print_resume.ps1\")",
+      "Bash(mv \"/c/Users/ma896807/.claude/session-ledger/LEDGER.md.bak\" \"/c/Users/ma896807/.claude/session-ledger/LEDGER.md\")",
+      "PowerShell($json = Get-Content \"C:\\\\Users\\\\ma896807\\\\.claude\\\\settings.json\" -Raw | ConvertFrom-Json; $json.hooks.SessionStart[0].hooks[0].command)",
+      "Bash(powershell -NoProfile -ExecutionPolicy Bypass -File \"/c/Users/ma896807/.claude/session-ledger/print_resume.ps1\")",
+      "Bash(echo \"EXIT:$?\")",
+      "Bash(mkdir -p \"C:/Users/ma896807/Documents/Work/AI-projects/WhatsApp-Group-Vetting\")"
+    ],
+    "additionalDirectories": [
+      "C:\\Users\\ma896807\\Music",
+      "\\tmp",
+      "C:\\Users\\ma896807\\.claude",
+      "C:\\Users\\ma896807\\.claude\\session-ledger",
+      "C:\\Users\\ma896807\\Documents\\Work\\AI-projects"
+    ]
+  }
+}

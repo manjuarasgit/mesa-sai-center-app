@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-900 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mesa Sathya Sai Center AZ - One-Stop Hub</title>
+  
+  <link rel="manifest" href="/static/manifest.json">
+  <meta name="theme-color" content="#d97706">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="https://img.icons8.com/color/192/000000/lotus.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Alpine.js -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <style>
+    [x-cloak] { display: none !important; }
+    .gold-gradient { background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%); }
+    .card-dark { background-color: #1e293b; border: 1px solid #334155; }
+    .card-hover:hover { border-color: #f59e0b; }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0f172a; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+  </style>
+</head>
+
+<body class="h-full font-sans antialiased flex flex-col justify-between selection:bg-amber-500 selection:text-white"
+      x-data="saiApp()" x-init="initApp()">
+
+  <!-- Top Header Banner -->
+  <header class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur border-b border-slate-800 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer" @click="activeTab = 'home'">
+        <div class="w-10 h-10 rounded-full gold-gradient p-0.5 shadow-lg flex items-center justify-center text-xl font-bold">
+          🌸
+        </div>
+        <div>
+          <h1 class="font-bold text-base sm:text-lg text-amber-400 leading-tight">Mesa Sathya Sai Center</h1>
+          <p class="text-xs text-slate-400">Arizona, USA • SSSE, Bhajans, Seva & Special Events Hub</p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center space-x-2">
+        <a :href="data.center_info?.sharepoint_drive_url" target="_blank"
+           class="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 shadow transition">
+          <i data-lucide="folder-git-2" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">MS 365 Cloud Library</span>
+        </a>
+
+        <a :href="data.center_info?.whatsapp_group_link" target="_blank"
+           class="bg-emerald-600 hover:bg-emerald-500 text-white px-3 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 shadow transition">
+          <i data-lucide="message-circle" class="w-4 h-4"></i>
+          <span class="hidden sm:inline">WhatsApp Group</span>
+        </a>
+
+        <!-- Install PWA Button -->
+        <button x-show="deferredPrompt" @click="installPWA()"
+                class="bg-amber-500 hover:bg-amber-400 text-slate-950 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center space-x-1 shadow transition">
+          <i data-lucide="download" class="w-4 h-4"></i>
+          <span>Install App</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Desktop Navigation Bar -->
+    <nav class="hidden md:block bg-slate-950 border-t border-slate-800 overflow-x-auto">
+      <div class="max-w-7xl mx-auto px-4 flex space-x-1 text-xs font-medium py-1">
+        <button @click="activeTab = 'home'" :class="activeTab === 'home' ? 'text-amber-400 border-b-2 border-amber-400 bg-slate-900/80 font-bold' : 'text-slate-400 hover:text-slate-200'" class="px-3.5 py-2 flex items-center space-x-1.5 transition">
+          <i data-lucide="home" class="w-4 h-4"></i><span>Home & Recaps</span>
+        </button>
+        <button @click="activeTab = 'balvikas'" :class="activeTab === 'balvikas' ? 'text-amber-400 border-b-2 border-amber-400 bg-slate-900/80 font-bold' : 'text-slate-400 hover:text-slate-200'" class="px-3.5 py-2 flex items-center space-x-1.5 transition">
+          <i data-lucide="book-open" class="w-4 h-4"></i><span>SSSE Balvikas</span>
+        </button>
+        <button @click="activeTab = 'study'" :class="activeTab === 'study' ? 'text-amber-400 border-b-2 border-amber-400 bg-slate-900/80 font-bold' : 'text-slate-400 hover:text-slate-200'" class="px-3.5 py-2 flex items-center space-x-1.5 transition">
+          <i data-lucide="brain" class="w-4 h-4"></i><span>Study Circle</span>
+        </button>
+        <button @click="activeTab = 'bhajans'" :class="activeTab === 'bhajans' ? 'text-amber-400 border-b-2 border-amber-400 bg-slate-900/80 font-bold' : 'text-slate-400 hover:text-slate-200'" class="px-3.5 py-2 flex items-center space-x-1.5 transition">
+          <i data-lucide="music" class="w-4 h-4"></i><span>Bhajans</span>
+        </button>
+        <button @click="activeTab = 'seva'" :class="activeTab === 'seva' ? 'text-emerald-400 border-b-2 border-emerald-400 bg-slate-900/80 font-bold' : 'text-slate-400 hover:text-slate-200'" class="px-3.5 py-2 flex items-center space-x-1.5 transition">
+          <i data-lucide="heart-handshake" class="w-4 h-4 text-emerald-400"></i><span class="text-emerald-400">Seva & Service</span>
+        </button>
+        <button @click="activeTab = 'events'" :class="activeTab === 'events' ? 'text-amber-400 border-b-2 border-amber-400 bg-slate-900/80 font-bold' : 'text-slate-400 hover:text-slate-200'" class="px-3.5 py-2 flex items-center space-x-1.5 transition">
+          <i data-lucide="sparkles" class="w-4 h-4 text-amber-300"></i><span>Special Events</span>
+        </button>
+        <button @click="activeTab = 'ya'" :class="activeTab === 'ya' ? 'text-purple-400 border-b-2 border-purple-400 bg-slate-900/80 font-bold' : 'text-slate-400 hover:text-slate-200'" class="px-3.5 py-2 flex items-center space-x-1.5 transition">
+          <i data-lucide="users" class="w-4 h-4 text-purple-400"></i><span class="text-purple-300">YA Wing</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 mb-20 md:mb-6">
+
+    <!-- Loading State -->
+    <div x-show="loading" class="flex flex-col items-center justify-center py-20">
+      <div class="w-12 h-12 border-4 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
+      <p class="mt-4 text-slate-400 text-sm">Loading Mesa Sai Center Hub...</p>
+    </div>
+
+    <div x-show="!loading" x-cloak>
+
+      <!-- ================= TAB 1: HOME & MISSED SESSION RECAPS ================= -->
+      <section x-show="activeTab === 'home'" class="space-y-6">
+        
+        <!-- Welcome Hero & Updated Schedule Bar -->
+        <div class="card-dark rounded-2xl p-6 border border-slate-700/80 shadow-xl relative overflow-hidden">
+          <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div class="space-y-2">
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                Om Sri Sai Ram 🙏
+              </span>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Mesa Sathya Sai Center, AZ</h2>
+              <p class="text-slate-300 text-sm max-w-xl leading-relaxed">
+                One-Stop Hub for SSSE Spiritual Education, Sunday & Thursday Bhajans, Adult Study Circles, Community Seva, and Young Adult initiatives.
+              </p>
+            </div>
+
+            <!-- Schedule Card -->
+            <div class="bg-slate-900/90 rounded-2xl p-4 border border-slate-800 text-xs space-y-2.5 min-w-[300px] shadow-lg">
+              <div class="text-amber-400 font-bold flex items-center justify-between border-b border-slate-800 pb-1.5">
+                <span class="flex items-center space-x-1.5"><i data-lucide="clock" class="w-4 h-4"></i><span>Weekly Timings</span></span>
+                <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded">Mesa, AZ</span>
+              </div>
+
+              <!-- Sunday Timings -->
+              <div class="space-y-1">
+                <span class="font-bold text-slate-200 block text-[11px] text-amber-300">🗓 Sundays:</span>
+                <div class="text-slate-300 flex justify-between pl-2">
+                  <span>SSSE (Balvikas):</span> <strong class="text-white font-mono">9:15 AM - 10:30 AM</strong>
+                </div>
+                <div class="text-slate-300 flex justify-between pl-2">
+                  <span>Study Circle:</span> <strong class="text-white font-mono">9:30 AM - 10:30 AM</strong>
+                </div>
+                <div class="text-slate-300 flex justify-between pl-2">
+                  <span>Devotional Bhajans:</span> <strong class="text-white font-mono">10:45 AM - 11:45 AM</strong>
+                </div>
+              </div>
+
+              <!-- Thursday Timings -->
+              <div class="pt-1 border-t border-slate-800/80">
+                <span class="font-bold text-slate-200 block text-[11px] text-purple-300">🗓 Thursdays:</span>
+                <div class="text-slate-300 flex justify-between pl-2">
+                  <span>Midweek Bhajans:</span> <strong class="text-amber-300 font-mono">8:00 PM - 8:30 PM</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Highlights Grid (Seva, Special Events, YA Wing) -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- Generic Seva Hub Banner -->
+          <div @click="activeTab = 'seva'" class="bg-gradient-to-r from-emerald-950/80 to-slate-900 p-5 rounded-xl border border-emerald-700/50 shadow hover:border-emerald-500 transition cursor-pointer space-y-2">
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center space-x-1">
+                <i data-lucide="heart-handshake" class="w-3.5 h-3.5"></i><span>Seva & Service</span>
+              </span>
+              <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded">All Projects</span>
+            </div>
+            <h3 class="font-bold text-white text-base">Community Seva Hub</h3>
+            <p class="text-xs text-slate-300">FMSC Packing, Homeless Hot Breakfast, and YA Environmental Drives.</p>
+            <span class="text-xs text-emerald-400 font-bold inline-flex items-center space-x-1 pt-1">
+              <span>View All Sevas &rarr;</span>
+            </span>
+          </div>
+
+          <!-- Special Events Banner -->
+          <div @click="activeTab = 'events'" class="bg-gradient-to-r from-amber-950/80 to-slate-900 p-5 rounded-xl border border-amber-700/50 shadow hover:border-amber-500 transition cursor-pointer space-y-2">
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-400 flex items-center space-x-1">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i><span>Special Events</span>
+              </span>
+              <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded">3 Events</span>
+            </div>
+            <h3 class="font-bold text-white text-base">Home Bhajans & Parthi 2027</h3>
+            <p class="text-xs text-slate-300">Unofficial Home Bhajans, Parthi Yatra 2027 Pilgrimage & October YA Conference.</p>
+            <span class="text-xs text-amber-400 font-bold inline-flex items-center space-x-1 pt-1">
+              <span>Explore Events &rarr;</span>
+            </span>
+          </div>
+
+          <!-- YA Wing Banner -->
+          <div @click="activeTab = 'ya'" class="bg-gradient-to-r from-purple-950/80 to-slate-900 p-5 rounded-xl border border-purple-700/50 shadow hover:border-purple-500 transition cursor-pointer space-y-2">
+            <div class="flex justify-between items-start">
+              <span class="text-xs font-bold uppercase tracking-wider text-purple-400 flex items-center space-x-1">
+                <i data-lucide="users" class="w-3.5 h-3.5"></i><span>Young Adult Wing</span>
+              </span>
+              <span class="text-[10px] bg-purple-500/20 text-purple-300 px-2 py-0.5 rounded">Ages 18-35</span>
+            </div>
+            <h3 class="font-bold text-white text-base">YA Youth Initiatives & Music</h3>
+            <p class="text-xs text-slate-300">Active participation in Seva, vocal/instrumental music performances, & study circles.</p>
+            <span class="text-xs text-purple-400 font-bold inline-flex items-center space-x-1 pt-1">
+              <span>Discover YA Wing &rarr;</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- Center Announcements -->
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="text-lg font-bold text-white flex items-center space-x-2">
+              <i data-lucide="bell" class="w-5 h-5 text-amber-400"></i>
+              <span>Center Announcements</span>
+            </h3>
+            <button @click="showAddAnnouncement = true" class="text-xs text-amber-400 hover:underline font-semibold">+ Add Announcement</button>
+          </div>
+
+          <div class="space-y-3">
+            <template x-for="ann in data.announcements" :key="ann.id">
+              <div class="card-dark rounded-xl p-4 border-l-4" :class="ann.is_pinned ? 'border-l-amber-500' : 'border-l-slate-600'">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-800 text-amber-300" x-text="ann.category"></span>
+                  <span class="text-xs text-slate-400" x-text="ann.date"></span>
+                </div>
+                <h4 class="font-bold text-slate-100 text-sm mt-1" x-text="ann.title"></h4>
+                <p class="text-xs text-slate-300 mt-1 leading-relaxed" x-text="ann.content"></p>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <!-- Missed Session Recaps Feed -->
+        <div class="pt-4">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 class="text-lg font-bold text-white flex items-center space-x-2">
+                <i data-lucide="history" class="w-5 h-5 text-amber-400"></i>
+                <span>Missed a Session? Recent Recaps</span>
+              </h3>
+              <p class="text-xs text-slate-400">Catch up on Sunday SSSE lessons, Study Circle insights & Bhajan recordings</p>
+            </div>
+            <button @click="shareWhatsAppRecap()" class="text-xs bg-emerald-600/30 text-emerald-300 hover:bg-emerald-600/50 border border-emerald-600/50 px-2.5 py-1 rounded flex items-center space-x-1">
+              <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+              <span>Share to WhatsApp</span>
+            </button>
+          </div>
+
+          <div class="space-y-4">
+            <template x-for="recap in data.missed_session_recaps" :key="recap.id">
+              <div class="card-dark rounded-xl p-5 border border-slate-700/80 shadow space-y-3">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                  <h4 class="font-bold text-amber-400 text-base" x-text="recap.title"></h4>
+                  <span class="text-xs text-slate-400" x-text="recap.date"></span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                  <div class="bg-slate-900/70 p-3 rounded-lg border border-slate-800 space-y-2">
+                    <div>
+                      <span class="font-bold text-amber-300 block mb-1">📖 SSSE Balvikas:</span>
+                      <p class="text-slate-300" x-text="recap.balvikas_summary"></p>
+                    </div>
+                    
+                    <div class="space-y-1.5 pt-1 border-t border-slate-800/80">
+                      <template x-if="recap.slides_link">
+                        <button @click="openSlideModal(recap.slides_link)" class="text-amber-400 hover:underline text-[11px] font-semibold flex items-center space-x-1">
+                          <i data-lucide="presentation" class="w-3.5 h-3.5"></i>
+                          <span>View SSSE Lesson Slides Deck</span>
+                        </button>
+                      </template>
+
+                      <template x-if="recap.microsoft_doc_url">
+                        <a :href="recap.microsoft_doc_url" target="_blank" class="text-blue-400 hover:underline text-[11px] font-semibold flex items-center space-x-1">
+                          <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
+                          <span>Open in MS 365 SharePoint</span>
+                        </a>
+                      </template>
+                    </div>
+                  </div>
+
+                  <div class="bg-slate-900/70 p-3 rounded-lg border border-slate-800">
+                    <span class="font-bold text-amber-300 block mb-1">💡 Study Circle:</span>
+                    <p class="text-slate-300" x-text="recap.study_circle_summary"></p>
+                  </div>
+
+                  <div class="bg-slate-900/70 p-3 rounded-lg border border-slate-800 space-y-2">
+                    <div>
+                      <span class="font-bold text-amber-300 block mb-1">🎵 Devotional Bhajans:</span>
+                      <p class="text-slate-300" x-text="recap.bhajan_summary"></p>
+                    </div>
+
+                    <template x-if="recap.youtube_recording_url">
+                      <a :href="recap.youtube_recording_url" target="_blank" class="text-red-400 hover:underline text-[11px] font-semibold flex items-center space-x-1 pt-1 border-t border-slate-800/80">
+                        <i data-lucide="youtube" class="w-3.5 h-3.5"></i>
+                        <span>Watch Recording on YouTube</span>
+                      </a>
+                    </template>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- ================= TAB 2: SSSE BALVIKAS PORTAL ================= -->
+      <section x-show="activeTab === 'balvikas'" class="space-y-6">
+        <div class="card-dark p-5 rounded-2xl border border-slate-700 flex flex-col md:flex-row justify-between md:items-center gap-3">
+          <div>
+            <h2 class="text-xl font-bold text-amber-400 flex items-center space-x-2">
+              <i data-lucide="book-open" class="w-6 h-6"></i>
+              <span>Sri Sathya Sai Spiritual Education (SSSE Balvikas)</span>
+            </h2>
+            <p class="text-xs text-slate-300 mt-1">Weekly curriculum, group lesson summaries, homework assignments, and slide decks for students.</p>
+          </div>
+          <div class="text-xs bg-slate-800 text-amber-300 px-3.5 py-2 rounded-xl border border-slate-700 font-mono">
+            Sunday Class Timing: <strong class="text-white">9:15 AM - 10:30 AM</strong>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <template x-for="g in data.balvikas_classes" :key="g.id">
+            <div class="card-dark rounded-xl p-5 border border-slate-700/80 hover:border-amber-500/50 transition space-y-3">
+              <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <div>
+                  <h3 class="font-bold text-slate-100 text-base" x-text="g.group_name"></h3>
+                  <p class="text-xs text-slate-400" x-text="'Gurus: ' + g.guru_names"></p>
+                </div>
+                <span class="text-xs px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 font-semibold border border-amber-500/30" x-text="g.value_focus"></span>
+              </div>
+
+              <div>
+                <span class="text-xs text-amber-400 font-semibold block">Current Lesson:</span>
+                <p class="font-bold text-sm text-white" x-text="g.current_lesson"></p>
+                <p class="text-xs text-slate-300 mt-1" x-text="g.summary"></p>
+              </div>
+
+              <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                <span class="text-xs font-bold text-amber-300 block">📝 Weekly Homework:</span>
+                <p class="text-xs text-slate-300 mt-0.5" x-text="g.homework"></p>
+              </div>
+
+              <template x-if="g.slides_file">
+                <button @click="openSlideModal(g.slides_file)" class="w-full bg-amber-600/30 hover:bg-amber-600/50 text-amber-300 border border-amber-500/40 text-xs font-bold py-2 rounded-lg flex items-center justify-center space-x-1.5 transition">
+                  <i data-lucide="presentation" class="w-4 h-4"></i>
+                  <span>Open Interactive Lesson Slides</span>
+                </button>
+              </template>
+            </div>
+          </template>
+        </div>
+      </section>
+
+
+      <!-- ================= TAB 3: STUDY CIRCLE ================= -->
+      <section x-show="activeTab === 'study'" class="space-y-6">
+        <div class="card-dark p-5 rounded-2xl border border-slate-700 flex flex-col md:flex-row justify-between md:items-center gap-3">
+          <div>
+            <h2 class="text-xl font-bold text-amber-400 flex items-center space-x-2">
+              <i data-lucide="brain" class="w-6 h-6"></i>
+              <span>Adult Study Circle Hub</span>
+            </h2>
+            <p class="text-xs text-slate-300 mt-1">Deepening spiritual understanding through Bhagawan's literature and practical group reflection.</p>
+          </div>
+          <div class="text-xs bg-slate-800 text-amber-300 px-3.5 py-2 rounded-xl border border-slate-700 font-mono">
+            Sunday Meeting Timing: <strong class="text-white">9:30 AM - 10:30 AM</strong>
+          </div>
+        </div>
+
+        <div class="card-dark p-6 rounded-xl border border-amber-500/30 bg-slate-900/60 space-y-4">
+          <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2 border-b border-slate-800 pb-3">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-amber-400">Next Upcoming Topic</span>
+              <h3 class="text-lg font-bold text-white" x-text="data.study_circle?.next_topic"></h3>
+            </div>
+            <div class="text-xs text-slate-400 bg-slate-800 px-3 py-1.5 rounded-lg">
+              <span class="block text-slate-200 font-semibold" x-text="data.study_circle?.date + ' • ' + data.study_circle?.time"></span>
+              <span x-text="'Facilitator: ' + data.study_circle?.facilitator"></span>
+            </div>
+          </div>
+
+          <div>
+            <span class="text-xs font-bold text-amber-300 block mb-2">Discussion Questions for Reflection:</span>
+            <ul class="space-y-1.5 text-xs text-slate-300 list-disc list-inside">
+              <template x-for="(q, idx) in data.study_circle?.discussion_prompts" :key="idx">
+                <li x-text="q"></li>
+              </template>
+            </ul>
+          </div>
+
+          <template x-if="data.study_circle?.reading_material_url">
+            <a :href="data.study_circle?.reading_material_url" target="_blank" class="inline-flex items-center space-x-1.5 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-lg transition shadow">
+              <i data-lucide="file-text" class="w-4 h-4"></i>
+              <span>Open Reading Material (PDF)</span>
+            </a>
+          </template>
+        </div>
+
+        <!-- Past Takeaways Archive -->
+        <div>
+          <h3 class="text-base font-bold text-white mb-3">Past Session Key Takeaways</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <template x-for="past in data.study_circle?.past_topics" :key="past.date">
+              <div class="card-dark p-4 rounded-xl border border-slate-800 space-y-1">
+                <div class="flex justify-between text-xs text-slate-400">
+                  <span class="font-semibold text-amber-300" x-text="past.topic"></span>
+                  <span x-text="past.date"></span>
+                </div>
+                <p class="text-xs text-slate-300 mt-1" x-text="past.key_takeaway"></p>
+              </div>
+            </template>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ================= TAB 4: SAI BHAJANS & SONGBOOK ================= -->
+      <section x-show="activeTab === 'bhajans'" class="space-y-6">
+        <div class="card-dark p-5 rounded-2xl border border-slate-700 flex flex-col md:flex-row justify-between md:items-center gap-3">
+          <div>
+            <h2 class="text-xl font-bold text-amber-400 flex items-center space-x-2">
+              <i data-lucide="music" class="w-6 h-6"></i>
+              <span>Sai Devotional Bhajans (Sundays & Thursdays)</span>
+            </h2>
+            <p class="text-xs text-slate-300 mt-1">Lead singer schedule, pitch assignments, Thursday midweek sessions, and searchable Bhajan songbook.</p>
+          </div>
+          <div class="text-xs bg-slate-800 text-amber-300 p-2.5 rounded-xl border border-slate-700 space-y-1">
+            <div>Sundays: <span class="font-bold text-white">10:45 AM - 11:45 AM</span></div>
+            <div>Thursdays: <span class="font-bold text-purple-300">8:00 PM - 8:30 PM</span></div>
+          </div>
+        </div>
+
+        <!-- Thursday Midweek Bhajan Banner -->
+        <div class="bg-gradient-to-r from-purple-950/80 to-slate-900 p-4 rounded-xl border border-purple-700/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+          <div>
+            <span class="text-[10px] font-bold uppercase tracking-wider text-purple-400">Midweek Devotional Session</span>
+            <h3 class="font-bold text-white text-base">Thursday Evening Bhajans & Chanting</h3>
+            <p class="text-xs text-slate-300 mt-0.5">Every Thursday 8:00 PM - 8:30 PM • Hosted virtually / at center member homes.</p>
+          </div>
+          <a :href="data.center_info?.whatsapp_group_link" target="_blank" class="bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold px-3.5 py-2 rounded-lg transition shadow flex items-center space-x-1">
+            <i data-lucide="video" class="w-3.5 h-3.5"></i><span>Join Thursday Session</span>
+          </a>
+        </div>
+
+        <!-- Sunday Singer Schedule Table -->
+        <div>
+          <h3 class="text-base font-bold text-white mb-2">Upcoming Sunday Bhajan Schedule</h3>
+          <div class="overflow-x-auto card-dark rounded-xl border border-slate-800">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-slate-950 text-slate-400 border-b border-slate-800">
+                <tr>
+                  <th class="p-3">#</th>
+                  <th class="p-3">Song Name</th>
+                  <th class="p-3">Lead Singer</th>
+                  <th class="p-3">Pitch</th>
+                  <th class="p-3">Deity</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-800 text-slate-200">
+                <template x-for="item in data.bhajans?.singers_schedule" :key="item.slot">
+                  <tr class="hover:bg-slate-800/50 transition">
+                    <td class="p-3 font-bold text-amber-400" x-text="item.slot"></td>
+                    <td class="p-3 font-semibold text-white" x-text="item.song"></td>
+                    <td class="p-3" x-text="item.singer"></td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded bg-slate-800 border border-slate-700 font-mono text-[11px]" x-text="item.pitch"></span></td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300" x-text="item.deity"></span></td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Searchable Songbook -->
+        <div class="pt-4 space-y-3">
+          <div class="flex flex-col sm:flex-row justify-between sm:items-center gap-2">
+            <h3 class="text-base font-bold text-white">Center Devotional Songbook</h3>
+            <input type="text" x-model="bhajanSearch" placeholder="Search song lyrics, deity, or title..." 
+                   class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-amber-500 w-full sm:w-64">
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <template x-for="b in filteredBhajans" :key="b.id">
+              <div class="card-dark p-4 rounded-xl border border-slate-800 space-y-2">
+                <div class="flex justify-between items-start">
+                  <h4 class="font-bold text-amber-300 text-sm" x-text="b.title"></h4>
+                  <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300" x-text="b.deity"></span>
+                </div>
+                <pre class="font-sans text-xs text-slate-200 whitespace-pre-wrap leading-relaxed bg-slate-950/60 p-3 rounded-lg border border-slate-800/80" x-text="b.lyrics"></pre>
+                <div class="text-[11px] text-slate-400">
+                  <span class="text-slate-300 font-semibold">Meaning:</span> <span x-text="b.meaning"></span>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ================= TAB 5: GENERIC SEVA & SERVICE HUB ================= -->
+      <section x-show="activeTab === 'seva'" class="space-y-6">
+        <div class="card-dark p-6 rounded-2xl border border-emerald-500/40 bg-gradient-to-r from-emerald-950/80 to-slate-900 shadow-xl space-y-3">
+          <div class="flex flex-col md:flex-row justify-between md:items-center gap-3 border-b border-emerald-800/50 pb-3">
+            <div>
+              <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold px-2.5 py-0.5 rounded-full">Love in Action • Service</span>
+              <h2 class="text-2xl font-extrabold text-white mt-1">Mesa Sai Center Seva & Community Service</h2>
+              <p class="text-xs text-slate-300">"Hands that serve are holier than lips that pray." — Sathya Sai Baba</p>
+            </div>
+            <div class="flex items-center space-x-2">
+              <button @click="sevaSubTab = 'all'" :class="sevaSubTab === 'all' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-300'" class="px-3 py-1.5 rounded-lg text-xs transition">All Sevas</button>
+              <button @click="sevaSubTab = 'fmsc'" :class="sevaSubTab === 'fmsc' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-300'" class="px-3 py-1.5 rounded-lg text-xs transition">FMSC Packing</button>
+              <button @click="sevaSubTab = 'breakfast'" :class="sevaSubTab === 'breakfast' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-300'" class="px-3 py-1.5 rounded-lg text-xs transition">Breakfast Drive</button>
+            </div>
+          </div>
+
+          <!-- List of All Sevas Overview -->
+          <div x-show="sevaSubTab === 'all'" class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <template x-for="s in data.all_sevas" :key="s.id">
+              <div class="bg-slate-900/90 p-5 rounded-xl border border-slate-800 space-y-2 flex flex-col justify-between">
+                <div>
+                  <div class="flex justify-between items-start">
+                    <h4 class="font-bold text-white text-base" x-text="s.title"></h4>
+                    <span class="text-[10px] bg-emerald-500/20 text-emerald-300 px-2 py-0.5 rounded font-semibold border border-emerald-500/30" x-text="s.badge"></span>
+                  </div>
+                  <span class="text-[11px] text-amber-400 font-semibold block mt-0.5" x-text="'Frequency: ' + s.frequency"></span>
+                  <p class="text-xs text-slate-300 mt-2 leading-relaxed" x-text="s.description"></p>
+                </div>
+
+                <div class="pt-2">
+                  <template x-if="s.type === 'fmsc'">
+                    <button @click="sevaSubTab = 'fmsc'" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded transition">View FMSC Roster & Register &rarr;</button>
+                  </template>
+                  <template x-if="s.type === 'breakfast'">
+                    <button @click="sevaSubTab = 'breakfast'" class="bg-amber-600 hover:bg-amber-500 text-slate-950 text-xs font-bold px-3 py-1.5 rounded transition">View Item Checklist & Sign Up &rarr;</button>
+                  </template>
+                  <template x-if="s.type !== 'fmsc' && s.type !== 'breakfast'">
+                    <span class="text-[11px] text-slate-400 italic">Contact Center Seva Coordinator to participate.</span>
+                  </template>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <!-- FMSC Seva Detailed Sub-Section -->
+        <div x-show="sevaSubTab === 'fmsc' || sevaSubTab === 'all'" class="space-y-6 pt-2">
+          <div class="card-dark p-6 rounded-2xl border border-emerald-500/40 space-y-4">
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 border-b border-emerald-800/50 pb-4">
+              <div>
+                <h3 class="text-xl font-bold text-white">Feed My Starving Children (FMSC) Seva</h3>
+                <p class="text-xs text-slate-300 mt-0.5" x-text="data.seva_fmsc?.title"></p>
+              </div>
+              <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                <a :href="data.seva_fmsc?.fmsc_group_join_url" target="_blank"
+                   class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 px-4 py-2 rounded-xl text-xs font-extrabold flex items-center justify-center space-x-1.5 shadow transition">
+                  <i data-lucide="external-link" class="w-4 h-4"></i>
+                  <span>Direct FMSC.org Registration</span>
+                </a>
+                <button @click="shareFMSCWhatsApp()" class="bg-slate-800 text-emerald-300 border border-emerald-600/40 px-3.5 py-2 rounded-xl text-xs font-semibold flex items-center justify-center space-x-1.5">
+                  <i data-lucide="share-2" class="w-4 h-4"></i>
+                  <span>Share to WhatsApp</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Headcount & Volunteer Form Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <!-- Form -->
+              <div class="card-dark p-4 rounded-xl border border-slate-700 space-y-3">
+                <h4 class="font-bold text-white text-sm">Register Family for FMSC</h4>
+                <form @submit.prevent="submitFMSCRegistration()" class="space-y-2.5 text-xs">
+                  <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Family / Volunteer Name *</label>
+                    <input type="text" x-model="fmscForm.family_name" required placeholder="e.g. Behera Family" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:outline-none">
+                  </div>
+                  <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Contact Phone Number *</label>
+                    <input type="tel" x-model="fmscForm.contact_phone" required placeholder="e.g. 480-555-0192" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:outline-none">
+                  </div>
+                  <div class="grid grid-cols-2 gap-2">
+                    <div>
+                      <label class="block text-slate-300 font-semibold mb-1">Adults</label>
+                      <input type="number" min="0" x-model="fmscForm.adults_count" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:outline-none">
+                    </div>
+                    <div>
+                      <label class="block text-slate-300 font-semibold mb-1">Kids (5+ yrs)</label>
+                      <input type="number" min="0" x-model="fmscForm.kids_count" required class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:outline-none">
+                    </div>
+                  </div>
+                  <div x-show="fmscForm.kids_count > 0">
+                    <label class="block text-slate-300 font-semibold mb-1">Kids' Ages</label>
+                    <input type="text" x-model="fmscForm.kids_ages" placeholder="e.g. 8, 12" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:outline-none">
+                  </div>
+                  <div>
+                    <label class="block text-slate-300 font-semibold mb-1">Notes</label>
+                    <input type="text" x-model="fmscForm.notes" placeholder="e.g. Joining at site" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white focus:outline-none">
+                  </div>
+                  <div class="flex items-center space-x-2 pt-1">
+                    <input type="checkbox" id="fmsc_site_check2" x-model="fmscForm.fmsc_site_registered" class="rounded bg-slate-900 border-slate-700 text-emerald-500">
+                    <label for="fmsc_site_check2" class="text-slate-300 text-[11px]">Registered on FMSC.org</label>
+                  </div>
+                  <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-lg transition">Confirm Registration</button>
+                </form>
+              </div>
+
+              <!-- Roster -->
+              <div class="lg:col-span-2 card-dark p-4 rounded-xl border border-slate-700 space-y-3">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+                  <h4 class="font-bold text-white text-sm">Center Family Headcount Roster</h4>
+                  <span class="text-xs bg-emerald-950 text-emerald-300 px-2 py-0.5 rounded font-bold" x-text="totalFMSCFamilies + ' Families Registered'"></span>
+                </div>
+                <div class="space-y-2">
+                  <template x-for="reg in data.seva_fmsc?.registrations" :key="reg.id">
+                    <div class="bg-slate-900/90 p-3 rounded-lg border border-slate-800 flex justify-between items-center text-xs">
+                      <div>
+                        <strong class="text-white block" x-text="reg.family_name"></strong>
+                        <span class="text-slate-300" x-text="'Adults: ' + reg.adults_count + ' | Kids: ' + reg.kids_count + (reg.kids_ages ? ' (' + reg.kids_ages + ' yrs)' : '')"></span>
+                      </div>
+                      <span class="text-slate-400 font-mono" x-text="reg.contact_phone"></span>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hot Breakfast Detailed Sub-Section -->
+        <div x-show="sevaSubTab === 'breakfast' || sevaSubTab === 'all'" class="space-y-6 pt-2">
+          <div class="card-dark p-6 rounded-2xl border border-amber-500/40 space-y-4">
+            <div class="flex justify-between items-center border-b border-amber-800/50 pb-3">
+              <div>
+                <h3 class="text-xl font-bold text-white">Bi-Weekly Homeless Hot Breakfast Seva</h3>
+                <p class="text-xs text-slate-300" x-text="data.seva_breakfast?.location"></p>
+              </div>
+              <span class="text-xs bg-amber-950 text-amber-300 px-3 py-1 rounded font-bold" x-text="'Next: ' + data.seva_breakfast?.next_date"></span>
+            </div>
+
+            <!-- Item Checklist Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <template x-for="item in data.seva_breakfast?.items" :key="item.id">
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2 flex flex-col justify-between">
+                  <div>
+                    <div class="flex justify-between items-start">
+                      <h4 class="font-bold text-amber-300 text-xs" x-text="item.name"></h4>
+                      <span class="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-300 font-semibold" x-text="calculatePledged(item) + '/' + item.needed"></span>
+                    </div>
+                    <div class="mt-2 space-y-1 text-[11px]">
+                      <template x-for="s in item.signed_up" :key="s.volunteer">
+                        <div class="text-slate-300 flex justify-between">
+                          <span x-text="s.volunteer"></span>
+                          <span class="text-amber-400 font-bold" x-text="'Qty: ' + s.qty"></span>
+                        </div>
+                      </template>
+                    </div>
+                  </div>
+                  <button @click="openItemSignupModal(item)" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs py-1.5 rounded transition">+ Bring Item</button>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- ================= TAB 6: SPECIAL EVENTS ================= -->
+      <section x-show="activeTab === 'events'" class="space-y-6">
+        <div class="card-dark p-6 rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-950/80 to-slate-900 shadow-xl space-y-3">
+          <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold px-2.5 py-0.5 rounded-full">Center Special Occasions</span>
+          <h2 class="text-2xl font-extrabold text-white mt-1">Mesa Center Special Events & Pilgrimages</h2>
+          <p class="text-xs text-slate-300">Unofficial home devotional bhajans, zonal pilgrimage trips, and regional conferences.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <template x-for="event in data.special_events" :key="event.id">
+            <div class="card-dark p-5 rounded-2xl border border-slate-700 hover:border-amber-500 transition space-y-3 flex flex-col justify-between">
+              <div class="space-y-2">
+                <div class="flex justify-between items-start">
+                  <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30" x-text="event.category"></span>
+                  <span class="text-xs font-mono text-slate-400" x-text="event.date"></span>
+                </div>
+                <h3 class="font-bold text-white text-lg" x-text="event.title"></h3>
+                <div class="text-xs text-amber-400 font-medium flex items-center space-x-1">
+                  <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
+                  <span x-text="event.location"></span>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed" x-text="event.description"></p>
+                <p class="text-[11px] text-slate-400 italic" x-text="'Coordinator: ' + event.coordinator"></p>
+              </div>
+
+              <button @click="openEventRSVPModal(event)" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs py-2 rounded-xl transition shadow flex items-center justify-center space-x-1.5">
+                <i data-lucide="check-circle" class="w-4 h-4"></i>
+                <span>Register Interest / RSVP</span>
+              </button>
+            </div>
+          </template>
+        </div>
+
+        <!-- RSVP Roster List -->
+        <div class="card-dark p-5 rounded-xl border border-slate-800 space-y-3">
+          <h3 class="text-base font-bold text-white flex items-center space-x-2">
+            <i data-lucide="users" class="w-5 h-5 text-amber-400"></i>
+            <span>Special Event RSVPs & Registrations</span>
+          </h3>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+            <template x-for="r in data.special_event_rsvps" :key="r.id">
+              <div class="bg-slate-900 p-3 rounded-lg border border-slate-800 space-y-1">
+                <div class="flex justify-between font-bold text-amber-300">
+                  <span x-text="r.family_name"></span>
+                  <span class="text-slate-400 text-[10px]" x-text="r.contact_phone"></span>
+                </div>
+                <div class="text-slate-300" x-text="'Adults: ' + r.adults + ' | Kids: ' + r.kids"></div>
+                <p class="text-[11px] text-slate-400 italic" x-text="r.notes"></p>
+              </div>
+            </template>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ================= TAB 7: YOUNG ADULT (YA) WING ================= -->
+      <section x-show="activeTab === 'ya'" class="space-y-6">
+        <div class="card-dark p-6 rounded-2xl border border-purple-500/40 bg-gradient-to-r from-purple-950/80 to-slate-900 shadow-xl space-y-3">
+          <div class="flex flex-col md:flex-row justify-between md:items-center gap-3">
+            <div>
+              <span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-bold px-2.5 py-0.5 rounded-full">Youth Power & Leadership</span>
+              <h2 class="text-2xl font-extrabold text-white mt-1" x-text="data.ya_wing?.title"></h2>
+              <p class="text-xs text-purple-300 italic" x-text="data.ya_wing?.tagline"></p>
+            </div>
+            <button @click="activeTab = 'events'" class="bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs px-4 py-2 rounded-xl transition shadow">
+              October 2026 YA Conference &rarr;
+            </button>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed" x-text="data.ya_wing?.description"></p>
+        </div>
+
+        <!-- YA Pillars Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <template x-for="act in data.ya_wing?.activities" :key="act.title">
+            <div class="card-dark p-5 rounded-2xl border border-slate-800 hover:border-purple-500 transition space-y-2">
+              <h3 class="font-bold text-white text-base" x-text="act.title"></h3>
+              <p class="text-xs text-slate-300 leading-relaxed" x-text="act.description"></p>
+            </div>
+          </template>
+        </div>
+
+        <!-- Musical Performance & Accompaniment Spotlight -->
+        <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 space-y-3">
+          <h3 class="text-base font-bold text-purple-300 flex items-center space-x-2">
+            <i data-lucide="music" class="w-5 h-5"></i>
+            <span>YA Musical Performances & Vocal Leads</span>
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Mesa Young Adults lead vocal melodies, pitch arrangements, and play instruments (Harmonium, Tabla, Dholak, Percussion, Sound Engineering) for weekly Sunday Bhajans and special festival concerts.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1">
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+              <strong class="text-amber-300 block mb-1">🎹 Instrumental Accompaniment:</strong>
+              <p class="text-slate-400">YA brothers & sisters manage harmonium, tabla rhythm, dholak, and sound mixing desk.</p>
+            </div>
+            <div class="bg-slate-950 p-3 rounded-lg border border-slate-800">
+              <strong class="text-amber-300 block mb-1">🎤 Vocal Offerings:</strong>
+              <p class="text-slate-400">Leading classical and devotional bhajans in Ganesha, Shiva, Devi, Krishna, and Sarva Dharma deities.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- Slide Deck Modal (Embedded HTML Viewer) -->
+  <div x-show="showSlideModal" x-cloak class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur flex items-center justify-center p-2 sm:p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-4xl h-[85vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="p-3 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+        <h3 class="font-bold text-amber-400 text-sm flex items-center space-x-2">
+          <i data-lucide="presentation" class="w-4 h-4"></i>
+          <span>SSSE Balvikas Interactive Slide Viewer</span>
+        </h3>
+        <button @click="showSlideModal = false" class="text-slate-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+      <div class="flex-1 bg-black">
+        <iframe :src="activeSlideUrl" class="w-full h-full border-none"></iframe>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Special Event RSVP Modal -->
+  <div x-show="selectedEvent" x-cloak class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-start">
+        <h3 class="font-bold text-white text-base" x-text="'RSVP / Interest: ' + selectedEvent?.title"></h3>
+        <button @click="selectedEvent = null" class="text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form @submit.prevent="submitEventRSVP()" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Family / Volunteer Name *</label>
+          <input type="text" x-model="eventRsvpForm.family_name" required placeholder="e.g. Behera Family"
+                 class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Phone Number</label>
+          <input type="tel" x-model="eventRsvpForm.contact_phone" placeholder="e.g. 480-555-0192"
+                 class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Adults Count</label>
+            <input type="number" min="1" x-model="eventRsvpForm.adults" required
+                   class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Kids Count</label>
+            <input type="number" min="0" x-model="eventRsvpForm.kids" required
+                   class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+          </div>
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Notes / Preferences</label>
+          <input type="text" x-model="eventRsvpForm.notes" placeholder="e.g. Choir participation / Home bhajan hosting request"
+                 class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+        </div>
+
+        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2.5 rounded-lg shadow transition">
+          Confirm RSVP / Interest
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Breakfast Item Signup Modal -->
+  <div x-show="selectedItem" x-cloak class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-start">
+        <h3 class="font-bold text-white text-base" x-text="'Bring Item: ' + selectedItem?.name"></h3>
+        <button @click="selectedItem = null" class="text-slate-400 hover:text-white">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <form @submit.prevent="submitItemSignup()" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Your Name *</label>
+          <input type="text" x-model="itemSignupForm.volunteer" required placeholder="e.g. Priya Sharma"
+                 class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Phone Number</label>
+          <input type="tel" x-model="itemSignupForm.phone" placeholder="e.g. 480-555-0192"
+                 class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Quantity Pledged</label>
+          <input type="number" min="1" max="10" x-model="itemSignupForm.qty" required
+                 class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+        </div>
+
+        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2.5 rounded-lg shadow transition">
+          Confirm Item Pledge
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur border-t border-slate-800 py-1.5 px-2">
+    <div class="grid grid-cols-7 gap-1 text-[9px] text-center">
+      <button @click="activeTab = 'home'" :class="activeTab === 'home' ? 'text-amber-400 font-bold' : 'text-slate-400'" class="p-1 flex flex-col items-center">
+        <i data-lucide="home" class="w-4 h-4 mb-0.5"></i><span>Home</span>
+      </button>
+      <button @click="activeTab = 'balvikas'" :class="activeTab === 'balvikas' ? 'text-amber-400 font-bold' : 'text-slate-400'" class="p-1 flex flex-col items-center">
+        <i data-lucide="book-open" class="w-4 h-4 mb-0.5"></i><span>SSSE</span>
+      </button>
+      <button @click="activeTab = 'study'" :class="activeTab === 'study' ? 'text-amber-400 font-bold' : 'text-slate-400'" class="p-1 flex flex-col items-center">
+        <i data-lucide="brain" class="w-4 h-4 mb-0.5"></i><span>Study</span>
+      </button>
+      <button @click="activeTab = 'bhajans'" :class="activeTab === 'bhajans' ? 'text-amber-400 font-bold' : 'text-slate-400'" class="p-1 flex flex-col items-center">
+        <i data-lucide="music" class="w-4 h-4 mb-0.5"></i><span>Bhajans</span>
+      </button>
+      <button @click="activeTab = 'seva'" :class="activeTab === 'seva' ? 'text-emerald-400 font-bold' : 'text-slate-400'" class="p-1 flex flex-col items-center">
+        <i data-lucide="heart-handshake" class="w-4 h-4 mb-0.5 text-emerald-400"></i><span>Seva</span>
+      </button>
+      <button @click="activeTab = 'events'" :class="activeTab === 'events' ? 'text-amber-400 font-bold' : 'text-slate-400'" class="p-1 flex flex-col items-center">
+        <i data-lucide="sparkles" class="w-4 h-4 mb-0.5"></i><span>Events</span>
+      </button>
+      <button @click="activeTab = 'ya'" :class="activeTab === 'ya' ? 'text-purple-400 font-bold' : 'text-slate-400'" class="p-1 flex flex-col items-center">
+        <i data-lucide="users" class="w-4 h-4 mb-0.5 text-purple-400"></i><span>YA</span>
+      </button>
+    </div>
+  </nav>
+
+  <script>
+    function saiApp() {
+      return {
+        activeTab: 'home',
+        sevaSubTab: 'all',
+        loading: true,
+        data: {},
+        deferredPrompt: null,
+        bhajanSearch: '',
+        
+        // FMSC Form State
+        fmscForm: { family_name: '', contact_phone: '', adults_count: 1, kids_count: 0, kids_ages: '', notes: '', fmsc_site_registered: false },
+        submitting: false,
+
+        // Breakfast Form State
+        selectedItem: null,
+        itemSignupForm: { volunteer: '', phone: '', qty: 1 },
+
+        // Special Events RSVP Form State
+        selectedEvent: null,
+        eventRsvpForm: { family_name: '', contact_phone: '', adults: 1, kids: 0, notes: '' },
+
+        // Slide Modal
+        showSlideModal: false,
+        activeSlideUrl: '',
+        showAddAnnouncement: false,
+
+        async initApp() {
+          await this.loadData();
+          this.loading = false;
+          
+          this.$nextTick(() => {
+            if (window.lucide) window.lucide.createIcons();
+          });
+
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/static/sw.js').catch(err => console.log('SW error:', err));
+          }
+
+          window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            this.deferredPrompt = e;
+          });
+        },
+
+        async loadData() {
+          try {
+            const res = await fetch('/api/data');
+            this.data = await res.json();
+            this.$nextTick(() => { if (window.lucide) window.lucide.createIcons(); });
+          } catch (err) {
+            console.error('Failed to load data', err);
+          }
+        },
+
+        installPWA() {
+          if (this.deferredPrompt) {
+            this.deferredPrompt.prompt();
+            this.deferredPrompt.userChoice.then(() => {
+              this.deferredPrompt = null;
+            });
+          }
+        },
+
+        get totalFMSCFamilies() {
+          return this.data.seva_fmsc?.registrations?.length || 0;
+        },
+
+        get totalFMSCVolunteers() {
+          if (!this.data.seva_fmsc?.registrations) return 0;
+          return this.data.seva_fmsc.registrations.reduce((acc, r) => acc + (r.adults_count || 0) + (r.kids_count || 0), 0);
+        },
+
+        get filteredBhajans() {
+          const query = this.bhajanSearch.toLowerCase().trim();
+          if (!query) return this.data.bhajans?.songbook || [];
+          return (this.data.bhajans?.songbook || []).filter(b => 
+            b.title.toLowerCase().includes(query) || 
+            b.deity.toLowerCase().includes(query) || 
+            b.lyrics.toLowerCase().includes(query)
+          );
+        },
+
+        calculatePledged(item) {
+          if (!item.signed_up) return 0;
+          return item.signed_up.reduce((acc, curr) => acc + (parseInt(curr.qty) || 0), 0);
+        },
+
+        openItemSignupModal(item) {
+          this.selectedItem = item;
+          this.itemSignupForm = { volunteer: '', phone: '', qty: 1 };
+        },
+
+        openEventRSVPModal(event) {
+          this.selectedEvent = event;
+          this.eventRsvpForm = { family_name: '', contact_phone: '', adults: 1, kids: 0, notes: '' };
+        },
+
+        async submitEventRSVP() {
+          if (!this.selectedEvent) return;
+          try {
+            const res = await fetch('/api/events/rsvp', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                event_id: this.selectedEvent.id,
+                family_name: this.eventRsvpForm.family_name,
+                contact_phone: this.eventRsvpForm.contact_phone,
+                adults: this.eventRsvpForm.adults,
+                kids: this.eventRsvpForm.kids,
+                notes: this.eventRsvpForm.notes
+              })
+            });
+            const result = await res.json();
+            if (result.success) {
+              alert('🎉 ' + result.message);
+              this.selectedEvent = null;
+              await this.loadData();
+            }
+          } catch (e) {
+            alert('Failed to submit RSVP');
+          }
+        },
+
+        async submitItemSignup() {
+          if (!this.selectedItem) return;
+          try {
+            const res = await fetch('/api/seva/breakfast/signup', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                item_id: this.selectedItem.id,
+                volunteer: this.itemSignupForm.volunteer,
+                phone: this.itemSignupForm.phone,
+                qty: this.itemSignupForm.qty
+              })
+            });
+            const result = await res.json();
+            if (result.success) {
+              alert(result.message);
+              this.selectedItem = null;
+              await this.loadData();
+            }
+          } catch (e) {
+            alert('Failed to save signup');
+          }
+        },
+
+        async submitFMSCRegistration() {
+          this.submitting = true;
+          try {
+            const res = await fetch('/api/seva/fmsc/register', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(this.fmscForm)
+            });
+            const result = await res.json();
+            if (result.success) {
+              alert('🎉 ' + result.message);
+              this.fmscForm = { family_name: '', contact_phone: '', adults_count: 1, kids_count: 0, kids_ages: '', notes: '', fmsc_site_registered: false };
+              await this.loadData();
+            }
+          } catch (e) {
+            alert('Error submitting registration');
+          } finally {
+            this.submitting = false;
+          }
+        },
+
+        openSlideModal(url) {
+          this.activeSlideUrl = url;
+          this.showSlideModal = true;
+        },
+
+        shareFMSCWhatsApp() {
+          const date = this.data.seva_fmsc?.next_date || '';
+          const code = this.data.seva_fmsc?.group_code || '';
+          const fmscUrl = this.data.seva_fmsc?.fmsc_group_join_url || '';
+          const text = encodeURIComponent(
+            `*Mesa Sathya Sai Center - FMSC Volunteer Drive* 📦\n` +
+            `🗓 Date: ${date} (2:00 PM - 3:45 PM)\n` +
+            `📍 Location: FMSC Mesa Site\n` +
+            `🔑 Group Code: *${code}*\n\n` +
+            `Kids (5+) and adults are welcome! Sign up on our center app or register directly here:\n${fmscUrl}`
+          );
+          window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+        },
+
+        shareWhatsAppRecap() {
+          const recaps = this.data.missed_session_recaps || [];
+          if (recaps.length === 0) return;
+          const latest = recaps[0];
+          const text = encodeURIComponent(
+            `*Mesa Sathya Sai Center - Weekly Recap (${latest.date})* 🌸\n\n` +
+            `📖 *SSSE Balvikas:* ${latest.balvikas_summary}\n\n` +
+            `💡 *Study Circle:* ${latest.study_circle_summary}\n\n` +
+            `🎵 *Bhajans:* ${latest.bhajan_summary}\n\n` +
+            `View full materials & slides on our Center App!`
+          );
+          window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+        }
+      };
+    }
+  </script>
+</body>
+</html>
