@@ -1,0 +1,376 @@
+{
+  "center_info": {
+    "name": "Mesa Sathya Sai Center",
+    "location": "Mesa, Arizona (AZ)",
+    "meeting_times": "Sundays 9:15 AM - 12:00 PM & Thursdays 8:00 PM - 8:30 PM",
+    "contact_email": "mesa.sai.center.az@gmail.com",
+    "whatsapp_group_link": "https://chat.whatsapp.com/MesaSaiCenterAZ",
+    "microsoft_workspace_url": "https://onedrive.live.com/?id=MesaSaiCenterCloud",
+    "sharepoint_drive_url": "https://mesasaicenter.sharepoint.com/sites/MesaSaiCenter",
+    "youtube_channel_url": "https://www.youtube.com/@MesaSaiCenterAZ"
+  },
+  "weekly_schedule": {
+    "sunday": [
+      { "time": "9:15 AM - 10:30 AM", "activity": "Sri Sathya Sai Spiritual Education (SSSE Balvikas)", "location": "SSSE Classrooms" },
+      { "time": "9:30 AM - 10:30 AM", "activity": "Adult Study Circle & Reflection", "location": "Study Circle Room" },
+      { "time": "10:45 AM - 11:45 AM", "activity": "Devotional Bhajans & Aarti", "location": "Main Prayer Hall" }
+    ],
+    "thursday": [
+      { "time": "8:00 PM - 8:30 PM", "activity": "Midweek Thursday Devotional Bhajans", "location": "Virtual / Member Residences" }
+    ]
+  },
+  "announcements": [
+    {
+      "id": "ann-1",
+      "title": "Young Adult (YA) Conference - October 2026",
+      "date": "2026-10-16",
+      "category": "YA Wing",
+      "content": "Join our Zonal Young Adult Conference in October! Focus on spiritual transformation, musical workshops, and youth-led seva initiatives. Register under the YA Wing tab.",
+      "is_pinned": true
+    },
+    {
+      "id": "ann-2",
+      "title": "Parthi Yatra 2027 Pilgrimage Announcement",
+      "date": "2027-07-15",
+      "category": "Special Events",
+      "content": "Planning for the Zonal Parthi Yatra 2027 pilgrimage to Prashanthi Nilayam, Puttaparthi has begun. All center families, YAs, and SSSE students are invited to register interest.",
+      "is_pinned": true
+    },
+    {
+      "id": "ann-3",
+      "title": "Thursday Midweek Devotional Bhajans (8:00 PM - 8:30 PM)",
+      "date": "2026-09-10",
+      "category": "Bhajans",
+      "content": "Join us every Thursday evening from 8:00 PM - 8:30 PM for 30 minutes of uplifting midweek bhajans and Namasmarana.",
+      "is_pinned": true
+    },
+    {
+      "id": "ann-4",
+      "title": "Monthly FMSC (Feed My Starving Children) Volunteer Drive",
+      "date": "2026-09-12",
+      "category": "Seva",
+      "content": "Next FMSC packing drive on Saturday 2:00 PM - 3:45 PM. Kids (5+) and adults welcome. Sign up under the Seva tab.",
+      "is_pinned": false
+    }
+  ],
+  "missed_session_recaps": [
+    {
+      "id": "recap-2026-08-30",
+      "date": "2026-08-30",
+      "title": "Weekly Meeting Recap - Aug 30, 2026",
+      "balvikas_summary": "SSSE Group 1 & 2 reviewed Lesson 21 on Omnipresent God with interactive slides. Group 3 & 4 discussed 'Practicing Truth in Daily Student Life'.",
+      "study_circle_summary": "Discussed Geetha Vahini Ch 4: 'Action without Attachment (Nishkama Karma)'. Focus on balancing work, family, and spiritual sadhana.",
+      "bhajan_summary": "Sung 8 Bhajans focused on Divine Mother & Shiva. Outstanding vocal and instrumental support (Harmonium & Tabla) by Mesa YA Wing youth.",
+      "audio_link": "",
+      "slides_link": "/Sai/Lesson21_Slides.html",
+      "youtube_recording_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "microsoft_doc_url": "https://mesasaicenter.sharepoint.com/:p:/s/MesaSaiCenter/Lesson21_OmnipresentGod.pptx"
+    },
+    {
+      "id": "recap-2026-08-23",
+      "date": "2026-08-23",
+      "title": "Weekly Meeting Recap - Aug 23, 2026",
+      "balvikas_summary": "SSSE Lesson 22 - Love in Action. Students prepared gratitude cards for Mesa first responders.",
+      "study_circle_summary": "Theme: 'Cease to do Evil, Learn to do Good'. Practical tips on speech control and positive thinking.",
+      "bhajan_summary": "Sung 7 Bhajans including Ganesha, Krishna, and Sarva Dharma songs.",
+      "audio_link": "",
+      "slides_link": "/Sai/Lesson22_Slides.html",
+      "youtube_recording_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "microsoft_doc_url": "https://mesasaicenter.sharepoint.com/:p:/s/MesaSaiCenter/Lesson22_LoveInAction.pptx"
+    }
+  ],
+  "balvikas_classes": [
+    {
+      "id": "g0",
+      "group_name": "Pre-SSSE (Kindergarten / Pre-K)",
+      "guru_names": "Sister Savitha & Sister Aruna",
+      "current_lesson": "Swami's 5 Human Values through Prayers & Stories",
+      "value_focus": "Love & Peace",
+      "summary": "Learning simple Sai prayers, devotional coloring, and stories on Sathya, Dharma, Shanthi, Prema, and Ahimsa.",
+      "homework": "Practice saying 'Om Sri Sai Ram' every morning and draw a flower for Swami.",
+      "slides_file": ""
+    },
+    {
+      "id": "g1",
+      "group_name": "SSSE Group 1 (Grades 1-3)",
+      "guru_names": "Sister Lakshmi & Sister Geetha",
+      "current_lesson": "Lesson 21: Omnipresent God 🌟",
+      "value_focus": "Love & Peace",
+      "summary": "God is everywhere like air and light. We can feel God's presence by being kind and helpful to everyone.",
+      "homework": "Practice 3 acts of kindness this week and draw a picture of your favorite nature scene.",
+      "slides_file": "/Sai/Lesson21_Slides.html"
+    },
+    {
+      "id": "g2",
+      "group_name": "SSSE Group 2 (Grades 4-6)",
+      "guru_names": "Brother Ramesh & Sister Priya",
+      "current_lesson": "Lesson 22: Service to Man is Service to God",
+      "value_focus": "Right Conduct & Non-Violence",
+      "summary": "Understanding Seva principles and preparing for the FMSC volunteer packing event.",
+      "homework": "Write 5 lines on why helping the hungry is divine service.",
+      "slides_file": "/Sai/Lesson22_Slides.html"
+    },
+    {
+      "id": "g3",
+      "group_name": "SSSE Group 3 (Grades 7-9)",
+      "guru_names": "Brother Sai Kumar",
+      "current_lesson": "Mind Management & Ceiling on Desires",
+      "value_focus": "Truth & Self-Control",
+      "summary": "Analyzing food, time, energy, and money waste in daily teenage life.",
+      "homework": "Maintain a 7-day Ceiling on Desires journal tracking daily screen time and food waste.",
+      "slides_file": ""
+    },
+    {
+      "id": "g4",
+      "group_name": "SSSE Group 4 (Grades 10-12)",
+      "guru_names": "Sister Ananya",
+      "current_lesson": "Integrating Sai Teachings with Academic & Career Goals",
+      "value_focus": "Self-Confidence & Character",
+      "summary": "Applying 3Ps: Purity, Patience, Perseverance in high school, SATs, and college prep.",
+      "homework": "Read 2 pages of Sathya Sai Speaks Vol 1 and prepare 1 discussion prompt for next week.",
+      "slides_file": ""
+    }
+  ],
+  "study_circle": {
+    "next_topic": "Geetha Vahini - Chapter 5: Control of Mind & Sense Organs",
+    "date": "2026-09-06",
+    "time": "9:30 AM - 10:30 AM",
+    "facilitator": "Brother Anand",
+    "reading_material_url": "https://www.sssbpt.info/vahinis/Geetha/Geethavahini.pdf",
+    "discussion_prompts": [
+      "How do we calm our thoughts during stressful work/school days?",
+      "What is Swami's practical formula for sense regulation?",
+      "How can family members support each other in spiritual discipline?"
+    ],
+    "past_topics": [
+      {
+        "date": "2026-08-30",
+        "topic": "Geetha Vahini Chapter 4 - Nishkama Karma",
+        "key_takeaway": "Offer all actions as a prayer without anxiety over the results. Duty is God, Work is Worship."
+      },
+      {
+        "date": "2026-08-23",
+        "topic": "Practical Application of Sathya & Dharma",
+        "key_takeaway": "Truth in speech creates inner peace. Standing up for righteousness in small daily choices."
+      }
+    ]
+  },
+  "bhajans": {
+    "upcoming_date": "2026-09-06",
+    "sunday_time": "10:45 AM - 11:45 AM",
+    "thursday_time": "8:00 PM - 8:30 PM",
+    "thursday_details": "Weekly Thursday Midweek Devotional Bhajan (Virtual / Member Homes)",
+    "singers_schedule": [
+      { "slot": 1, "song": "Ganesha Sharanam Sharanam Ganesha", "singer": "Rahul (YA Wing)", "pitch": "4 White (G#)", "deity": "Ganesha" },
+      { "slot": 2, "song": "Guru Deva Jaya Deva Sai Deva", "singer": "Sister Meena", "pitch": "2 White (D)", "deity": "Guru" },
+      { "slot": 3, "song": "Jaya Ho Jaya Ho Gopal", "singer": "SSSE Group 2 Students", "pitch": "3 White (F)", "deity": "Krishna" },
+      { "slot": 4, "song": "Shambho Mahadeva Mallikarjuna", "singer": "Brother Suresh", "pitch": "1 White (C)", "deity": "Shiva" },
+      { "slot": 5, "song": "Amba Mandahasa Vadani", "singer": "Sister Ananya (YA Wing)", "pitch": "4 White (G#)", "deity": "Devi" }
+    ],
+    "songbook": [
+      {
+        "id": "bhajan-1",
+        "title": "Ganesha Sharanam Sharanam Ganesha",
+        "deity": "Ganesha",
+        "lyrics": "Ganesha Sharanam Sharanam Ganesha (x2)\nSidhi Vinayaka Sharanam Ganesha\nBuddhi Pradayaka Sharanam Ganesha",
+        "meaning": "I surrender to Lord Ganesha, the remover of obstacles, the bestower of success and intellect.",
+        "tempo": "Medium",
+        "audio_link": "https://www.saisungreet.org/audio/ganesha_sharanam.mp3"
+      },
+      {
+        "id": "bhajan-2",
+        "title": "Guru Deva Jaya Deva Sai Deva",
+        "deity": "Guru",
+        "lyrics": "Guru Deva Jaya Deva Sai Deva\nSharanam Sharanam Sharanam Deva\nGuru Deva Jaya Deva Sai Deva",
+        "meaning": "Glory to the Divine Master, Lord Sai. I seek refuge at Your lotus feet.",
+        "tempo": "Fast",
+        "audio_link": "https://www.saisungreet.org/audio/guru_deva.mp3"
+      },
+      {
+        "id": "bhajan-3",
+        "title": "Jaya Ho Jaya Ho Gopal",
+        "deity": "Krishna",
+        "lyrics": "Jaya Ho Jaya Ho Gopal\nAnanda Nanda Gopal\nJaya Ho Jaya Ho Gopal",
+        "meaning": "Victory to Lord Gopal (Krishna), who fills our hearts with supreme bliss.",
+        "tempo": "Medium",
+        "audio_link": ""
+      }
+    ]
+  },
+  "all_sevas": [
+    {
+      "id": "seva-fmsc",
+      "type": "fmsc",
+      "title": "Feed My Starving Children (FMSC) Monthly Drive",
+      "frequency": "Monthly",
+      "description": "Hand-packing nutritious meals for malnourished children worldwide at FMSC Mesa site. Family-friendly for adults & kids ages 5+.",
+      "badge": "Kids & Adults"
+    },
+    {
+      "id": "seva-breakfast",
+      "type": "breakfast",
+      "title": "Homeless Hot Breakfast Serving Drive",
+      "frequency": "Bi-Weekly",
+      "description": "Preparing and serving hot cooked oatmeal, eggs, fruits, coffee, and juice for 80+ homeless community members at Pioneer Park.",
+      "badge": "Community Meal"
+    },
+    {
+      "id": "seva-ya-green",
+      "type": "ya_green",
+      "title": "YA Environmental & Community Service Drive",
+      "frequency": "Quarterly",
+      "description": "Led by Mesa Young Adults: Parks cleanup, tree planting, and local Mesa food bank volunteering.",
+      "badge": "YA Wing Project"
+    },
+    {
+      "id": "seva-school-drive",
+      "type": "general",
+      "title": "Back-to-School Backpack & Winter Coat Drive",
+      "frequency": "Seasonal",
+      "description": "Collecting backpacks, stationery, and warm jackets for Mesa public school students in need.",
+      "badge": "Seasonal Service"
+    }
+  ],
+  "special_events": [
+    {
+      "id": "event-home-bhajans",
+      "title": "Unofficial Home Bhajans & House Satsangs",
+      "date": "Weekly / Bi-Weekly",
+      "time": "Flexible (Evenings)",
+      "location": "Member Residences (Mesa, Gilbert, Chandler, Tempe)",
+      "category": "Devotional",
+      "description": "Intimate devotional bhajan sessions hosted at center families' residences for housewarmings, birthdays, or special family prayers.",
+      "coordinator": "Brother Sai Kumar & YA Bhajan Team",
+      "is_active": true
+    },
+    {
+      "id": "event-parthi-yatra",
+      "title": "Parthi Yatra 2027 — Zonal Pilgrimage to Puttaparthi",
+      "date": "July 2027",
+      "time": "10-Day Pilgrimage",
+      "location": "Prashanthi Nilayam, Puttaparthi, AP, India",
+      "category": "Pilgrimage",
+      "description": "Zonal pilgrimage trip to Swami's Ashram in Puttaparthi. Includes group choir offerings, veda chanting, and dedicated seva at Prashanthi Nilayam.",
+      "coordinator": "Center Pilgrimage Committee",
+      "is_active": true
+    },
+    {
+      "id": "event-ya-conference",
+      "title": "Young-Adult (YA) Regional Conference 2026",
+      "date": "October 16-18, 2026",
+      "time": "Weekend Conference",
+      "location": "Phoenix Regional Center / Mesa Venue",
+      "category": "YA Wing",
+      "description": "Uplifting weekend conference for Young Adults (ages 18-35) featuring spiritual workshops, musical rehearsals, leadership panels, and team seva.",
+      "coordinator": "Mesa YA Representatives (youngadults.mesa@gmail.com)",
+      "is_active": true
+    }
+  ],
+  "special_event_rsvps": [
+    {
+      "id": "rsvp-1",
+      "event_id": "event-parthi-yatra",
+      "family_name": "Behera Family",
+      "adults": 2,
+      "kids": 2,
+      "contact_phone": "480-555-9876",
+      "notes": "Interested in joining regional choir"
+    }
+  ],
+  "ya_wing": {
+    "title": "Young Adult (YA) Wing (Ages 18-35)",
+    "tagline": "Transforming Self to Transform the World through Service, Music, and Sadhana",
+    "description": "The Mesa Young Adult Wing actively engages young adults in spiritual, devotional, service, and educational activities. YAs lead musical accompaniments, coordinate community sevas, and run technical audio/visual setup for center meetings.",
+    "activities": [
+      {
+        "title": "🎵 Musical Performances & Bhajan Leadership",
+        "description": "YA vocalists and instrumentalists lead Harmonium, Tabla, Dholak, Percussion, and vocal harmonies every Sunday and at special festival celebrations."
+      },
+      {
+        "title": "🤝 Community Seva Projects",
+        "description": "Coordinating FMSC packing shifts, leading homeless hot breakfast prep, environmental park cleanups, and local food drives."
+      },
+      {
+        "title": "💡 YA Study Circles & Retreats",
+        "description": "Bi-weekly youth-led study circles focusing on applying Swami's teachings to university, career, relationships, and modern mental well-being."
+      }
+    ],
+    "upcoming_conference": {
+      "title": "Zonal YA Conference — October 16-18, 2026",
+      "location": "Phoenix Metro Area, AZ",
+      "details": "Three days of inspiration, devotional music workshops, panel discussions with senior devotees, and hands-on service."
+    }
+  },
+  "seva_breakfast": {
+    "title": "Bi-Weekly Homeless Hot Breakfast Seva",
+    "next_date": "2026-09-20",
+    "time": "6:30 AM - 8:30 AM",
+    "location": "Pioneer Park / Mesa Homeless Shelter Area, Mesa, AZ",
+    "coordinator_contact": "Brother Venkatesh (480-555-0192)",
+    "headcount_target": 80,
+    "instructions": "Please arrive by 6:30 AM if helping setup/cook, or 7:00 AM for distribution. All hot cooked items should be delivered in disposable foil trays.",
+    "items": [
+      { "id": "b-item-1", "name": "Hot Oatmeal (1 Large Foil Tray)", "needed": 2, "signed_up": [ { "volunteer": "Sunita Patel", "qty": 1, "phone": "480-555-1111" } ] },
+      { "id": "b-item-2", "name": "Boiled Eggs (Batch of 25)", "needed": 3, "signed_up": [ { "volunteer": "Ravi Kumar", "qty": 2, "phone": "480-555-2222" } ] },
+      { "id": "b-item-3", "name": "Fresh Bananas / Oranges (Box of 30)", "needed": 3, "signed_up": [ { "volunteer": "Anitha S.", "qty": 1, "phone": "480-555-3333" } ] },
+      { "id": "b-item-4", "name": "Hot Coffee / Tea Containers (5 Gal)", "needed": 2, "signed_up": [] },
+      { "id": "b-item-5", "name": "Orange Juice (Gallons)", "needed": 4, "signed_up": [ { "volunteer": "Deepak Shah", "qty": 2, "phone": "480-555-4444" } ] },
+      { "id": "b-item-6", "name": "Disposable Plates, Cups & Napkins", "needed": 1, "signed_up": [ { "volunteer": "Mesa Sai YA Wing", "qty": 1, "phone": "480-555-5555" } ] }
+    ],
+    "distribution_volunteers": [
+      { "name": "Venkat M.", "role": "Food Server", "phone": "480-555-0192" },
+      { "name": "Aarav M. (YA Wing)", "role": "Drinks Station", "phone": "" },
+      { "name": "Priya K.", "role": "Packer & Cleanup", "phone": "" }
+    ]
+  },
+  "seva_fmsc": {
+    "title": "Feed My Starving Children (FMSC) Monthly Seva",
+    "fmsc_url": "https://www.fmsc.org",
+    "fmsc_group_join_url": "https://www.fmsc.org/join-group?code=MESA-SAI-2026",
+    "group_code": "MESA-SAI-2026",
+    "next_date": "2026-09-12",
+    "time": "2:00 PM - 3:45 PM",
+    "location": "FMSC Mesa Site, 1345 S Alma School Rd, Mesa, AZ 85210",
+    "coordinator_name": "Center Seva Coordinator",
+    "coordinator_contact": "mesa.sai.seva@gmail.com",
+    "reserved_slots": 25,
+    "guidelines": [
+      "Minimum age is 5 years old. Kids 5-17 must be accompanied by an adult.",
+      "Adult-to-child ratio requirements: 5-9 yrs (1 adult per 3 kids), 10-17 yrs (1 adult per 4 kids).",
+      "No jewelry allowed in packing room (wedding bands permitted). Closed-toe shoes required.",
+      "Arrive 15 minutes prior (1:45 PM) for orientation and hairnet distribution."
+    ],
+    "registrations": [
+      {
+        "id": "fmsc-1",
+        "family_name": "Behera Family",
+        "contact_phone": "480-555-9876",
+        "adults_count": 2,
+        "kids_count": 2,
+        "kids_ages": "8, 11",
+        "notes": "Will join directly at site by 1:45 PM",
+        "fmsc_site_registered": true
+      },
+      {
+        "id": "fmsc-2",
+        "family_name": "Sharma Family",
+        "contact_phone": "480-555-1234",
+        "adults_count": 1,
+        "kids_count": 1,
+        "kids_ages": "14",
+        "notes": "First time volunteering at FMSC",
+        "fmsc_site_registered": true
+      },
+      {
+        "id": "fmsc-3",
+        "family_name": "Rao Family",
+        "contact_phone": "480-555-4321",
+        "adults_count": 2,
+        "kids_count": 0,
+        "kids_ages": "",
+        "notes": "",
+        "fmsc_site_registered": false
+      }
+    ]
+  }
+}
