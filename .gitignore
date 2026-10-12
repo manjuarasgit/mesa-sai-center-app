@@ -41,3 +41,6 @@ wheels/
 .DS_Store
 Thumbs.db
 
+
+gmail_cleanup/tokens/
+gmail_cleanup/tokens/*
