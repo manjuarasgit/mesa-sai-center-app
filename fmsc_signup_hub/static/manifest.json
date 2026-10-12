@@ -1,0 +1,21 @@
+{
+  "name": "Sai Seva - FMSC Portal",
+  "short_name": "Sai FMSC",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#f59e0b",
+  "description": "Feed My Starving Children (FMSC) Group Sign-Up Portal for Saibaba Group Phoenix SSSGC",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2913/2913465.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2913/2913465.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

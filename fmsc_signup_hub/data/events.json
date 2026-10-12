@@ -1,0 +1,156 @@
+{
+  "group_info": {
+    "group_name": "Saibaba Group Phoenix SSSGC",
+    "organization": "Sri Sathya Sai Global Council (SSSGC) - Phoenix, AZ",
+    "leader_name": "Manjunatha Arasaiah",
+    "leader_email": "manjuaras108@gmail.com",
+    "leader_phone": "",
+    "default_location_name": "FMSC Tempe Site",
+    "default_address": "1100 West Grove Parkway, Tempe, AZ 85283",
+    "site_contact": "Trish Blackwell - Tempe Site Manager (480-626-1970 | TempeInfo@fmsc.org)",
+    "google_maps_url": "https://maps.google.com/?q=1100+West+Grove+Parkway,+Tempe,+AZ+85283",
+    "portal_public_url": "https://phoenix-sai-fmsc.vercel.app"
+  },
+  "guidelines": [
+    {
+      "icon": "👟",
+      "title": "Closed-Toe Shoes Required",
+      "desc": "Everyone must wear closed-toe shoes (sneakers). No sandals, Crocs with holes, or flip-flops allowed in packing areas."
+    },
+    {
+      "icon": "💍",
+      "title": "Strictly NO Jewelry",
+      "desc": "FDA food packaging regulations require NO jewelry: earrings, rings, watches, bracelets, or fitness trackers. Plain wedding bands without stones are permitted."
+    },
+    {
+      "icon": "👶",
+      "title": "Ages 5+ Welcome",
+      "desc": "Children must be at least 5 years old. Supervision ratios: Ages 5-9 (1 adult per 3 kids); Ages 10-17 (1 adult per 4 kids)."
+    },
+    {
+      "icon": "⏰",
+      "title": "Arrive 15 Mins Early",
+      "desc": "Please arrive at 2:15 PM for check-in, handwashing, hairnet distribution, and orientation."
+    }
+  ],
+  "sessions": [
+    {
+      "id": "session-2026-11-07",
+      "date": "2026-11-07",
+      "date_formatted": "Saturday, November 07, 2026",
+      "time": "2:30 PM - 4:00 PM",
+      "arrival_time": "2:15 PM",
+      "location_name": "FMSC Tempe Site",
+      "address": "1100 West Grove Parkway, Tempe, AZ 85283",
+      "total_spots": 36,
+      "join_code": "1NXP4D",
+      "join_url": "http://www.fmsc.org/join-group?joincode=1NXP4D",
+      "is_active": true,
+      "volunteers": [
+        {
+          "id": "vol-1",
+          "name": "Manjunatha Arasaiah",
+          "email": "manjuaras108@gmail.com",
+          "phone": "",
+          "type": "Adult",
+          "adults_count": 1,
+          "kids_count": 0,
+          "kids_ages": "",
+          "registered_on_fmsc": true,
+          "carpool": "Driving"
+        },
+        {
+          "id": "vol-2",
+          "name": "Manisha Patel",
+          "email": "manoosh.1968@gmail.com",
+          "phone": "",
+          "type": "Adult",
+          "adults_count": 1,
+          "kids_count": 0,
+          "kids_ages": "",
+          "registered_on_fmsc": true,
+          "carpool": "Driving"
+        },
+        {
+          "id": "vol-3",
+          "name": "Rithikaa Madhavan",
+          "email": "ritzlitefeather@gmail.com",
+          "phone": "",
+          "type": "Adult",
+          "adults_count": 1,
+          "kids_count": 0,
+          "kids_ages": "",
+          "registered_on_fmsc": true,
+          "carpool": "Driving"
+        },
+        {
+          "id": "vol-4",
+          "name": "Sumitra Madhavan",
+          "email": "ritzlitefeather@gmail.com",
+          "phone": "",
+          "type": "Adult",
+          "adults_count": 1,
+          "kids_count": 0,
+          "kids_ages": "",
+          "registered_on_fmsc": true,
+          "carpool": "Driving"
+        },
+        {
+          "id": "vol-c2ca3641",
+          "name": "Baba patro",
+          "email": "manju.arasaiah@gmail.com",
+          "phone": "",
+          "type": "Adult",
+          "adults_count": 1,
+          "kids_count": 0,
+          "kids_ages": "",
+          "registered_on_fmsc": true,
+          "carpool": "Driving Independently",
+          "notes": "",
+          "created_at": "2026-10-12T10:52:40.208438"
+        }
+      ]
+    },
+    {
+      "id": "session-2026-12-05",
+      "date": "2026-12-05",
+      "date_formatted": "Saturday, December 05, 2026",
+      "time": "2:30 PM - 4:00 PM",
+      "arrival_time": "2:15 PM",
+      "location_name": "FMSC Tempe Site",
+      "address": "1100 West Grove Parkway, Tempe, AZ 85283",
+      "total_spots": 36,
+      "join_code": "DEC-PENDING",
+      "join_url": "http://www.fmsc.org/join-group?joincode=DEC-PENDING",
+      "is_active": true,
+      "volunteers": [
+        {
+          "id": "vol-5",
+          "name": "Manjunatha Arasaiah",
+          "email": "manjuaras108@gmail.com",
+          "phone": "",
+          "type": "Adult",
+          "adults_count": 1,
+          "kids_count": 0,
+          "kids_ages": "",
+          "registered_on_fmsc": true,
+          "carpool": "Driving"
+        }
+      ]
+    },
+    {
+      "id": "session-2027-01-09",
+      "date": "2027-01-09",
+      "date_formatted": "Saturday, January 09, 2027",
+      "time": "2:30 PM - 4:00 PM",
+      "arrival_time": "2:15 PM",
+      "location_name": "FMSC Tempe Site",
+      "address": "1100 West Grove Parkway, Tempe, AZ 85283",
+      "total_spots": 36,
+      "join_code": "",
+      "join_url": "",
+      "is_active": true,
+      "volunteers": []
+    }
+  ]
+}

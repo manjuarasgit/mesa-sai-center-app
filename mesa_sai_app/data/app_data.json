@@ -324,52 +324,74 @@
     ]
   },
   "seva_fmsc": {
-    "title": "Feed My Starving Children (FMSC) Monthly Seva",
+    "title": "Feed My Starving Children (FMSC) Monthly Seva - Saibaba Group Phoenix SSSGC",
     "fmsc_url": "https://www.fmsc.org",
-    "fmsc_group_join_url": "https://www.fmsc.org/join-group?code=MESA-SAI-2026",
-    "group_code": "MESA-SAI-2026",
-    "next_date": "2026-09-12",
-    "time": "2:00 PM - 3:45 PM",
-    "location": "FMSC Mesa Site, 1345 S Alma School Rd, Mesa, AZ 85210",
-    "coordinator_name": "Center Seva Coordinator",
-    "coordinator_contact": "mesa.sai.seva@gmail.com",
-    "reserved_slots": 25,
+    "fmsc_group_join_url": "http://www.fmsc.org/join-group?joincode=1NXP4D",
+    "group_code": "1NXP4D",
+    "next_date": "2026-11-07",
+    "time": "2:30 PM - 4:00 PM",
+    "location": "FMSC Tempe Site, 1100 West Grove Parkway, Tempe, AZ 85283",
+    "coordinator_name": "Manjunatha Arasaiah",
+    "coordinator_contact": "manjuaras108@gmail.com",
+    "reserved_slots": 36,
     "guidelines": [
       "Minimum age is 5 years old. Kids 5-17 must be accompanied by an adult.",
       "Adult-to-child ratio requirements: 5-9 yrs (1 adult per 3 kids), 10-17 yrs (1 adult per 4 kids).",
       "No jewelry allowed in packing room (wedding bands permitted). Closed-toe shoes required.",
-      "Arrive 15 minutes prior (1:45 PM) for orientation and hairnet distribution."
+      "Arrive 15 minutes prior (2:15 PM) for orientation and hairnet distribution."
+    ],
+    "upcoming_sessions": [
+      {
+        "date": "2026-11-07",
+        "date_formatted": "Saturday, November 07, 2026",
+        "time": "2:30 PM - 4:00 PM",
+        "location": "Tempe, AZ",
+        "join_code": "1NXP4D",
+        "join_url": "http://www.fmsc.org/join-group?joincode=1NXP4D",
+        "spots_filled": 4,
+        "total_spots": 36
+      },
+      {
+        "date": "2026-12-05",
+        "date_formatted": "Saturday, December 05, 2026",
+        "time": "2:30 PM - 4:00 PM",
+        "location": "Tempe, AZ",
+        "join_code": "",
+        "join_url": "",
+        "spots_filled": 1,
+        "total_spots": 36
+      }
     ],
     "registrations": [
       {
         "id": "fmsc-1",
-        "family_name": "Behera Family",
-        "contact_phone": "480-555-9876",
-        "adults_count": 2,
-        "kids_count": 2,
-        "kids_ages": "8, 11",
-        "notes": "Will join directly at site by 1:45 PM",
+        "family_name": "Manjunatha Arasaiah",
+        "contact_phone": "",
+        "adults_count": 1,
+        "kids_count": 0,
+        "kids_ages": "",
+        "notes": "Group Leader",
         "fmsc_site_registered": true
       },
       {
         "id": "fmsc-2",
-        "family_name": "Sharma Family",
-        "contact_phone": "480-555-1234",
+        "family_name": "Manisha Patel",
+        "contact_phone": "",
         "adults_count": 1,
-        "kids_count": 1,
-        "kids_ages": "14",
-        "notes": "First time volunteering at FMSC",
+        "kids_count": 0,
+        "kids_ages": "",
+        "notes": "Confirmed on FMSC",
         "fmsc_site_registered": true
       },
       {
         "id": "fmsc-3",
-        "family_name": "Rao Family",
-        "contact_phone": "480-555-4321",
+        "family_name": "Rithikaa & Sumitra Madhavan",
+        "contact_phone": "",
         "adults_count": 2,
         "kids_count": 0,
         "kids_ages": "",
-        "notes": "",
-        "fmsc_site_registered": false
+        "notes": "Confirmed on FMSC",
+        "fmsc_site_registered": true
       }
     ]
   }

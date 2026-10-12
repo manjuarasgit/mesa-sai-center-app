@@ -1,0 +1,1269 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sai Seva | FMSC Volunteer Portal - Phoenix SSSGC</title>
+  
+  <!-- PWA & Mobile Meta -->
+  <meta name="theme-color" content="#0f172a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Sai FMSC Seva">
+  <link rel="manifest" href="static/manifest.json">
+  
+  <!-- Tailwind CSS & FontAwesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            sai: {
+              gold: '#F59E0B',
+              darkgold: '#D97706',
+              blue: '#0284C7',
+              navy: '#0F172A',
+              card: '#1E293B',
+              accent: '#38BDF8'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Alpine.js -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
+
+  <style>
+    [x-cloak] { display: none !important; }
+    .glass {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-gold {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(217, 119, 6, 0.05));
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #475569;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col font-sans selection:bg-amber-500 selection:text-slate-900" x-data="fmscApp()" x-init="initApp()" x-cloak>
+
+  <!-- Sticky Top Header -->
+  <header class="sticky top-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 shadow-lg">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-400 flex items-center justify-center shadow-md shadow-amber-500/20 text-slate-950 font-bold text-xl">
+          <i class="fa-solid fa-hands-holding-heart text-white"></i>
+        </div>
+        <div>
+          <h1 class="text-base sm:text-lg font-bold tracking-tight text-white flex items-center gap-2">
+            Sai Seva <span class="text-amber-400">•</span> FMSC Portal
+          </h1>
+          <p class="text-xs text-slate-400 font-medium truncate max-w-[240px] sm:max-w-none" x-text="data.group_info.group_name || 'Saibaba Group Phoenix SSSGC'"></p>
+        </div>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="flex items-center bg-slate-800/80 p-1 rounded-xl border border-slate-700 text-xs font-semibold">
+        <button @click="currentTab = 'volunteer'" :class="currentTab === 'volunteer' ? 'bg-amber-500 text-slate-950 shadow-sm' : 'text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
+          <i class="fa-solid fa-calendar-check"></i>
+          <span>Sign Up</span>
+        </button>
+        <button @click="currentTab = 'admin'" :class="currentTab === 'admin' ? 'bg-amber-500 text-slate-950 shadow-sm' : 'text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg transition-all flex items-center gap-1.5">
+          <i class="fa-brands fa-whatsapp text-sm"></i>
+          <span class="hidden sm:inline">Organizer & WhatsApp</span>
+          <span class="sm:hidden">Admin</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Notification Toast -->
+  <div x-show="toast.show" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 translate-y-2" class="fixed bottom-5 right-5 z-50 flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border text-sm font-medium" :class="toast.type === 'error' ? 'bg-rose-950 border-rose-700 text-rose-200' : 'bg-emerald-950 border-emerald-700 text-emerald-200'">
+    <i :class="toast.type === 'error' ? 'fa-solid fa-triangle-exclamation text-rose-400' : 'fa-solid fa-circle-check text-emerald-400'"></i>
+    <span x-text="toast.message"></span>
+    <button @click="toast.show = false" class="ml-2 opacity-70 hover:opacity-100">&times;</button>
+  </div>
+
+  <!-- Main Content Container -->
+  <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+
+    <!-- ========================================== -->
+    <!-- TAB 1: VOLUNTEER VIEW (Members & Families) -->
+    <!-- ========================================== -->
+    <div x-show="currentTab === 'volunteer'" class="space-y-6">
+
+      <!-- Hero Welcome Banner -->
+      <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-sky-950 via-slate-900 to-amber-950/40 p-5 sm:p-6 border border-slate-800 shadow-xl">
+        <div class="absolute -right-8 -top-8 w-44 h-44 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+          <div>
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-300 text-xs font-semibold mb-2">
+              <i class="fa-solid fa-heart text-[10px]"></i>
+              <span>Monthly Feed My Starving Children (FMSC) Seva</span>
+            </div>
+            <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">Pack Food for Starving Children</h2>
+            <p class="text-slate-300 text-xs sm:text-sm mt-1 max-w-xl leading-relaxed">
+              Join our Phoenix Sai Center family in packaging nutritious MannaPack meals for malnourished children around the world. Kids (ages 5+) and adults are welcome!
+            </p>
+          </div>
+          <div class="flex flex-row sm:flex-col items-start sm:items-end gap-2 bg-slate-900/60 p-3 rounded-xl border border-slate-800 shrink-0">
+            <span class="text-xs text-slate-400 font-medium">Site Location:</span>
+            <a :href="data.group_info.google_maps_url" target="_blank" class="text-xs sm:text-sm font-semibold text-amber-400 hover:text-amber-300 flex items-center gap-1.5">
+              <i class="fa-solid fa-location-dot"></i>
+              <span>FMSC Tempe Site &rarr;</span>
+            </a>
+            <span class="text-[11px] text-slate-400">1100 W Grove Pkwy, Tempe, AZ</span>
+          </div>
+        </div>
+
+        <!-- Quick Tips Bar -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mt-4 pt-4 border-t border-slate-800/80 text-xs text-slate-300">
+          <div class="flex items-center gap-2">
+            <span class="text-base">👟</span>
+            <span>Closed-toe shoes</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-base">💍</span>
+            <span>No jewelry in packing</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-base">👶</span>
+            <span>Kids 5+ with adults</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-base">⏰</span>
+            <span>Arrive 15m early (2:15 PM)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Month Filter Pills -->
+      <div class="flex items-center justify-between flex-wrap gap-2 pt-2">
+        <h3 class="text-sm font-bold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+          <i class="fa-solid fa-calendar-days text-amber-400"></i>
+          <span>Upcoming Service Dates</span>
+        </h3>
+        <div class="flex items-center gap-1.5 overflow-x-auto custom-scroll pb-1">
+          <button @click="selectedFilter = 'all'" :class="selectedFilter === 'all' ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'" class="px-3 py-1 rounded-lg text-xs transition">
+            All Months (<span x-text="data.sessions.length"></span>)
+          </button>
+          <template x-for="session in data.sessions" :key="session.id">
+            <button @click="selectedFilter = session.id" :class="selectedFilter === session.id ? 'bg-amber-500 text-slate-950 font-bold' : 'bg-slate-800 text-slate-300 hover:bg-slate-700'" class="px-3 py-1 rounded-lg text-xs whitespace-nowrap transition flex items-center gap-1.5">
+              <span x-text="formatShortMonth(session.date)"></span>
+              <span class="text-[10px] px-1.5 py-0.2 rounded-full" :class="getSpotsLeft(session) > 5 ? 'bg-emerald-900/60 text-emerald-300' : 'bg-amber-900/60 text-amber-300'" x-text="getSpotsLeft(session) + ' left'"></span>
+            </button>
+          </template>
+        </div>
+      </div>
+
+      <!-- Sessions Cards List -->
+      <div class="space-y-4">
+        <template x-for="(session, index) in filteredSessions" :key="session.id">
+          <div class="glass rounded-2xl p-5 sm:p-6 border transition-all duration-200 hover:border-slate-700 relative overflow-hidden" :class="index === 0 ? 'border-amber-500/40 shadow-xl' : 'border-slate-800'">
+            
+            <!-- Highlight Ribbon for Next Immediate Event -->
+            <div x-show="index === 0 && selectedFilter === 'all'" class="absolute top-0 right-0 bg-gradient-to-l from-amber-500 to-orange-500 text-slate-950 text-[10px] font-black uppercase tracking-wider px-3 py-0.5 rounded-bl-xl shadow-sm">
+              Next Session 🌟
+            </div>
+
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-5">
+              
+              <!-- Left: Date, Time & Location Details -->
+              <div class="space-y-2.5">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center gap-1.5">
+                    <i class="fa-regular fa-calendar"></i>
+                    <span x-text="session.date_formatted"></span>
+                  </span>
+                  <span class="px-2.5 py-1 rounded-md text-xs font-semibold bg-slate-800 text-slate-300 border border-slate-700 flex items-center gap-1.5">
+                    <i class="fa-regular fa-clock text-amber-400"></i>
+                    <span x-text="session.time"></span>
+                  </span>
+                  <span class="text-xs text-amber-300 font-medium bg-amber-950/60 px-2 py-0.5 rounded border border-amber-900">
+                    Arrive: <strong x-text="session.arrival_time || '2:15 PM'"></strong>
+                  </span>
+                </div>
+
+                <div class="flex items-start gap-2 text-xs text-slate-300">
+                  <i class="fa-solid fa-location-dot text-rose-400 mt-0.5"></i>
+                  <div>
+                    <span class="font-semibold text-white" x-text="session.location_name"></span> &mdash;
+                    <span class="text-slate-400" x-text="session.address"></span>
+                    <a :href="'https://maps.google.com/?q=' + encodeURIComponent(session.address)" target="_blank" class="ml-1.5 text-amber-400 hover:underline font-medium inline-flex items-center gap-1">
+                      <span>Map</span> <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Capacity Progress Bar -->
+                <div class="pt-1 max-w-md">
+                  <div class="flex justify-between text-xs mb-1">
+                    <span class="font-medium text-slate-300">
+                      <strong class="text-white" x-text="getFilledCount(session)"></strong> of <strong class="text-white" x-text="session.total_spots"></strong> spots filled
+                    </span>
+                    <span :class="getSpotsLeft(session) > 5 ? 'text-emerald-400' : 'text-amber-400'" class="font-bold">
+                      <span x-text="getSpotsLeft(session)"></span> spots remaining
+                    </span>
+                  </div>
+                  <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden border border-slate-700/60">
+                    <div class="h-full rounded-full transition-all duration-500 bg-gradient-to-r from-amber-500 to-emerald-500" :style="`width: ${Math.min(100, Math.round((getFilledCount(session) / session.total_spots) * 100))}%`"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Sign-up Actions -->
+              <div class="flex flex-col sm:flex-row md:flex-col gap-2.5 shrink-0 justify-center">
+                
+                <!-- Primary Action: Direct Join on FMSC.org -->
+                <template x-if="session.join_url">
+                  <a :href="session.join_url" target="_blank" class="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 transition transform active:scale-95 text-center">
+                    <span>Reserve on FMSC.org</span>
+                    <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                  </a>
+                </template>
+
+                <!-- Join Code Pill with Copy -->
+                <template x-if="session.join_code">
+                  <div class="flex items-center justify-between bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-300">
+                    <span class="text-[11px] text-slate-400">Join Code:</span>
+                    <span class="font-mono font-bold text-amber-400" x-text="session.join_code"></span>
+                    <button @click="copyText(session.join_code, 'Join Code copied!')" class="ml-2 text-slate-400 hover:text-white transition p-1" title="Copy Join Code">
+                      <i class="fa-regular fa-copy"></i>
+                    </button>
+                  </div>
+                </template>
+
+                <!-- Secondary Action: Quick Center RSVP Form Toggle -->
+                <button @click="openRsvpModal(session)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-bold flex items-center justify-center gap-2 transition">
+                  <i class="fa-solid fa-user-plus text-amber-400"></i>
+                  <span>Quick Center Sign-Up</span>
+                </button>
+
+                <!-- Calendar & Share Tools -->
+                <div class="flex items-center justify-center gap-2 pt-1">
+                  <button @click="addToGoogleCalendar(session)" class="text-[11px] text-slate-400 hover:text-amber-400 transition flex items-center gap-1 p-1">
+                    <i class="fa-regular fa-calendar-plus"></i> Google Cal
+                  </button>
+                  <span class="text-slate-600">•</span>
+                  <button @click="downloadIcs(session)" class="text-[11px] text-slate-400 hover:text-amber-400 transition flex items-center gap-1 p-1">
+                    <i class="fa-solid fa-download"></i> Apple / iCal
+                  </button>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Confirmed Volunteers Pill Preview / Accordion -->
+            <div class="mt-4 pt-3 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-xs">
+              <div class="flex items-center gap-2 text-slate-400">
+                <i class="fa-solid fa-users text-slate-500"></i>
+                <span>Registered Volunteers:</span>
+                <span class="font-semibold text-slate-200" x-text="session.volunteers.length + ' families / devotees'"></span>
+              </div>
+              <button @click="toggleRoster(session.id)" class="text-amber-400 hover:text-amber-300 text-xs font-semibold flex items-center gap-1">
+                <span x-text="expandedRoster === session.id ? 'Hide Roster' : 'View Registered Names'"></span>
+                <i class="fa-solid text-[10px]" :class="expandedRoster === session.id ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+              </button>
+            </div>
+
+            <!-- Expanded Roster View -->
+            <div x-show="expandedRoster === session.id" class="mt-3 bg-slate-900/80 rounded-xl p-3 border border-slate-800 space-y-2">
+              <template x-if="session.volunteers.length === 0">
+                <p class="text-xs text-slate-400 italic py-1">No sign-ups yet for this session. Be the first to join!</p>
+              </template>
+              <template x-if="session.volunteers.length > 0">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <template x-for="(vol, vIdx) in session.volunteers" :key="vol.id || vIdx">
+                    <div class="flex items-center justify-between bg-slate-850 p-2 rounded-lg border border-slate-800 text-xs">
+                      <div class="flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center font-bold text-slate-300 text-[10px]" x-text="vIdx + 1"></span>
+                        <div>
+                          <p class="font-semibold text-white" x-text="vol.name"></p>
+                          <p class="text-[10px] text-slate-400">
+                            <span x-text="vol.adults_count || 1"></span> Adult<span x-show="(vol.adults_count || 1) > 1">s</span>
+                            <span x-show="vol.kids_count > 0"> • <span x-text="vol.kids_count"></span> Kid<span x-show="vol.kids_count > 1">s</span></span>
+                            <span x-show="vol.carpool"> • <span class="text-amber-400/90" x-text="vol.carpool"></span></span>
+                          </p>
+                        </div>
+                      </div>
+                      <span x-show="vol.registered_on_fmsc" class="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 font-medium">
+                        FMSC Confirmed
+                      </span>
+                    </div>
+                  </template>
+                </div>
+              </template>
+            </div>
+
+          </div>
+        </template>
+      </div>
+
+      <!-- Guidelines Detailed Card -->
+      <div class="glass rounded-2xl p-6 border border-slate-800 space-y-4">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-circle-info text-amber-400"></i>
+          <span>Important FMSC Packing Guidelines</span>
+        </h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <template x-for="guide in data.guidelines" :key="guide.title">
+            <div class="flex items-start gap-3 bg-slate-900/60 p-3.5 rounded-xl border border-slate-800">
+              <span class="text-2xl shrink-0" x-text="guide.icon"></span>
+              <div>
+                <h4 class="text-xs font-bold text-white" x-text="guide.title"></h4>
+                <p class="text-[11px] text-slate-400 mt-0.5 leading-relaxed" x-text="guide.desc"></p>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ============================================================== -->
+    <!-- TAB 2: ORGANIZER ADMIN & WHATSAPP GENERATOR (For Manjunatha) -->
+    <!-- ============================================================== -->
+    <div x-show="currentTab === 'admin'" class="space-y-6">
+
+      <!-- Admin Top Card -->
+      <div class="glass-gold rounded-2xl p-5 border border-amber-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="px-2 py-0.5 rounded bg-amber-500 text-slate-950 text-xs font-black uppercase">Organizer Center</span>
+            <span class="text-xs text-amber-300 font-medium">Saibaba Group Phoenix SSSGC</span>
+          </div>
+          <h2 class="text-lg font-bold text-white mt-1">FMSC Seva Coordinator Tools</h2>
+          <p class="text-xs text-slate-300">
+            Generate 1-click WhatsApp invites, create new monthly sessions, and export attendee rosters for the FMSC website.
+          </p>
+        </div>
+        <button @click="openAddSessionModal()" class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs flex items-center gap-2 shadow-md shadow-amber-500/20 transition shrink-0">
+          <i class="fa-solid fa-plus"></i>
+          <span>Add New Month Booking</span>
+        </button>
+      </div>
+
+      <!-- WhatsApp Invite Generator Tool -->
+      <div class="glass rounded-2xl p-5 sm:p-6 border border-slate-800 space-y-4">
+        <div class="flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h3 class="text-base font-bold text-white flex items-center gap-2">
+              <i class="fa-brands fa-whatsapp text-emerald-400 text-lg"></i>
+              <span>Instant WhatsApp Message Generator</span>
+            </h3>
+            <p class="text-xs text-slate-400">Generate formatted invites with date, time, location, and direct join link ready for your WhatsApp groups.</p>
+          </div>
+        </div>
+
+        <!-- Controls: Select Session & Template -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Select Seva Session:</label>
+            <select x-model="waSessionId" @change="updateWhatsAppMessage()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+              <option value="all">🌟 All Upcoming Months (Schedule Overview)</option>
+              <template x-for="s in data.sessions" :key="s.id">
+                <option :value="s.id" x-text="s.date_formatted + ' (' + s.time + ')'"></option>
+              </template>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Select Message Style:</label>
+            <select x-model="waTemplateType" @change="updateWhatsAppMessage()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+              <option value="invite">📣 Standard Monthly Seva Invite</option>
+              <option value="urgent">⏳ Last Chance! Spots Filling Fast</option>
+              <option value="reminder">👟 Final Week Reminder (Shoes & Guidelines)</option>
+              <option value="multi">📅 Multi-Month Schedule Announcement</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Live Message Preview Box -->
+        <div class="relative mt-2">
+          <label class="block text-xs font-semibold text-slate-400 mb-1">Formatted WhatsApp Text:</label>
+          <textarea x-model="generatedWhatsAppText" rows="9" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-xs text-slate-200 font-mono leading-relaxed focus:outline-none focus:border-emerald-500 custom-scroll"></textarea>
+          <div class="flex flex-wrap items-center justify-end gap-2 mt-3">
+            <button @click="copyText(generatedWhatsAppText, 'WhatsApp invite copied to clipboard!')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs flex items-center gap-2 transition">
+              <i class="fa-regular fa-copy"></i>
+              <span>Copy Message</span>
+            </button>
+            <button @click="sendToWhatsApp()" class="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-2 shadow-lg shadow-emerald-600/30 transition">
+              <i class="fa-brands fa-whatsapp text-sm"></i>
+              <span>Open in WhatsApp & Send</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Email Template Generator Tool -->
+      <div class="glass rounded-2xl p-5 sm:p-6 border border-slate-800 space-y-4">
+        <div>
+          <h3 class="text-base font-bold text-white flex items-center gap-2">
+            <i class="fa-regular fa-envelope text-sky-400"></i>
+            <span>Email Announcement Generator</span>
+          </h3>
+          <p class="text-xs text-slate-400">Ready-to-send email notification for your center mailing list or newsletter.</p>
+        </div>
+
+        <div class="space-y-2">
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-400">Subject Line:</label>
+            <input type="text" x-model="generatedEmailSubject" class="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-xs text-white focus:outline-none focus:border-sky-400">
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-400">Email Body:</label>
+            <textarea x-model="generatedEmailBody" rows="7" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 font-sans custom-scroll focus:outline-none focus:border-sky-400"></textarea>
+          </div>
+          <div class="flex justify-end gap-2 pt-1">
+            <button @click="copyText(generatedEmailBody, 'Email body copied!')" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold flex items-center gap-1.5 border border-slate-700">
+              <i class="fa-regular fa-copy"></i> Copy Body
+            </button>
+            <button @click="openEmailClient()" class="px-4 py-1.5 rounded-lg bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-sky-600/20">
+              <i class="fa-solid fa-paper-plane"></i> Launch Email App
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Manage Sessions & Attendee Rosters -->
+      <div class="glass rounded-2xl p-5 sm:p-6 border border-slate-800 space-y-4">
+        <div class="flex items-center justify-between">
+          <h3 class="text-base font-bold text-white flex items-center gap-2">
+            <i class="fa-solid fa-list-check text-amber-400"></i>
+            <span>Manage Sessions & Volunteer Rosters</span>
+          </h3>
+          <span class="text-xs text-slate-400" x-text="data.sessions.length + ' scheduled'"></span>
+        </div>
+
+        <div class="space-y-3">
+          <template x-for="session in data.sessions" :key="session.id">
+            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h4 class="font-bold text-white text-sm" x-text="session.date_formatted"></h4>
+                  <p class="text-xs text-slate-400">
+                    <span x-text="session.time"></span> • <span x-text="session.location_name"></span> • Code: <strong class="text-amber-400 font-mono" x-text="session.join_code || 'None'"></strong>
+                  </p>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button @click="copyFmscRoster(session)" class="px-3 py-1.5 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-semibold hover:bg-amber-500/30 flex items-center gap-1.5" title="Copy names to paste into FMSC site">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span>Copy for FMSC Site</span>
+                  </button>
+                  <button @click="exportCsv(session)" class="px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 border border-slate-700 text-xs font-semibold hover:bg-slate-700 flex items-center gap-1.5" title="Export CSV for spreadsheet">
+                    <i class="fa-solid fa-file-csv"></i>
+                    <span>CSV</span>
+                  </button>
+                  <button @click="editSession(session)" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs">
+                    <i class="fa-solid fa-pen"></i>
+                  </button>
+                  <button @click="confirmDeleteSession(session)" class="px-2.5 py-1.5 rounded-lg bg-rose-950/60 hover:bg-rose-900 text-rose-300 text-xs">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Volunteer Headcount Summary -->
+              <div class="bg-slate-950/70 p-3 rounded-lg border border-slate-850 flex flex-wrap items-center justify-between gap-2 text-xs">
+                <span class="text-slate-300">
+                  Volunteers Signed Up: <strong class="text-amber-400" x-text="getFilledCount(session)"></strong> / <span x-text="session.total_spots"></span>
+                </span>
+                <span class="text-slate-400">
+                  Adults: <strong class="text-white" x-text="getAdultsCount(session)"></strong> | Kids: <strong class="text-white" x-text="getKidsCount(session)"></strong>
+                </span>
+              </div>
+
+              <!-- Volunteer Table -->
+              <template x-if="session.volunteers.length > 0">
+                <div class="overflow-x-auto custom-scroll">
+                  <table class="w-full text-left text-xs text-slate-300">
+                    <thead class="bg-slate-950/80 text-[11px] uppercase text-slate-400">
+                      <tr>
+                        <th class="p-2">#</th>
+                        <th class="p-2">Name</th>
+                        <th class="p-2">Email</th>
+                        <th class="p-2">Adults</th>
+                        <th class="p-2">Kids</th>
+                        <th class="p-2">FMSC Registered</th>
+                        <th class="p-2 text-right">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-850">
+                      <template x-for="(v, vIdx) in session.volunteers" :key="v.id">
+                        <tr class="hover:bg-slate-850/50">
+                          <td class="p-2 font-mono text-slate-500" x-text="vIdx + 1"></td>
+                          <td class="p-2 font-semibold text-white" x-text="v.name"></td>
+                          <td class="p-2 text-slate-400" x-text="v.email || '—'"></td>
+                          <td class="p-2" x-text="v.adults_count || 1"></td>
+                          <td class="p-2" x-text="v.kids_count || 0"></td>
+                          <td class="p-2">
+                            <span :class="v.registered_on_fmsc ? 'text-emerald-400' : 'text-slate-500'" x-text="v.registered_on_fmsc ? 'Yes' : 'No'"></span>
+                          </td>
+                          <td class="p-2 text-right">
+                            <button @click="deleteVolunteer(session.id, v.id)" class="text-rose-400 hover:text-rose-300 text-xs p-1">
+                              <i class="fa-regular fa-trash-can"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </template>
+                    </tbody>
+                  </table>
+                </div>
+              </template>
+            </div>
+          </template>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ============================================== -->
+  <!-- MODAL: QUICK RSVP (Volunteer Center Sign-up)  -->
+  <!-- ============================================== -->
+  <div x-show="showRsvpModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm" x-transition>
+    <div @click.away="showRsvpModal = false" class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative space-y-4">
+      <button @click="showRsvpModal = false" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">&times;</button>
+      
+      <div>
+        <span class="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[11px] font-bold uppercase tracking-wider">Quick Sign-Up</span>
+        <h3 class="text-lg font-bold text-white mt-1">Register with Center Group</h3>
+        <p class="text-xs text-slate-400" x-text="activeSession ? activeSession.date_formatted + ' (' + activeSession.time + ')' : ''"></p>
+      </div>
+
+      <form @submit.prevent="submitRsvp()" class="space-y-3">
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Your Name / Family Name *</label>
+          <input type="text" x-model="rsvpForm.name" required placeholder="e.g. Ramesh Sharma" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+            <input type="email" x-model="rsvpForm.email" placeholder="e.g. name@example.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp / Phone</label>
+            <input type="tel" x-model="rsvpForm.phone" placeholder="e.g. 480-555-0192" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Adults Count *</label>
+            <input type="number" min="1" max="10" x-model.number="rsvpForm.adults_count" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Kids Count (5+ yrs)</label>
+            <input type="number" min="0" max="10" x-model.number="rsvpForm.kids_count" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <div x-show="rsvpForm.kids_count > 0">
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Kids Ages (For adult ratio check)</label>
+          <input type="text" x-model="rsvpForm.kids_ages" placeholder="e.g. 7, 11" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Transportation / Carpool</label>
+          <select x-model="rsvpForm.carpool" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+            <option value="Driving Independently">🚗 Driving independently</option>
+            <option value="Can Offer Ride">🚙 Driving & can offer ride to others</option>
+            <option value="Need a Ride">🙏 Requesting a carpool ride</option>
+          </select>
+        </div>
+
+        <div class="pt-2 flex items-center gap-2">
+          <input type="checkbox" id="fmsc_check" x-model="rsvpForm.registered_on_fmsc" class="rounded bg-slate-950 border-slate-700 text-amber-500 focus:ring-0">
+          <label for="fmsc_check" class="text-xs text-slate-300 cursor-pointer">I also reserved / will reserve directly on FMSC.org</label>
+        </div>
+
+        <div class="pt-3 flex justify-end gap-2">
+          <button type="button" @click="showRsvpModal = false" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-bold">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold shadow-lg shadow-amber-500/20">Confirm Registration</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: ADD / EDIT SESSION (Organizer Admin)   -->
+  <!-- ============================================== -->
+  <div x-show="showSessionModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm" x-transition>
+    <div @click.away="showSessionModal = false" class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative space-y-4">
+      <button @click="showSessionModal = false" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">&times;</button>
+      
+      <div>
+        <span class="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[11px] font-bold uppercase tracking-wider">Session Manager</span>
+        <h3 class="text-lg font-bold text-white mt-1" x-text="sessionForm.id ? 'Edit Seva Session' : 'Add New Month Booking'"></h3>
+        <p class="text-xs text-slate-400">Paste your FMSC Join Code or URL directly from FMSC.org</p>
+      </div>
+
+      <form @submit.prevent="saveSession()" class="space-y-3">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Event Date (YYYY-MM-DD) *</label>
+            <input type="date" x-model="sessionForm.date" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Time Shift</label>
+            <input type="text" x-model="sessionForm.time" required placeholder="2:30 PM - 4:00 PM" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">FMSC Join Code or Full Join URL *</label>
+          <input type="text" x-model="sessionForm.join_input" required placeholder="e.g. 1NXP4D or http://www.fmsc.org/join-group?joincode=1NXP4D" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-amber-400">
+          <p class="text-[10px] text-slate-400 mt-1">You can paste the entire link from FMSC or just the 6-character code.</p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Total Reserved Spots</label>
+            <input type="number" min="1" max="100" x-model.number="sessionForm.total_spots" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Arrival Time</label>
+            <input type="text" x-model="sessionForm.arrival_time" placeholder="2:15 PM" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Site Location</label>
+          <select x-model="sessionForm.site_choice" @change="updateSiteLocation()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+            <option value="tempe">Tempe Site (1100 W Grove Pkwy, Tempe, AZ 85283)</option>
+            <option value="mesa">Mesa Site (1345 S Alma School Rd, Mesa, AZ 85210)</option>
+          </select>
+        </div>
+
+        <div class="pt-3 flex justify-end gap-2">
+          <button type="button" @click="showSessionModal = false" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-bold">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold shadow-lg shadow-amber-500/20">Save Session</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="mt-auto py-6 border-t border-slate-850 text-center text-xs text-slate-500">
+    <div class="max-w-5xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>Saibaba Group Phoenix SSSGC — Love All, Serve All</span>
+      </div>
+      <div>
+        <span>Feed My Starving Children Seva Portal • Built for Devotees</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script>
+    function fmscApp() {
+      return {
+        currentTab: 'volunteer',
+        selectedFilter: 'all',
+        expandedRoster: null,
+        showRsvpModal: false,
+        showSessionModal: false,
+        activeSession: null,
+        waSessionId: 'all',
+        waTemplateType: 'invite',
+        generatedWhatsAppText: '',
+        generatedEmailSubject: '',
+        generatedEmailBody: '',
+
+        toast: { show: false, message: '', type: 'success' },
+
+        rsvpForm: {
+          name: '',
+          email: '',
+          phone: '',
+          adults_count: 1,
+          kids_count: 0,
+          kids_ages: '',
+          carpool: 'Driving Independently',
+          registered_on_fmsc: true
+        },
+
+        sessionForm: {
+          id: '',
+          date: '',
+          time: '2:30 PM - 4:00 PM',
+          arrival_time: '2:15 PM',
+          join_input: '',
+          total_spots: 36,
+          site_choice: 'tempe',
+          location_name: 'FMSC Tempe Site',
+          address: '1100 West Grove Parkway, Tempe, AZ 85283'
+        },
+
+        data: {
+          group_info: {
+            group_name: "Saibaba Group Phoenix SSSGC",
+            leader_name: "Manjunatha Arasaiah",
+            leader_email: "manjuaras108@gmail.com",
+            default_location_name: "FMSC Tempe Site",
+            default_address: "1100 West Grove Parkway, Tempe, AZ 85283",
+            google_maps_url: "https://maps.google.com/?q=1100+West+Grove+Parkway,+Tempe,+AZ+85283",
+            portal_public_url: window.location.href.split('?')[0].split('#')[0]
+          },
+          guidelines: [
+            { icon: "👟", title: "Closed-Toe Shoes Required", desc: "Everyone must wear closed-toe shoes (sneakers). No sandals or flip-flops allowed." },
+            { icon: "💍", title: "Strictly NO Jewelry", desc: "FDA cleanroom regulations require NO jewelry (rings, earrings, watches, bracelets). Plain wedding bands allowed." },
+            { icon: "👶", title: "Kids 5+ Welcome", desc: "Adult ratios: Ages 5-9 (1 adult per 3 kids); Ages 10-17 (1 adult per 4 kids)." },
+            { icon: "⏰", title: "Arrive 15 Mins Early", desc: "Please arrive at 2:15 PM for check-in, orientation, and hairnets." }
+          ],
+          sessions: [
+            {
+              id: "session-2026-11-07",
+              date: "2026-11-07",
+              date_formatted: "Saturday, November 07, 2026",
+              time: "2:30 PM - 4:00 PM",
+              arrival_time: "2:15 PM",
+              location_name: "FMSC Tempe Site",
+              address: "1100 West Grove Parkway, Tempe, AZ 85283",
+              total_spots: 36,
+              join_code: "1NXP4D",
+              join_url: "http://www.fmsc.org/join-group?joincode=1NXP4D",
+              volunteers: [
+                { id: "vol-1", name: "Manjunatha Arasaiah", email: "manjuaras108@gmail.com", adults_count: 1, kids_count: 0, registered_on_fmsc: true, carpool: "Driving" },
+                { id: "vol-2", name: "Manisha Patel", email: "manoosh.1968@gmail.com", adults_count: 1, kids_count: 0, registered_on_fmsc: true, carpool: "Driving" },
+                { id: "vol-3", name: "Rithikaa Madhavan", email: "ritzlitefeather@gmail.com", adults_count: 1, kids_count: 0, registered_on_fmsc: true, carpool: "Driving" },
+                { id: "vol-4", name: "Sumitra Madhavan", email: "ritzlitefeather@gmail.com", adults_count: 1, kids_count: 0, registered_on_fmsc: true, carpool: "Driving" }
+              ]
+            },
+            {
+              id: "session-2026-12-05",
+              date: "2026-12-05",
+              date_formatted: "Saturday, December 05, 2026",
+              time: "2:30 PM - 4:00 PM",
+              arrival_time: "2:15 PM",
+              location_name: "FMSC Tempe Site",
+              address: "1100 West Grove Parkway, Tempe, AZ 85283",
+              total_spots: 36,
+              join_code: "DEC-PENDING",
+              join_url: "http://www.fmsc.org/join-group?joincode=DEC-PENDING",
+              volunteers: [
+                { id: "vol-5", name: "Manjunatha Arasaiah", email: "manjuaras108@gmail.com", adults_count: 1, kids_count: 0, registered_on_fmsc: true, carpool: "Driving" }
+              ]
+            },
+            {
+              id: "session-2027-01-09",
+              date: "2027-01-09",
+              date_formatted: "Saturday, January 09, 2027",
+              time: "2:30 PM - 4:00 PM",
+              arrival_time: "2:15 PM",
+              location_name: "FMSC Tempe Site",
+              address: "1100 West Grove Parkway, Tempe, AZ 85283",
+              total_spots: 36,
+              join_code: "",
+              join_url: "",
+              volunteers: []
+            }
+          ]
+        },
+
+        async initApp() {
+          try {
+            const res = await fetch('/api/data');
+            if (res.ok) {
+              const cloudData = await res.json();
+              if (cloudData.sessions) {
+                this.data = cloudData;
+              }
+            } else {
+              this.loadFromLocalStorage();
+            }
+          } catch (e) {
+            this.loadFromLocalStorage();
+          }
+
+          if (this.data.sessions.length > 0) {
+            this.waSessionId = this.data.sessions[0].id;
+          }
+          this.updateWhatsAppMessage();
+        },
+
+        loadFromLocalStorage() {
+          const stored = localStorage.getItem('sai_fmsc_data');
+          if (stored) {
+            try { this.data = JSON.parse(stored); } catch (e) {}
+          }
+        },
+
+        saveToLocalStorage() {
+          localStorage.setItem('sai_fmsc_data', JSON.stringify(this.data));
+        },
+
+        get filteredSessions() {
+          if (this.selectedFilter === 'all') {
+            return this.data.sessions;
+          }
+          return this.data.sessions.filter(s => s.id === this.selectedFilter);
+        },
+
+        formatShortMonth(dateStr) {
+          if (!dateStr) return '';
+          try {
+            const parts = dateStr.split('-');
+            const dt = new Date(parseInt(parts[0]), parseInt(parts[1]) - 1, parseInt(parts[2]));
+            return dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+          } catch (e) {
+            return dateStr;
+          }
+        },
+
+        getFilledCount(session) {
+          if (!session || !session.volunteers) return 0;
+          return session.volunteers.reduce((acc, v) => acc + (v.adults_count || 1) + (v.kids_count || 0), 0);
+        },
+
+        getSpotsLeft(session) {
+          const filled = this.getFilledCount(session);
+          return Math.max(0, (session.total_spots || 36) - filled);
+        },
+
+        getAdultsCount(session) {
+          if (!session || !session.volunteers) return 0;
+          return session.volunteers.reduce((acc, v) => acc + (v.adults_count || 1), 0);
+        },
+
+        getKidsCount(session) {
+          if (!session || !session.volunteers) return 0;
+          return session.volunteers.reduce((acc, v) => acc + (v.kids_count || 0), 0);
+        },
+
+        toggleRoster(sessionId) {
+          this.expandedRoster = this.expandedRoster === sessionId ? null : sessionId;
+        },
+
+        showToast(message, type = 'success') {
+          this.toast = { show: true, message, type };
+          setTimeout(() => { this.toast.show = false; }, 3500);
+        },
+
+        copyText(text, successMsg = 'Copied to clipboard!') {
+          if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text);
+          } else {
+            const ta = document.createElement("textarea");
+            ta.value = text;
+            ta.style.position = "fixed";
+            ta.style.left = "-999999px";
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            document.execCommand('copy');
+            ta.remove();
+          }
+          this.showToast(successMsg, 'success');
+        },
+
+        openRsvpModal(session) {
+          this.activeSession = session;
+          this.rsvpForm = {
+            name: '',
+            email: '',
+            phone: '',
+            adults_count: 1,
+            kids_count: 0,
+            kids_ages: '',
+            carpool: 'Driving Independently',
+            registered_on_fmsc: true
+          };
+          this.showRsvpModal = true;
+        },
+
+        async submitRsvp() {
+          if (!this.activeSession) return;
+          const payload = {
+            session_id: this.activeSession.id,
+            ...this.rsvpForm
+          };
+
+          try {
+            const res = await fetch('/api/rsvp', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+
+            if (res.ok) {
+              const resData = await res.json();
+              const sIdx = this.data.sessions.findIndex(s => s.id === this.activeSession.id);
+              if (sIdx !== -1) {
+                this.data.sessions[sIdx] = resData.session;
+              }
+              this.showToast('Om Sri Sai Ram! Registration confirmed.', 'success');
+            } else {
+              this.fallbackLocalRsvp(payload);
+            }
+          } catch (e) {
+            this.fallbackLocalRsvp(payload);
+          }
+
+          this.showRsvpModal = false;
+          this.updateWhatsAppMessage();
+        },
+
+        fallbackLocalRsvp(payload) {
+          const sIdx = this.data.sessions.findIndex(s => s.id === payload.session_id);
+          if (sIdx !== -1) {
+            const newVol = {
+              id: 'vol-' + Date.now(),
+              name: payload.name,
+              email: payload.email,
+              phone: payload.phone,
+              adults_count: payload.adults_count,
+              kids_count: payload.kids_count,
+              kids_ages: payload.kids_ages,
+              carpool: payload.carpool,
+              registered_on_fmsc: payload.registered_on_fmsc
+            };
+            this.data.sessions[sIdx].volunteers.push(newVol);
+            this.saveToLocalStorage();
+            this.showToast('Registration saved locally!', 'success');
+          }
+        },
+
+        async deleteVolunteer(sessionId, volId) {
+          if (!confirm("Are you sure you want to remove this volunteer reservation?")) return;
+          try {
+            const res = await fetch(`/api/rsvp/${sessionId}/${volId}`, { method: 'DELETE' });
+            if (res.ok) {
+              const s = this.data.sessions.find(x => x.id === sessionId);
+              if (s) {
+                s.volunteers = s.volunteers.filter(v => v.id !== volId);
+              }
+              this.showToast("Volunteer removed.");
+            }
+          } catch (e) {
+            const s = this.data.sessions.find(x => x.id === sessionId);
+            if (s) {
+              s.volunteers = s.volunteers.filter(v => v.id !== volId);
+              this.saveToLocalStorage();
+              this.showToast("Volunteer removed locally.");
+            }
+          }
+          this.updateWhatsAppMessage();
+        },
+
+        openAddSessionModal() {
+          this.sessionForm = {
+            id: '',
+            date: '',
+            time: '2:30 PM - 4:00 PM',
+            arrival_time: '2:15 PM',
+            join_input: '',
+            total_spots: 36,
+            site_choice: 'tempe',
+            location_name: 'FMSC Tempe Site',
+            address: '1100 West Grove Parkway, Tempe, AZ 85283'
+          };
+          this.showSessionModal = true;
+        },
+
+        editSession(session) {
+          this.sessionForm = {
+            id: session.id,
+            date: session.date,
+            time: session.time,
+            arrival_time: session.arrival_time || '2:15 PM',
+            join_input: session.join_url || session.join_code,
+            total_spots: session.total_spots || 36,
+            site_choice: session.address.includes('Alma School') ? 'mesa' : 'tempe',
+            location_name: session.location_name,
+            address: session.address
+          };
+          this.showSessionModal = true;
+        },
+
+        updateSiteLocation() {
+          if (this.sessionForm.site_choice === 'mesa') {
+            this.sessionForm.location_name = 'FMSC Mesa Site';
+            this.sessionForm.address = '1345 S Alma School Rd, Mesa, AZ 85210';
+          } else {
+            this.sessionForm.location_name = 'FMSC Tempe Site';
+            this.sessionForm.address = '1100 West Grove Parkway, Tempe, AZ 85283';
+          }
+        },
+
+        async saveSession() {
+          const rawInput = this.sessionForm.join_input.trim();
+          let joinCode = '';
+          let joinUrl = '';
+          
+          if (rawInput.includes('joincode=')) {
+            const m = rawInput.match(/joincode=([A-Za-z0-9]+)/i);
+            joinCode = m ? m[1].toUpperCase() : '';
+            joinUrl = rawInput;
+          } else if (rawInput.startsWith('http')) {
+            joinUrl = rawInput;
+            const m = rawInput.match(/code=([A-Za-z0-9\-_]+)/i);
+            joinCode = m ? m[1].toUpperCase() : '';
+          } else {
+            joinCode = rawInput.toUpperCase();
+            joinUrl = `http://www.fmsc.org/join-group?joincode=${joinCode}`;
+          }
+
+          const payload = {
+            id: this.sessionForm.id || undefined,
+            date: this.sessionForm.date,
+            time: this.sessionForm.time,
+            arrival_time: this.sessionForm.arrival_time,
+            location_name: this.sessionForm.location_name,
+            address: this.sessionForm.address,
+            total_spots: this.sessionForm.total_spots,
+            join_code: joinCode,
+            join_url: joinUrl
+          };
+
+          try {
+            const res = await fetch('/api/session', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+
+            if (res.ok) {
+              const resData = await res.json();
+              if (this.sessionForm.id) {
+                const idx = this.data.sessions.findIndex(s => s.id === this.sessionForm.id);
+                if (idx !== -1) this.data.sessions[idx] = resData.session;
+              } else {
+                this.data.sessions.push(resData.session);
+                this.data.sessions.sort((a, b) => a.date.localeCompare(b.date));
+              }
+              this.showToast('Seva session saved successfully!');
+            } else {
+              this.fallbackSaveSession(payload);
+            }
+          } catch (e) {
+            this.fallbackSaveSession(payload);
+          }
+
+          this.showSessionModal = false;
+          this.updateWhatsAppMessage();
+        },
+
+        fallbackSaveSession(payload) {
+          const dtParts = payload.date.split('-');
+          const dtObj = new Date(parseInt(dtParts[0]), parseInt(dtParts[1]) - 1, parseInt(dtParts[2]));
+          const formatted = dtObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+          if (payload.id) {
+            const idx = this.data.sessions.findIndex(s => s.id === payload.id);
+            if (idx !== -1) {
+              Object.assign(this.data.sessions[idx], payload, { date_formatted: formatted });
+            }
+          } else {
+            const newSession = {
+              id: 'session-' + payload.date,
+              date: payload.date,
+              date_formatted: formatted,
+              time: payload.time,
+              arrival_time: payload.arrival_time,
+              location_name: payload.location_name,
+              address: payload.address,
+              total_spots: payload.total_spots,
+              join_code: payload.join_code,
+              join_url: payload.join_url,
+              volunteers: []
+            };
+            this.data.sessions.push(newSession);
+            this.data.sessions.sort((a, b) => a.date.localeCompare(b.date));
+          }
+          this.saveToLocalStorage();
+          this.showToast('Session saved locally!');
+        },
+
+        async confirmDeleteSession(session) {
+          if (!confirm(`Delete ${session.date_formatted} session? This cannot be undone.`)) return;
+          try {
+            await fetch(`/api/session/${session.id}`, { method: 'DELETE' });
+          } catch (e) {}
+          this.data.sessions = this.data.sessions.filter(s => s.id !== session.id);
+          this.saveToLocalStorage();
+          this.showToast('Session removed.');
+          this.updateWhatsAppMessage();
+        },
+
+        updateWhatsAppMessage() {
+          const groupName = this.data.group_info.group_name || "Saibaba Group Phoenix SSSGC";
+          const publicPortalUrl = window.location.href.split('?')[0].split('#')[0];
+
+          if (this.waSessionId === 'all' || this.waTemplateType === 'multi') {
+            let msg = `*Om Sri Sai Ram!* 🙏🌸\n\n`;
+            msg += `*${groupName} — Feed My Starving Children (FMSC) Seva Schedule*\n\n`;
+            msg += `Upcoming packing sessions are now open for reservations! Please reserve your spots in advance:\n\n`;
+            
+            this.data.sessions.forEach((s, idx) => {
+              const spotsLeft = this.getSpotsLeft(s);
+              msg += `🗓️ *${s.date_formatted}*\n`;
+              msg += `⏰ *Time:* ${s.time} (Arrive by ${s.arrival_time || '2:15 PM'})\n`;
+              msg += `📍 *Location:* ${s.location_name} (${s.address})\n`;
+              if (s.join_code) msg += `🔑 *Join Code:* \`${s.join_code}\`\n`;
+              if (s.join_url) msg += `👉 *Reserve Here:* ${s.join_url}\n`;
+              msg += `📊 *Spots Remaining:* ${spotsLeft} of ${s.total_spots}\n\n`;
+            });
+
+            msg += `👟 *Guidelines:* Closed-toe shoes required, strictly NO jewelry (wedding bands ok), ages 5+ with adult.\n\n`;
+            msg += `📱 *View all dates & Quick Sign-up:* ${publicPortalUrl}\n\n`;
+            msg += `_With Loving Sai Rams,_ \n*${this.data.group_info.leader_name}*`;
+
+            this.generatedWhatsAppText = msg;
+            this.generatedEmailSubject = `${groupName} - Feed My Starving Children (FMSC) Upcoming Seva Schedule`;
+            this.generatedEmailBody = msg.replace(/\*/g, '');
+            return;
+          }
+
+          const s = this.data.sessions.find(x => x.id === this.waSessionId) || this.data.sessions[0];
+          if (!s) return;
+
+          const spotsLeft = this.getSpotsLeft(s);
+          let msg = '';
+
+          if (this.waTemplateType === 'invite') {
+            msg = `*Om Sri Sai Ram!* 🙏🌸\n\n`;
+            msg += `Join our *${groupName}* family for our upcoming monthly seva at *Feed My Starving Children (FMSC)*!\n\n`;
+            msg += `🗓️ *Date:* ${s.date_formatted}\n`;
+            msg += `⏰ *Time:* ${s.time} (Please arrive by ${s.arrival_time || '2:15 PM'})\n`;
+            msg += `📍 *Location:* ${s.location_name}\n`;
+            msg += `   ${s.address}\n\n`;
+            if (s.join_code) msg += `🔑 *Group Join Code:* \`${s.join_code}\`\n`;
+            if (s.join_url) msg += `👉 *Direct Sign-up Link:* ${s.join_url}\n\n`;
+            msg += `📊 *Spots Left:* ${spotsLeft} of ${s.total_spots} available\n\n`;
+            msg += `✨ *Important Guidelines:*\n`;
+            msg += `• Closed-toe shoes required (no sandals/crocs)\n`;
+            msg += `• Strict FDA rule: NO jewelry (rings, earrings, watches)\n`;
+            msg += `• Kids (ages 5+) welcome with adult supervision\n\n`;
+            msg += `📱 *Sign-up Portal:* ${publicPortalUrl}\n\n`;
+            msg += `_With Loving Sai Rams,_\n*${this.data.group_info.leader_name}*`;
+          } else if (this.waTemplateType === 'urgent') {
+            msg = `*Om Sri Sai Ram!* ⏳🚨\n\n`;
+            msg += `*Only ${spotsLeft} spots remaining* for our FMSC packing seva on *${s.date_formatted}*!\n\n`;
+            msg += `⏰ *Time:* ${s.time} (Arrive by ${s.arrival_time || '2:15 PM'})\n`;
+            msg += `📍 *Location:* ${s.location_name}\n\n`;
+            if (s.join_url) msg += `👉 *Reserve your spot now:* ${s.join_url}\n`;
+            if (s.join_code) msg += `🔑 *Join Code:* \`${s.join_code}\`\n\n`;
+            msg += `If you plan to attend, please sign up today so we can finalize the center headcount with FMSC.\n\n`;
+            msg += `_Sai Ram!_`;
+          } else if (this.waTemplateType === 'reminder') {
+            msg = `*Om Sri Sai Ram!* 👟📦\n\n`;
+            msg += `Gentle reminder for our *FMSC Seva this ${s.date_formatted}* at *${s.time}*.\n\n`;
+            msg += `📍 *Location:* ${s.location_name}\n`;
+            msg += `   ${s.address}\n`;
+            msg += `⏰ *Arrival:* Please arrive promptly at *${s.arrival_time || '2:15 PM'}* for check-in and hairnet orientation.\n\n`;
+            msg += `⚠️ *Dress Code Reminders:*\n`;
+            msg += `1. Closed-toe shoes are strictly required.\n`;
+            msg += `2. NO jewelry allowed in packing cleanrooms (earrings, watches, bracelets, stone rings).\n`;
+            msg += `3. Hairnets and beard nets are provided.\n\n`;
+            msg += `Looking forward to packing life-saving meals together! 🙏`;
+          }
+
+          this.generatedWhatsAppText = msg;
+          this.generatedEmailSubject = `${groupName} - FMSC Volunteer Seva (${s.date_formatted})`;
+          this.generatedEmailBody = msg.replace(/\*/g, '');
+        },
+
+        sendToWhatsApp() {
+          const encoded = encodeURIComponent(this.generatedWhatsAppText);
+          window.open(`https://api.whatsapp.com/send?text=${encoded}`, '_blank');
+        },
+
+        openEmailClient() {
+          const subject = encodeURIComponent(this.generatedEmailSubject);
+          const body = encodeURIComponent(this.generatedEmailBody);
+          window.location.href = `mailto:?subject=${subject}&body=${body}`;
+        },
+
+        copyFmscRoster(session) {
+          if (!session.volunteers || session.volunteers.length === 0) {
+            this.showToast('No volunteers registered yet.');
+            return;
+          }
+          let text = `Saibaba Group Phoenix SSSGC - FMSC Roster (${session.date_formatted})\n`;
+          text += `Total Headcount: ${this.getFilledCount(session)} (Adults: ${this.getAdultsCount(session)}, Kids: ${this.getKidsCount(session)})\n\n`;
+          session.volunteers.forEach((v, i) => {
+            text += `${i + 1}. ${v.name} (${v.email || 'No email'}) - Adults: ${v.adults_count || 1}, Kids: ${v.kids_count || 0}\n`;
+          });
+          this.copyText(text, 'Volunteer roster copied for FMSC website!');
+        },
+
+        exportCsv(session) {
+          if (!session.volunteers || session.volunteers.length === 0) {
+            this.showToast('No volunteer data to export.');
+            return;
+          }
+          let csv = 'Name,Email,Phone,Adults,Kids,Kids Ages,Carpool,Registered on FMSC\n';
+          session.volunteers.forEach(v => {
+            csv += `"${v.name}","${v.email || ''}","${v.phone || ''}",${v.adults_count || 1},${v.kids_count || 0},"${v.kids_ages || ''}","${v.carpool || ''}","${v.registered_on_fmsc ? 'Yes' : 'No'}"\n`;
+          });
+          const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = `FMSC_Roster_${session.date}.csv`;
+          link.click();
+          this.showToast('CSV downloaded!');
+        },
+
+        addToGoogleCalendar(session) {
+          const dtParts = session.date.split('-');
+          const startStr = `${dtParts[0]}${dtParts[1]}${dtParts[2]}T143000`;
+          const endStr = `${dtParts[0]}${dtParts[1]}${dtParts[2]}T160000`;
+          const title = encodeURIComponent(`FMSC Sai Seva - Saibaba Group Phoenix`);
+          const details = encodeURIComponent(`Om Sri Sai Ram!\nFeed My Starving Children food packing volunteer seva.\nPlease arrive by ${session.arrival_time || '2:15 PM'}.\nClosed-toe shoes required, NO jewelry.\nFMSC Join URL: ${session.join_url}\nJoin Code: ${session.join_code}`);
+          const location = encodeURIComponent(`${session.location_name}, ${session.address}`);
+          const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startStr}/${endStr}&details=${details}&location=${location}`;
+          window.open(url, '_blank');
+        },
+
+        downloadIcs(session) {
+          const dtParts = session.date.split('-');
+          const startStr = `${dtParts[0]}${dtParts[1]}${dtParts[2]}T143000`;
+          const endStr = `${dtParts[0]}${dtParts[1]}${dtParts[2]}T160000`;
+          const icsContent = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//Phoenix Sai Center//FMSC Seva//EN',
+            'BEGIN:VEVENT',
+            `UID:fmsc-${session.id}@phoenixsaicenter.org`,
+            `DTSTAMP:${startStr}Z`,
+            `DTSTART:${startStr}`,
+            `DTEND:${endStr}`,
+            `SUMMARY:FMSC Sai Seva - Saibaba Group Phoenix`,
+            `DESCRIPTION:Om Sri Sai Ram! FMSC Packing Seva. Arrive by ${session.arrival_time || '2:15 PM'}. Closed-toe shoes required, NO jewelry. Join Code: ${session.join_code}`,
+            `LOCATION:${session.location_name}, ${session.address}`,
+            'STATUS:CONFIRMED',
+            'END:VEVENT',
+            'END:VCALENDAR'
+          ].join('\r\n');
+
+          const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8;' });
+          const link = document.createElement('a');
+          link.href = URL.createObjectURL(blob);
+          link.download = `FMSC_Sai_Seva_${session.date}.ics`;
+          link.click();
+        }
+      }
+    }
+  </script>
+</body>
+</html>
