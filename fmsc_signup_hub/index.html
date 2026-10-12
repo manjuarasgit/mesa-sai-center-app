@@ -633,10 +633,14 @@
           <p class="text-[10px] text-slate-400 mt-1">You can paste the entire link from FMSC or just the 6-character code.</p>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Total Reserved Spots</label>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Total Spots</label>
             <input type="number" min="1" max="100" x-model.number="sessionForm.total_spots" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Confirmed on FMSC</label>
+            <input type="number" min="0" max="100" x-model.number="sessionForm.fmsc_external_count" placeholder="e.g. 9" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-amber-400 font-bold focus:outline-none focus:border-amber-400">
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-300 mb-1">Arrival Time</label>
@@ -709,6 +713,7 @@
           arrival_time: '2:15 PM',
           join_input: '',
           total_spots: 36,
+          fmsc_external_count: 0,
           site_choice: 'tempe',
           location_name: 'FMSC Tempe Site',
           address: '1100 West Grove Parkway, Tempe, AZ 85283'
@@ -740,13 +745,15 @@
               location_name: "FMSC Tempe Site",
               address: "1100 West Grove Parkway, Tempe, AZ 85283",
               total_spots: 36,
+              fmsc_external_count: 9,
               join_code: "1NXP4D",
               join_url: "http://www.fmsc.org/join-group?joincode=1NXP4D",
               volunteers: [
                 { id: "vol-1", name: "Manjunatha Arasaiah", email: "manjuaras108@gmail.com", adults_count: 1, kids_count: 0, registered_on_fmsc: true, carpool: "Driving" },
                 { id: "vol-2", name: "Manisha Patel", email: "manoosh.1968@gmail.com", adults_count: 1, kids_count: 0, registered_on_fmsc: true, carpool: "Driving" },
                 { id: "vol-3", name: "Rithikaa Madhavan", email: "ritzlitefeather@gmail.com", adults_count: 1, kids_count: 0, registered_on_fmsc: true, carpool: "Driving" },
-                { id: "vol-4", name: "Sumitra Madhavan", email: "ritzlitefeather@gmail.com", adults_count: 1, kids_count: 0, registered_on_fmsc: true, carpool: "Driving" }
+                { id: "vol-4", name: "Sumitra Madhavan", email: "ritzlitefeather@gmail.com", adults_count: 1, kids_count: 0, registered_on_fmsc: true, carpool: "Driving" },
+                { id: "vol-5", name: "Baba patro", email: "manju.arasaiah@gmail.com", adults_count: 1, kids_count: 0, registered_on_fmsc: true, carpool: "Driving Independently" }
               ]
             },
             {
@@ -758,40 +765,76 @@
               location_name: "FMSC Tempe Site",
               address: "1100 West Grove Parkway, Tempe, AZ 85283",
               total_spots: 36,
-              join_code: "DEC-PENDING",
-              join_url: "http://www.fmsc.org/join-group?joincode=DEC-PENDING",
+              fmsc_external_count: 1,
+              join_code: "",
+              join_url: "",
               volunteers: [
-                { id: "vol-5", name: "Manjunatha Arasaiah", email: "manjuaras108@gmail.com", adults_count: 1, kids_count: 0, registered_on_fmsc: true, carpool: "Driving" }
+                { id: "vol-6", name: "Manjunatha Arasaiah", email: "manjuaras108@gmail.com", adults_count: 1, kids_count: 0, registered_on_fmsc: true, carpool: "Driving" }
               ]
             },
             {
-              id: "session-2027-01-09",
-              date: "2027-01-09",
-              date_formatted: "Saturday, January 09, 2027",
+              id: "session-2027-02-06",
+              date: "2027-02-06",
+              date_formatted: "Saturday, February 06, 2027",
               time: "2:30 PM - 4:00 PM",
               arrival_time: "2:15 PM",
               location_name: "FMSC Tempe Site",
               address: "1100 West Grove Parkway, Tempe, AZ 85283",
               total_spots: 36,
+              fmsc_external_count: 1,
               join_code: "",
               join_url: "",
-              volunteers: []
+              volunteers: [
+                { id: "vol-7", name: "Manjunatha Arasaiah", email: "manjuaras108@gmail.com", adults_count: 1, kids_count: 0, registered_on_fmsc: true, carpool: "Driving" }
+              ]
+            },
+            {
+              id: "session-2027-03-06",
+              date: "2027-03-06",
+              date_formatted: "Saturday, March 06, 2027",
+              time: "2:30 PM - 4:00 PM",
+              arrival_time: "2:15 PM",
+              location_name: "FMSC Tempe Site",
+              address: "1100 West Grove Parkway, Tempe, AZ 85283",
+              total_spots: 36,
+              fmsc_external_count: 1,
+              join_code: "",
+              join_url: "",
+              volunteers: [
+                { id: "vol-8", name: "Manjunatha Arasaiah", email: "manjuaras108@gmail.com", adults_count: 1, kids_count: 0, registered_on_fmsc: true, carpool: "Driving" }
+              ]
             }
           ]
         },
 
         async initApp() {
+          let loaded = false;
           try {
             const res = await fetch('/api/data');
             if (res.ok) {
               const cloudData = await res.json();
               if (cloudData.sessions) {
                 this.data = cloudData;
+                loaded = true;
               }
-            } else {
-              this.loadFromLocalStorage();
             }
-          } catch (e) {
+          } catch (e) {}
+
+          if (!loaded) {
+            try {
+              let jsonRes = await fetch('data/events.json?t=' + Date.now());
+              if (!jsonRes.ok) jsonRes = await fetch('../data/events.json?t=' + Date.now());
+              if (jsonRes.ok) {
+                const fileData = await jsonRes.json();
+                if (fileData.sessions) {
+                  this.data = fileData;
+                  loaded = true;
+                }
+              }
+            } catch (e) {}
+          }
+
+          if (!loaded) {
             this.loadFromLocalStorage();
           }
 
@@ -831,8 +874,9 @@
         },
 
         getFilledCount(session) {
-          if (!session || !session.volunteers) return 0;
-          return session.volunteers.reduce((acc, v) => acc + (v.adults_count || 1) + (v.kids_count || 0), 0);
+          if (!session) return 0;
+          const volSum = session.volunteers ? session.volunteers.reduce((acc, v) => acc + (v.adults_count || 1) + (v.kids_count || 0), 0) : 0;
+          return Math.max(volSum, session.fmsc_external_count || 0);
         },
 
         getSpotsLeft(session) {
@@ -973,6 +1017,7 @@
             arrival_time: '2:15 PM',
             join_input: '',
             total_spots: 36,
+            fmsc_external_count: 0,
             site_choice: 'tempe',
             location_name: 'FMSC Tempe Site',
             address: '1100 West Grove Parkway, Tempe, AZ 85283'
@@ -988,6 +1033,7 @@
             arrival_time: session.arrival_time || '2:15 PM',
             join_input: session.join_url || session.join_code,
             total_spots: session.total_spots || 36,
+            fmsc_external_count: session.fmsc_external_count || this.getFilledCount(session) || 0,
             site_choice: session.address.includes('Alma School') ? 'mesa' : 'tempe',
             location_name: session.location_name,
             address: session.address
@@ -1031,6 +1077,7 @@
             location_name: this.sessionForm.location_name,
             address: this.sessionForm.address,
             total_spots: this.sessionForm.total_spots,
+            fmsc_external_count: parseInt(this.sessionForm.fmsc_external_count) || 0,
             join_code: joinCode,
             join_url: joinUrl
           };
@@ -1083,6 +1130,7 @@
               location_name: payload.location_name,
               address: payload.address,
               total_spots: payload.total_spots,
+              fmsc_external_count: payload.fmsc_external_count || 0,
               join_code: payload.join_code,
               join_url: payload.join_url,
               volunteers: []

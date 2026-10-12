@@ -9,7 +9,7 @@
     "default_address": "1100 West Grove Parkway, Tempe, AZ 85283",
     "site_contact": "Trish Blackwell - Tempe Site Manager (480-626-1970 | TempeInfo@fmsc.org)",
     "google_maps_url": "https://maps.google.com/?q=1100+West+Grove+Parkway,+Tempe,+AZ+85283",
-    "portal_public_url": "https://phoenix-sai-fmsc.vercel.app"
+    "portal_public_url": "https://manjuarasgit.github.io/mesa-sai-center-app/"
   },
   "guidelines": [
     {
@@ -43,72 +43,16 @@
       "location_name": "FMSC Tempe Site",
       "address": "1100 West Grove Parkway, Tempe, AZ 85283",
       "total_spots": 36,
+      "fmsc_external_count": 9,
       "join_code": "1NXP4D",
       "join_url": "http://www.fmsc.org/join-group?joincode=1NXP4D",
       "is_active": true,
       "volunteers": [
-        {
-          "id": "vol-1",
-          "name": "Manjunatha Arasaiah",
-          "email": "manjuaras108@gmail.com",
-          "phone": "",
-          "type": "Adult",
-          "adults_count": 1,
-          "kids_count": 0,
-          "kids_ages": "",
-          "registered_on_fmsc": true,
-          "carpool": "Driving"
-        },
-        {
-          "id": "vol-2",
-          "name": "Manisha Patel",
-          "email": "manoosh.1968@gmail.com",
-          "phone": "",
-          "type": "Adult",
-          "adults_count": 1,
-          "kids_count": 0,
-          "kids_ages": "",
-          "registered_on_fmsc": true,
-          "carpool": "Driving"
-        },
-        {
-          "id": "vol-3",
-          "name": "Rithikaa Madhavan",
-          "email": "ritzlitefeather@gmail.com",
-          "phone": "",
-          "type": "Adult",
-          "adults_count": 1,
-          "kids_count": 0,
-          "kids_ages": "",
-          "registered_on_fmsc": true,
-          "carpool": "Driving"
-        },
-        {
-          "id": "vol-4",
-          "name": "Sumitra Madhavan",
-          "email": "ritzlitefeather@gmail.com",
-          "phone": "",
-          "type": "Adult",
-          "adults_count": 1,
-          "kids_count": 0,
-          "kids_ages": "",
-          "registered_on_fmsc": true,
-          "carpool": "Driving"
-        },
-        {
-          "id": "vol-c2ca3641",
-          "name": "Baba patro",
-          "email": "manju.arasaiah@gmail.com",
-          "phone": "",
-          "type": "Adult",
-          "adults_count": 1,
-          "kids_count": 0,
-          "kids_ages": "",
-          "registered_on_fmsc": true,
-          "carpool": "Driving Independently",
-          "notes": "",
-          "created_at": "2026-10-12T10:52:40.208438"
-        }
+        { "id": "vol-1", "name": "Manjunatha Arasaiah", "email": "manjuaras108@gmail.com", "adults_count": 1, "kids_count": 0, "registered_on_fmsc": true, "carpool": "Driving" },
+        { "id": "vol-2", "name": "Manisha Patel", "email": "manoosh.1968@gmail.com", "adults_count": 1, "kids_count": 0, "registered_on_fmsc": true, "carpool": "Driving" },
+        { "id": "vol-3", "name": "Rithikaa Madhavan", "email": "ritzlitefeather@gmail.com", "adults_count": 1, "kids_count": 0, "registered_on_fmsc": true, "carpool": "Driving" },
+        { "id": "vol-4", "name": "Sumitra Madhavan", "email": "ritzlitefeather@gmail.com", "adults_count": 1, "kids_count": 0, "registered_on_fmsc": true, "carpool": "Driving" },
+        { "id": "vol-5", "name": "Baba patro", "email": "manju.arasaiah@gmail.com", "adults_count": 1, "kids_count": 0, "registered_on_fmsc": true, "carpool": "Driving Independently" }
       ]
     },
     {
@@ -120,37 +64,47 @@
       "location_name": "FMSC Tempe Site",
       "address": "1100 West Grove Parkway, Tempe, AZ 85283",
       "total_spots": 36,
-      "join_code": "DEC-PENDING",
-      "join_url": "http://www.fmsc.org/join-group?joincode=DEC-PENDING",
+      "fmsc_external_count": 1,
+      "join_code": "",
+      "join_url": "",
       "is_active": true,
       "volunteers": [
-        {
-          "id": "vol-5",
-          "name": "Manjunatha Arasaiah",
-          "email": "manjuaras108@gmail.com",
-          "phone": "",
-          "type": "Adult",
-          "adults_count": 1,
-          "kids_count": 0,
-          "kids_ages": "",
-          "registered_on_fmsc": true,
-          "carpool": "Driving"
-        }
+        { "id": "vol-6", "name": "Manjunatha Arasaiah", "email": "manjuaras108@gmail.com", "adults_count": 1, "kids_count": 0, "registered_on_fmsc": true, "carpool": "Driving" }
       ]
     },
     {
-      "id": "session-2027-01-09",
-      "date": "2027-01-09",
-      "date_formatted": "Saturday, January 09, 2027",
+      "id": "session-2027-02-06",
+      "date": "2027-02-06",
+      "date_formatted": "Saturday, February 06, 2027",
       "time": "2:30 PM - 4:00 PM",
       "arrival_time": "2:15 PM",
       "location_name": "FMSC Tempe Site",
       "address": "1100 West Grove Parkway, Tempe, AZ 85283",
       "total_spots": 36,
+      "fmsc_external_count": 1,
       "join_code": "",
       "join_url": "",
       "is_active": true,
-      "volunteers": []
+      "volunteers": [
+        { "id": "vol-7", "name": "Manjunatha Arasaiah", "email": "manjuaras108@gmail.com", "adults_count": 1, "kids_count": 0, "registered_on_fmsc": true, "carpool": "Driving" }
+      ]
+    },
+    {
+      "id": "session-2027-03-06",
+      "date": "2027-03-06",
+      "date_formatted": "Saturday, March 06, 2027",
+      "time": "2:30 PM - 4:00 PM",
+      "arrival_time": "2:15 PM",
+      "location_name": "FMSC Tempe Site",
+      "address": "1100 West Grove Parkway, Tempe, AZ 85283",
+      "total_spots": 36,
+      "fmsc_external_count": 1,
+      "join_code": "",
+      "join_url": "",
+      "is_active": true,
+      "volunteers": [
+        { "id": "vol-8", "name": "Manjunatha Arasaiah", "email": "manjuaras108@gmail.com", "adults_count": 1, "kids_count": 0, "registered_on_fmsc": true, "carpool": "Driving" }
+      ]
     }
   ]
 }

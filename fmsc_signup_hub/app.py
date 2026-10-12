@@ -166,6 +166,7 @@ def create_or_update_session(payload: Dict[str, Any] = Body(...)):
         existing["location_name"] = payload.get("location_name", existing.get("location_name", "FMSC Tempe Site"))
         existing["address"] = payload.get("address", existing.get("address", "1100 West Grove Parkway, Tempe, AZ 85283"))
         existing["total_spots"] = int(payload.get("total_spots", existing.get("total_spots", 36)))
+        existing["fmsc_external_count"] = int(payload.get("fmsc_external_count", existing.get("fmsc_external_count", 0)))
         existing["join_code"] = extracted_code or existing.get("join_code", "")
         existing["join_url"] = join_url or existing.get("join_url", "")
         existing["is_active"] = payload.get("is_active", True)
@@ -181,6 +182,7 @@ def create_or_update_session(payload: Dict[str, Any] = Body(...)):
             "location_name": payload.get("location_name", "FMSC Tempe Site"),
             "address": payload.get("address", "1100 West Grove Parkway, Tempe, AZ 85283"),
             "total_spots": int(payload.get("total_spots", 36)),
+            "fmsc_external_count": int(payload.get("fmsc_external_count", 0)),
             "join_code": extracted_code,
             "join_url": join_url,
             "is_active": True,
