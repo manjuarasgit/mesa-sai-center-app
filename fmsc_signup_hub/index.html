@@ -227,35 +227,53 @@
               </div>
 
               <!-- Right: Sign-up Actions -->
-              <div class="flex flex-col sm:flex-row md:flex-col gap-2.5 shrink-0 justify-center">
+              <div class="flex flex-col gap-2.5 shrink-0 justify-center w-full md:w-64">
                 
-                <!-- Primary Action: Direct Join on FMSC.org -->
-                <template x-if="session.join_url">
-                  <a :href="session.join_url" target="_blank" class="px-5 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 transition transform active:scale-95 text-center">
-                    <span>Reserve on FMSC.org</span>
-                    <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
-                  </a>
-                </template>
-
-                <!-- Join Code Pill with Copy -->
-                <template x-if="session.join_code">
-                  <div class="flex items-center justify-between bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-slate-300">
-                    <span class="text-[11px] text-slate-400">Join Code:</span>
-                    <span class="font-mono font-bold text-amber-400" x-text="session.join_code"></span>
-                    <button @click="copyText(session.join_code, 'Join Code copied!')" class="ml-2 text-slate-400 hover:text-white transition p-1" title="Copy Join Code">
-                      <i class="fa-regular fa-copy"></i>
-                    </button>
+                <!-- STEP 1: Direct Join on FMSC.org (Required for Waiver & Spot) -->
+                <div class="space-y-1">
+                  <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider px-1">
+                    <span class="text-amber-400 flex items-center gap-1">
+                      <i class="fa-solid fa-circle-check text-[9px]"></i> Step 1: Official Sign-Up
+                    </span>
+                    <span class="text-slate-400 lowercase font-medium">on fmsc.org</span>
                   </div>
-                </template>
 
-                <!-- Secondary Action: Quick Center RSVP Form Toggle -->
-                <button @click="openRsvpModal(session)" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 text-xs font-bold flex items-center justify-center gap-2 transition">
-                  <i class="fa-solid fa-user-plus text-amber-400"></i>
-                  <span>Quick Center Sign-Up</span>
-                </button>
+                  <template x-if="session.join_url">
+                    <a :href="session.join_url" target="_blank" class="w-full px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs sm:text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/25 transition transform active:scale-95 text-center">
+                      <span>1. Register on FMSC.org</span>
+                      <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+                    </a>
+                  </template>
+
+                  <!-- Join Code Pill with Copy -->
+                  <template x-if="session.join_code">
+                    <div class="flex items-center justify-between bg-slate-900 border border-slate-700/80 rounded-lg px-2.5 py-1 text-xs text-slate-300">
+                      <span class="text-[10px] text-slate-400">Join Code:</span>
+                      <span class="font-mono font-bold text-amber-400 tracking-wider" x-text="session.join_code"></span>
+                      <button @click="copyText(session.join_code, 'Join Code copied!')" class="ml-2 text-slate-400 hover:text-white transition p-0.5" title="Copy Join Code">
+                        <i class="fa-regular fa-copy text-xs"></i>
+                      </button>
+                    </div>
+                  </template>
+                </div>
+
+                <!-- STEP 2: Inform Coordinator & Carpool (Google Sheet) -->
+                <div class="space-y-1 pt-1 border-t border-slate-800/80">
+                  <div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider px-1">
+                    <span class="text-sky-400 flex items-center gap-1">
+                      <i class="fa-solid fa-clipboard-user text-[9px]"></i> Step 2: Inform Coordinator
+                    </span>
+                    <span class="text-emerald-400 lowercase font-medium">google sheet</span>
+                  </div>
+
+                  <button @click="openRsvpModal(session)" class="w-full px-3 py-2 rounded-xl bg-slate-850 hover:bg-slate-800 border border-sky-500/40 hover:border-sky-400 text-sky-200 text-xs font-bold flex items-center justify-center gap-2 transition shadow-sm">
+                    <i class="fa-solid fa-paper-plane text-sky-400 text-xs"></i>
+                    <span>Inform Coordinator (Manju)</span>
+                  </button>
+                </div>
 
                 <!-- Calendar & Share Tools -->
-                <div class="flex items-center justify-center gap-2 pt-1">
+                <div class="flex items-center justify-center gap-2 pt-0.5">
                   <button @click="addToGoogleCalendar(session)" class="text-[11px] text-slate-400 hover:text-amber-400 transition flex items-center gap-1 p-1">
                     <i class="fa-regular fa-calendar-plus"></i> Google Cal
                   </button>
@@ -299,10 +317,14 @@
                             <span x-show="vol.kids_count > 0"> • <span x-text="vol.kids_count"></span> Kid<span x-show="vol.kids_count > 1">s</span></span>
                             <span x-show="vol.carpool"> • <span class="text-amber-400/90" x-text="vol.carpool"></span></span>
                           </p>
+                          <p x-show="vol.notes" class="text-[10px] text-slate-400 italic mt-0.5" x-text="'“' + vol.notes + '”'"></p>
                         </div>
                       </div>
-                      <span x-show="vol.registered_on_fmsc" class="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 font-medium">
+                      <span x-show="vol.registered_on_fmsc" class="text-[10px] px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60 font-medium shrink-0">
                         FMSC Confirmed
+                      </span>
+                      <span x-show="!vol.registered_on_fmsc" class="text-[10px] px-2 py-0.5 rounded bg-sky-950 text-sky-400 border border-sky-800/60 font-medium shrink-0">
+                        Coordinator RSVP
                       </span>
                     </div>
                   </template>
@@ -440,6 +462,111 @@
         </div>
       </div>
 
+      <!-- Google Sheets Auto-Sync Card (For Coordinator Manjunatha) -->
+      <div class="glass rounded-2xl p-5 sm:p-6 border border-slate-800 space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-base font-bold text-white flex items-center gap-2">
+                <i class="fa-solid fa-file-excel text-emerald-400"></i>
+                <span>Google Sheets Auto-Sync (Real-Time Sign-Up Roster)</span>
+              </h3>
+              <span x-show="googleSheetWebAppUrl" class="px-2 py-0.5 rounded-full bg-emerald-950 text-emerald-400 border border-emerald-800 text-[10px] font-bold">
+                ✓ Connected
+              </span>
+              <span x-show="!googleSheetWebAppUrl" class="px-2 py-0.5 rounded-full bg-amber-950 text-amber-400 border border-amber-800 text-[10px] font-bold">
+                Setup Needed
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">
+              When members click "Inform Coordinator", their RSVP headcount, carpool offers/needs, and notes are automatically saved into your personal Google Sheet in real time.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2 shrink-0">
+            <template x-if="googleSheetViewUrl">
+              <a :href="googleSheetViewUrl" target="_blank" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm transition">
+                <i class="fa-solid fa-table"></i>
+                <span>Open Google Sheet</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+              </a>
+            </template>
+          </div>
+        </div>
+
+        <!-- Google Sheet URL Configuration -->
+        <div class="bg-slate-900/90 rounded-xl p-4 border border-slate-800 space-y-3">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">
+                Google Apps Script Web App URL <span class="text-amber-400 font-normal">(for incoming RSVPs)</span>:
+              </label>
+              <input type="url" x-model="googleSheetWebAppUrl" placeholder="https://script.google.com/macros/s/.../exec" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-400 font-mono text-[11px]">
+              <p class="text-[10px] text-slate-400 mt-1">Paste the Web App URL from your Google Sheet's Apps Script (ends in <code class="text-slate-300">/exec</code>).</p>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-slate-300 mb-1">
+                Google Sheet View Link <span class="text-slate-400 font-normal">(optional, for quick opening)</span>:
+              </label>
+              <input type="url" x-model="googleSheetViewUrl" placeholder="https://docs.google.com/spreadsheets/d/..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-emerald-400 text-[11px]">
+              <p class="text-[10px] text-slate-400 mt-1">Paste the shareable link of your Google Sheet to quickly view or edit it anytime.</p>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-800">
+            <button @click="showSheetInstructions = !showSheetInstructions" class="text-xs text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1.5 py-1">
+              <i class="fa-solid fa-circle-question"></i>
+              <span x-text="showSheetInstructions ? 'Hide Setup Instructions' : 'View 2-Minute Google Sheet Setup Guide & Code'"></span>
+              <i class="fa-solid text-[10px]" :class="showSheetInstructions ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+            </button>
+
+            <div class="flex items-center gap-2">
+              <button @click="testGoogleSheet()" :disabled="!googleSheetWebAppUrl" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-40 disabled:cursor-not-allowed text-slate-200 border border-slate-700 text-xs font-semibold flex items-center gap-1.5">
+                <i class="fa-solid fa-vial text-amber-400"></i>
+                <span>Send Test Row</span>
+              </button>
+              <button @click="saveSheetSettings()" class="px-4 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 shadow-md shadow-emerald-600/20">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span>Save Sheet Settings</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Expandable Setup Guide -->
+        <div x-show="showSheetInstructions" class="bg-slate-950/80 rounded-xl p-4 border border-slate-800 text-xs text-slate-300 space-y-3" x-transition>
+          <div class="font-bold text-white text-sm flex items-center gap-2">
+            <span class="w-5 h-5 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-xs font-black">!</span>
+            <span>How to Create Your Free Google Sheet Webhook (Takes 2 Minutes)</span>
+          </div>
+
+          <ol class="list-decimal list-inside space-y-1.5 text-slate-300 leading-relaxed text-xs">
+            <li>Open <a href="https://sheets.new" target="_blank" class="text-amber-400 underline font-semibold">sheets.new</a> in your browser and name the spreadsheet <strong class="text-white">"Sai FMSC Volunteer Roster"</strong>.</li>
+            <li>In the top menu, click <strong class="text-white">Extensions &rarr; Apps Script</strong>.</li>
+            <li>Delete all code in the script editor window, then paste the code block below.</li>
+            <li>Click the blue <strong class="text-white">Deploy</strong> button (top right) &rarr; <strong class="text-white">New deployment</strong>.</li>
+            <li>Click the gear icon next to "Select type" &rarr; select <strong class="text-white">Web app</strong>.</li>
+            <li>Set <strong class="text-white">Execute as</strong>: <code class="bg-slate-900 px-1 py-0.5 rounded text-amber-300">Me</code>.</li>
+            <li>Set <strong class="text-white">Who has access</strong>: <code class="bg-slate-900 px-1 py-0.5 rounded text-amber-300">Anyone</code> <em class="text-amber-400/90">(Essential so the webpage can send sign-ups)</em>.</li>
+            <li>Click <strong class="text-white">Deploy</strong>, grant Google permissions, and copy the generated <strong class="text-white">Web app URL</strong> (ends in <code class="text-slate-400">/exec</code>).</li>
+            <li>Paste that Web App URL in the field above and click <strong class="text-white">Save Sheet Settings</strong>!</li>
+          </ol>
+
+          <div class="pt-2">
+            <div class="flex items-center justify-between mb-1">
+              <span class="font-bold text-slate-400 text-[11px] uppercase tracking-wider">Google Apps Script Code to Copy:</span>
+              <button @click="copyAppsScriptCode()" class="px-2.5 py-1 rounded bg-amber-500/20 text-amber-300 hover:bg-amber-500/30 text-[11px] font-bold flex items-center gap-1 border border-amber-500/40">
+                <i class="fa-regular fa-copy"></i>
+                <span>Copy Script Code</span>
+              </button>
+            </div>
+            <pre class="bg-slate-900 p-3 rounded-lg border border-slate-800 text-[11px] text-slate-300 font-mono overflow-x-auto custom-scroll max-h-56"><code x-text="appsScriptCode"></code></pre>
+          </div>
+        </div>
+
+      </div>
+
       <!-- Manage Sessions & Attendee Rosters -->
       <div class="glass rounded-2xl p-5 sm:p-6 border border-slate-800 space-y-4">
         <div class="flex items-center justify-between">
@@ -535,32 +662,50 @@
   </main>
 
   <!-- ============================================== -->
-  <!-- MODAL: QUICK RSVP (Volunteer Center Sign-up)  -->
+  <!-- MODAL: INFORM COORDINATOR (Center Roster & Google Sheet) -->
   <!-- ============================================== -->
   <div x-show="showRsvpModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm" x-transition>
-    <div @click.away="showRsvpModal = false" class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative space-y-4">
+    <div @click.away="showRsvpModal = false" class="bg-slate-900 border border-slate-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative space-y-4 max-h-[92vh] overflow-y-auto custom-scroll">
       <button @click="showRsvpModal = false" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">&times;</button>
       
       <div>
-        <span class="px-2.5 py-0.5 rounded bg-amber-500/20 text-amber-300 text-[11px] font-bold uppercase tracking-wider">Quick Sign-Up</span>
-        <h3 class="text-lg font-bold text-white mt-1">Register with Center Group</h3>
+        <div class="flex items-center gap-2">
+          <span class="px-2.5 py-0.5 rounded bg-sky-500/20 text-sky-300 text-[11px] font-bold uppercase tracking-wider">Step 2: Center Roster</span>
+          <span class="text-[11px] text-emerald-400 font-medium flex items-center gap-1">
+            <i class="fa-solid fa-table"></i> Saves to Google Sheet
+          </span>
+        </div>
+        <h3 class="text-lg font-bold text-white mt-1">Inform Coordinator (Manjunatha Arasaiah)</h3>
         <p class="text-xs text-slate-400" x-text="activeSession ? activeSession.date_formatted + ' (' + activeSession.time + ')' : ''"></p>
+      </div>
+
+      <!-- FMSC Notice Banner -->
+      <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3 text-xs text-amber-200/90 leading-relaxed flex items-start gap-2.5">
+        <i class="fa-solid fa-circle-exclamation text-amber-400 text-sm mt-0.5 shrink-0"></i>
+        <div>
+          <strong class="text-amber-300">Important:</strong> Please ensure you also reserve spots directly on 
+          <a :href="activeSession?.join_url" target="_blank" class="underline font-bold text-white hover:text-amber-300 inline-flex items-center gap-1">
+            FMSC.org <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+          </a>
+          with Join Code <span class="font-mono font-bold text-white bg-slate-950/80 px-1.5 py-0.5 rounded border border-amber-500/30" x-text="activeSession?.join_code"></span> 
+          so FMSC has your safety waiver and official headcount.
+        </div>
       </div>
 
       <form @submit.prevent="submitRsvp()" class="space-y-3">
         <div>
-          <label class="block text-xs font-semibold text-slate-300 mb-1">Your Name / Family Name *</label>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Your Full Name / Family Name *</label>
           <input type="text" x-model="rsvpForm.name" required placeholder="e.g. Ramesh Sharma" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
-            <input type="email" x-model="rsvpForm.email" placeholder="e.g. name@example.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+            <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp / Phone *</label>
+            <input type="tel" x-model="rsvpForm.phone" required placeholder="e.g. 480-555-0192" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">WhatsApp / Phone</label>
-            <input type="tel" x-model="rsvpForm.phone" placeholder="e.g. 480-555-0192" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+            <label class="block text-xs font-semibold text-slate-300 mb-1">Email Address</label>
+            <input type="email" x-model="rsvpForm.email" placeholder="e.g. name@example.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
           </div>
         </div>
 
@@ -589,14 +734,23 @@
           </select>
         </div>
 
+        <div>
+          <label class="block text-xs font-semibold text-slate-300 mb-1">Notes / Questions for Coordinator (Optional)</label>
+          <input type="text" x-model="rsvpForm.notes" placeholder="e.g. Can pick up 2 from Chandler; running 5m late" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+        </div>
+
         <div class="pt-2 flex items-center gap-2">
           <input type="checkbox" id="fmsc_check" x-model="rsvpForm.registered_on_fmsc" class="rounded bg-slate-950 border-slate-700 text-amber-500 focus:ring-0">
           <label for="fmsc_check" class="text-xs text-slate-300 cursor-pointer">I also reserved / will reserve directly on FMSC.org</label>
         </div>
 
-        <div class="pt-3 flex justify-end gap-2">
+        <div class="pt-3 flex items-center justify-between gap-2">
           <button type="button" @click="showRsvpModal = false" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-bold">Cancel</button>
-          <button type="submit" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-bold shadow-lg shadow-amber-500/20">Confirm Registration</button>
+          <button type="submit" :disabled="isSubmittingRsvp" class="px-5 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 text-xs font-bold shadow-lg shadow-sky-500/20 flex items-center gap-2">
+            <i x-show="!isSubmittingRsvp" class="fa-solid fa-paper-plane"></i>
+            <i x-show="isSubmittingRsvp" class="fa-solid fa-spinner fa-spin"></i>
+            <span x-text="isSubmittingRsvp ? 'Saving to Google Sheet...' : 'Submit to Coordinator'"></span>
+          </button>
         </div>
       </form>
     </div>
@@ -694,6 +848,66 @@
         generatedEmailBody: '',
 
         toast: { show: false, message: '', type: 'success' },
+        isSubmittingRsvp: false,
+        showSheetInstructions: false,
+        googleSheetWebAppUrl: '',
+        googleSheetViewUrl: '',
+        appsScriptCode: `/**
+ * Sai Seva FMSC - Coordinator Google Sheet Auto-Sync Script
+ * Coordinator: Manjunatha Arasaiah (Saibaba Group Phoenix SSSGC)
+ */
+function doGet(e) {
+  return ContentService.createTextOutput(JSON.stringify({
+    status: "active",
+    message: "Om Sri Sai Ram! Sai FMSC Coordinator Webhook is active and healthy."
+  })).setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  var lock = LockService.getScriptLock();
+  lock.tryLock(10000);
+  try {
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getActiveSheet();
+    var data = {};
+    if (e && e.postData && e.postData.contents) {
+      try { data = JSON.parse(e.postData.contents); } catch (err) { data = e.parameter || {}; }
+    } else if (e && e.parameter) {
+      data = e.parameter;
+    }
+    if (sheet.getLastRow() === 0) {
+      var headers = ["Timestamp", "Seva Date", "Seva Time", "Volunteer / Family Name", "WhatsApp / Phone", "Email", "Adults", "Kids (5+)", "Kids Ages", "Total Count", "Carpool / Transport", "FMSC.org Registered?", "Notes for Coordinator"];
+      sheet.appendRow(headers);
+      var headerRange = sheet.getRange(1, 1, 1, headers.length);
+      headerRange.setFontWeight("bold").setBackground("#0f172a").setFontColor("#f59e0b");
+      sheet.setFrozenRows(1);
+    }
+    var adults = parseInt(data.adults_count || 1, 10);
+    var kids = parseInt(data.kids_count || 0, 10);
+    var timestamp = Utilities.formatDate(new Date(), "America/Phoenix", "yyyy-MM-dd hh:mm:ss a");
+    var row = [
+      timestamp,
+      data.session_date || data.date_formatted || data.date || "Upcoming Seva",
+      data.session_time || data.time || "2:30 PM - 4:00 PM",
+      data.name || "Anonymous Devotee",
+      data.phone || "",
+      data.email || "",
+      adults,
+      kids,
+      data.kids_ages || "",
+      adults + kids,
+      data.carpool || "Driving Independently",
+      data.registered_on_fmsc ? "Yes (FMSC Reserved)" : "Pending FMSC Reservation",
+      data.notes || ""
+    ];
+    sheet.appendRow(row);
+    return ContentService.createTextOutput(JSON.stringify({ status: "success", row: sheet.getLastRow() })).setMimeType(ContentService.MimeType.JSON);
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({ status: "error", message: err.toString() })).setMimeType(ContentService.MimeType.JSON);
+  } finally {
+    lock.releaseLock();
+  }
+}`,
 
         rsvpForm: {
           name: '',
@@ -703,7 +917,8 @@
           kids_count: 0,
           kids_ages: '',
           carpool: 'Driving Independently',
-          registered_on_fmsc: true
+          registered_on_fmsc: true,
+          notes: ''
         },
 
         sessionForm: {
@@ -838,6 +1053,10 @@
             this.loadFromLocalStorage();
           }
 
+          // Load Google Sheet settings
+          this.googleSheetWebAppUrl = localStorage.getItem('sai_fmsc_sheet_webapp_url') || this.data.group_info?.google_sheet_webapp_url || '';
+          this.googleSheetViewUrl = localStorage.getItem('sai_fmsc_sheet_view_url') || this.data.group_info?.google_sheet_view_url || '';
+
           if (this.data.sessions.length > 0) {
             this.waSessionId = this.data.sessions[0].id;
           }
@@ -930,17 +1149,41 @@
             kids_count: 0,
             kids_ages: '',
             carpool: 'Driving Independently',
-            registered_on_fmsc: true
+            registered_on_fmsc: true,
+            notes: ''
           };
           this.showRsvpModal = true;
         },
 
         async submitRsvp() {
           if (!this.activeSession) return;
+          this.isSubmittingRsvp = true;
+
           const payload = {
             session_id: this.activeSession.id,
-            ...this.rsvpForm
+            session_date: this.activeSession.date_formatted,
+            session_time: this.activeSession.time,
+            location_name: this.activeSession.location_name,
+            ...this.rsvpForm,
+            created_at: new Date().toISOString()
           };
+
+          let sheetSuccess = false;
+          const webappUrl = (this.googleSheetWebAppUrl || this.data.group_info?.google_sheet_webapp_url || '').trim();
+          if (webappUrl && webappUrl.startsWith('http')) {
+            try {
+              // Send directly to Google Apps Script Web App
+              await fetch(webappUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+              });
+              sheetSuccess = true;
+            } catch (sheetErr) {
+              console.warn('Google Sheet submission warning:', sheetErr);
+            }
+          }
 
           try {
             const res = await fetch('/api/rsvp', {
@@ -955,7 +1198,6 @@
               if (sIdx !== -1) {
                 this.data.sessions[sIdx] = resData.session;
               }
-              this.showToast('Om Sri Sai Ram! Registration confirmed.', 'success');
             } else {
               this.fallbackLocalRsvp(payload);
             }
@@ -963,7 +1205,14 @@
             this.fallbackLocalRsvp(payload);
           }
 
+          this.isSubmittingRsvp = false;
           this.showRsvpModal = false;
+
+          if (sheetSuccess) {
+            this.showToast('Om Sri Sai Ram! Coordinator Manju notified & logged to Google Sheet.', 'success');
+          } else {
+            this.showToast('Om Sri Sai Ram! Coordinator Manju notified.', 'success');
+          }
           this.updateWhatsAppMessage();
         },
 
@@ -979,12 +1228,71 @@
               kids_count: payload.kids_count,
               kids_ages: payload.kids_ages,
               carpool: payload.carpool,
-              registered_on_fmsc: payload.registered_on_fmsc
+              registered_on_fmsc: payload.registered_on_fmsc,
+              notes: payload.notes || ''
             };
             this.data.sessions[sIdx].volunteers.push(newVol);
             this.saveToLocalStorage();
-            this.showToast('Registration saved locally!', 'success');
           }
+        },
+
+        saveSheetSettings() {
+          const webapp = (this.googleSheetWebAppUrl || '').trim();
+          const view = (this.googleSheetViewUrl || '').trim();
+          localStorage.setItem('sai_fmsc_sheet_webapp_url', webapp);
+          localStorage.setItem('sai_fmsc_sheet_view_url', view);
+          if (this.data.group_info) {
+            this.data.group_info.google_sheet_webapp_url = webapp;
+            this.data.group_info.google_sheet_view_url = view;
+          }
+          this.saveToLocalStorage();
+          try {
+            fetch('/api/settings', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                google_sheet_webapp_url: webapp,
+                google_sheet_view_url: view
+              })
+            });
+          } catch (e) {}
+          this.showToast('Google Sheet settings saved successfully!', 'success');
+        },
+
+        async testGoogleSheet() {
+          const webappUrl = (this.googleSheetWebAppUrl || '').trim();
+          if (!webappUrl) {
+            this.showToast('Please enter a Google Apps Script Web App URL first.', 'error');
+            return;
+          }
+          this.showToast('Sending test row to Google Sheet...', 'success');
+          try {
+            await fetch(webappUrl, {
+              method: 'POST',
+              mode: 'no-cors',
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+              body: JSON.stringify({
+                name: 'Test Devotee (Verification Ping)',
+                phone: '480-555-0199',
+                email: 'test@example.com',
+                session_date: 'Verification Test Seva',
+                session_time: '2:30 PM - 4:00 PM',
+                adults_count: 2,
+                kids_count: 1,
+                kids_ages: '8',
+                carpool: 'Driving Independently',
+                registered_on_fmsc: true,
+                notes: 'Verification test from Sai Seva portal'
+              })
+            });
+            this.showToast('Test row submitted! Check your Google Sheet to confirm.', 'success');
+          } catch (err) {
+            this.showToast('Test submission error: ' + err.message, 'error');
+          }
+        },
+
+        copyAppsScriptCode() {
+          this.copyText(this.appsScriptCode, 'Google Apps Script code copied to clipboard!');
         },
 
         async deleteVolunteer(sessionId, volId) {

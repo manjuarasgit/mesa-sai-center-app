@@ -9,7 +9,9 @@
     "default_address": "1100 West Grove Parkway, Tempe, AZ 85283",
     "site_contact": "Trish Blackwell - Tempe Site Manager (480-626-1970 | TempeInfo@fmsc.org)",
     "google_maps_url": "https://maps.google.com/?q=1100+West+Grove+Parkway,+Tempe,+AZ+85283",
-    "portal_public_url": "https://manjuarasgit.github.io/mesa-sai-center-app/"
+    "portal_public_url": "https://manjuarasgit.github.io/mesa-sai-center-app/",
+    "google_sheet_webapp_url": "",
+    "google_sheet_view_url": ""
   },
   "guidelines": [
     {

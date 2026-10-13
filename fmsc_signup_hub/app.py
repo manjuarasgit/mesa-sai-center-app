@@ -210,7 +210,11 @@ def delete_session(session_id: str):
 def update_settings(payload: Dict[str, Any] = Body(...)):
     data = load_data()
     group_info = data.get("group_info", {})
-    for key in ["group_name", "organization", "leader_name", "leader_email", "leader_phone", "default_location_name", "default_address", "site_contact", "google_maps_url", "portal_public_url"]:
+    for key in [
+        "group_name", "organization", "leader_name", "leader_email", "leader_phone",
+        "default_location_name", "default_address", "site_contact", "google_maps_url",
+        "portal_public_url", "google_sheet_webapp_url", "google_sheet_view_url"
+    ]:
         if key in payload:
             group_info[key] = payload[key]
     data["group_info"] = group_info
