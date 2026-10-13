@@ -1,0 +1,503 @@
+{
+  "center_info": {
+    "name": "Mesa Sathya Sai Center",
+    "group_name": "Saibaba Group Phoenix SSSGC",
+    "organization": "Sri Sathya Sai Global Council (SSSGC) - Phoenix / Mesa, AZ",
+    "location": "Mesa & Greater Phoenix, Arizona (AZ)",
+    "meeting_times": "Sundays 9:15 AM - 12:00 PM & Thursdays 8:00 PM - 8:30 PM",
+    "contact_email": "mesa.sai.center.az@gmail.com",
+    "coordinator_name": "Manjunatha Arasaiah",
+    "coordinator_email": "manjuaras108@gmail.com",
+    "whatsapp_group_link": "https://chat.whatsapp.com/MesaSaiCenterAZ",
+    "sharepoint_drive_url": "https://mesasaicenter.sharepoint.com/sites/MesaSaiCenter",
+    "youtube_channel_url": "https://www.youtube.com/@MesaSaiCenterAZ",
+    "google_sheet_webapp_url": "",
+    "google_sheet_view_url": ""
+  },
+  "weekly_schedule": {
+    "sunday": [
+      { "time": "9:15 AM - 10:30 AM", "activity": "Sri Sathya Sai Spiritual Education (SSSE Balvikas)", "location": "SSSE Classrooms" },
+      { "time": "9:30 AM - 10:30 AM", "activity": "Adult Study Circle & Reflection", "location": "Study Circle Room" },
+      { "time": "10:45 AM - 11:45 AM", "activity": "Devotional Bhajans & Aarti", "location": "Main Prayer Hall" },
+      { "time": "11:45 AM - 12:00 PM", "activity": "Announcements & Maha Prasadam", "location": "Dining Hall" }
+    ],
+    "thursday": [
+      { "time": "8:00 PM - 8:30 PM", "activity": "Midweek Devotional Bhajans & Namasmarana", "location": "Virtual / Member Residences" }
+    ]
+  },
+  "announcements": [
+    {
+      "id": "ann-1",
+      "title": "Monthly FMSC Volunteer Packing Drives (Nov, Dec, Feb, Mar)",
+      "date": "2026-10-12",
+      "category": "Seva",
+      "content": "Our Saibaba Group Phoenix FMSC seva sessions are scheduled for Nov 7, Dec 5, Feb 6, and Mar 6 (2:30 PM - 4:00 PM) at the Tempe site. Join Code is 1NXP4D. Register under the Seva tab!",
+      "is_pinned": true
+    },
+    {
+      "id": "ann-2",
+      "title": "Andre House Homeless Dinner Hospitality Service",
+      "date": "2026-10-15",
+      "category": "Seva",
+      "content": "Join our center volunteer team serving hot dinner meals to 500+ guests at Andre House (213 S 11th Ave, Phoenix). Volunteer shift 3:00 PM - 7:00 PM. Ages 14+ welcome. RSVP in the Seva tab.",
+      "is_pinned": true
+    },
+    {
+      "id": "ann-3",
+      "title": "Parthi Yatra 2027 Pilgrimage to Prashanthi Nilayam",
+      "date": "2027-07-15",
+      "category": "Pilgrimage",
+      "content": "Planning for the Zonal Parthi Yatra 2027 pilgrimage to Puttaparthi has commenced! Includes choir offering, Veda chanting at Kulwant Hall, and ashram seva. Register your family's interest now.",
+      "is_pinned": true
+    },
+    {
+      "id": "ann-4",
+      "title": "Young Adult (YA) Regional Conference & Activities",
+      "date": "2026-10-16",
+      "category": "YA Wing",
+      "content": "Annual YA Conference in October! Focus on spiritual transformation, musical workshops, and youth-led seva initiatives. Check out the YA Wing tab.",
+      "is_pinned": false
+    }
+  ],
+  "balvikas_classes": [
+    {
+      "id": "g0",
+      "group_name": "Pre-SSSE (Kindergarten / Pre-K)",
+      "guru_names": "Sister Savitha & Sister Aruna",
+      "current_lesson": "Swami's 5 Human Values through Prayers & Stories",
+      "value_focus": "Love (Prema) & Peace (Shanthi)",
+      "summary": "Learning simple Sai prayers, devotional coloring, and stories illustrating Truth, Right Action, Peace, Love, and Non-Violence.",
+      "homework": "Practice chanting 'Om Sri Sai Ram' every morning and draw a lotus flower for Swami.",
+      "slides_file": ""
+    },
+    {
+      "id": "g1",
+      "group_name": "SSSE Group 1 (Grades 1-3)",
+      "guru_names": "Sister Lakshmi & Sister Geetha",
+      "current_lesson": "Lesson 21: Omnipresent God 🌟",
+      "value_focus": "Love & Peace",
+      "summary": "God is everywhere just like air and light. We can experience God's loving presence by being kind and helpful to parents, friends, and nature.",
+      "homework": "Perform 3 acts of kindness this week and share your experience in next Sunday's class.",
+      "slides_file": "Sai/Lesson21_Slides.html"
+    },
+    {
+      "id": "g2",
+      "group_name": "SSSE Group 2 (Grades 4-6)",
+      "guru_names": "Brother Ramesh & Sister Priya",
+      "current_lesson": "Lesson 7: Energy Conservation & Lesson 22: Service to God",
+      "value_focus": "Right Action (Dharma) & Non-Waste (Ahimsa)",
+      "summary": "Understanding Ceiling on Desires (don't waste food, money, time, energy) and preparing for hands-on community service at FMSC.",
+      "homework": "Track daily electricity/water savings at home and write 5 lines on why feeding the hungry is divine worship.",
+      "slides_file": "Sai/Lesson7_Slides.html"
+    },
+    {
+      "id": "g3",
+      "group_name": "SSSE Group 3 (Grades 7-9)",
+      "guru_names": "Brother Sai Kumar",
+      "current_lesson": "Mind Management & Ceiling on Desires in Teenage Life",
+      "value_focus": "Truth (Sathya) & Self-Discipline",
+      "summary": "Overcoming peer pressure, managing screen time, and redirecting energy toward creative service and character building.",
+      "homework": "Maintain a 7-day Ceiling on Desires journal logging screen time, speech awareness, and food choices.",
+      "slides_file": ""
+    },
+    {
+      "id": "g4",
+      "group_name": "SSSE Group 4 (Grades 10-12)",
+      "guru_names": "Sister Ananya",
+      "current_lesson": "Integrating Swami's 3Ps (Purity, Patience, Perseverance)",
+      "value_focus": "Character, Duty & Spiritual Self-Confidence",
+      "summary": "Applying spiritual principles to high school, college prep, career ethics, and youth leadership in the community.",
+      "homework": "Read 2 pages of Sathya Sai Speaks and prepare one philosophical talking point for next Sunday.",
+      "slides_file": ""
+    }
+  ],
+  "missed_session_recaps": [
+    {
+      "id": "recap-2026-10-11",
+      "date": "2026-10-11",
+      "title": "Weekly Center Recap - Oct 11, 2026",
+      "balvikas_summary": "SSSE Groups 1 & 2 studied Lesson 7 on Energy Conservation and Swami's Ceiling on Desires. Group 3 & 4 explored 'Courage to Stand for Truth'.",
+      "study_circle_summary": "Discussed Geetha Vahini Chapter 5: 'Mastery over Mind and Sense Organs'. Practical reflection on reducing mental clutter.",
+      "bhajan_summary": "Devotional bhajans sung in Ganesha, Krishna, and Sarva Dharma. Inspiring vocal and harmonium accompaniment by YA youth.",
+      "slides_link": "Sai/Lesson7_Slides.html"
+    },
+    {
+      "id": "recap-2026-10-04",
+      "date": "2026-10-04",
+      "title": "Weekly Center Recap - Oct 04, 2026",
+      "balvikas_summary": "SSSE Group 1 reviewed Lesson 21 (Omnipresent God) with interactive slides. Group 2 prepared gratitude cards for FMSC seva.",
+      "study_circle_summary": "Geetha Vahini Chapter 4: Nishkama Karma (Action without Attachment). Work is worship, Duty is God.",
+      "bhajan_summary": "Sung 8 uplifting bhajans including Shiva, Devi, and Rama chants. Concluded with vibrant Aarti.",
+      "slides_link": "Sai/Lesson21_Slides.html"
+    }
+  ],
+  "study_circle": {
+    "next_topic": "Geetha Vahini - Chapter 5: Control of Mind & Sense Organs",
+    "date": "Upcoming Sunday",
+    "time": "9:30 AM - 10:30 AM",
+    "facilitator": "Brother Anand",
+    "reading_material_url": "https://www.sssbpt.info/vahinis/Geetha/Geethavahini.pdf",
+    "discussion_prompts": [
+      "How do we maintain mental calmness and equanimity amidst hectic workplace and family demands?",
+      "What is Swami's practical guidance on regulating the 5 senses (vision, speech, hearing, taste, touch)?",
+      "How does practicing 'Ceiling on Desires' help quiet the restlessness of the modern mind?"
+    ]
+  },
+  "bhajans": {
+    "upcoming_date": "Upcoming Sunday & Thursday",
+    "sunday_time": "10:45 AM - 11:45 AM (In-Person)",
+    "thursday_time": "8:00 PM - 8:30 PM (Virtual / Home Satsang)",
+    "singers_schedule": [
+      { "slot": 1, "song": "Ganesha Sharanam Sharanam Ganesha", "singer": "Rahul (YA Wing)", "pitch": "4 White (G#)", "deity": "Ganesha" },
+      { "slot": 2, "song": "Guru Deva Jaya Deva Sai Deva", "singer": "Sister Meena", "pitch": "2 White (D)", "deity": "Guru" },
+      { "slot": 3, "song": "Jaya Ho Jaya Ho Gopal", "singer": "SSSE Group 2 Students", "pitch": "3 White (F)", "deity": "Krishna" },
+      { "slot": 4, "song": "Shambho Mahadeva Mallikarjuna", "singer": "Brother Suresh", "pitch": "1 White (C)", "deity": "Shiva" },
+      { "slot": 5, "song": "Amba Mandahasa Vadani", "singer": "Sister Ananya (YA Wing)", "pitch": "4 White (G#)", "deity": "Devi" },
+      { "slot": 6, "song": "Allahu Akbar Allahu Akbar", "singer": "Brother Sai Kumar", "pitch": "2 White (D)", "deity": "Sarva Dharma" }
+    ],
+    "songbook": [
+      {
+        "id": "bhajan-1",
+        "title": "Ganesha Sharanam Sharanam Ganesha",
+        "deity": "Ganesha",
+        "lyrics": "Ganesha Sharanam Sharanam Ganesha (x2)\nSidhi Vinayaka Sharanam Ganesha\nBuddhi Pradayaka Sharanam Ganesha\nMangala Murti Sharanam Ganesha",
+        "meaning": "I surrender and seek refuge at the lotus feet of Lord Ganesha, the remover of all hurdles, the bestower of supreme intellect and auspiciousness.",
+        "tempo": "Medium",
+        "audio_link": ""
+      },
+      {
+        "id": "bhajan-2",
+        "title": "Guru Deva Jaya Deva Sai Deva",
+        "deity": "Guru",
+        "lyrics": "Guru Deva Jaya Deva Sai Deva Dayamaya\nSharanam Sharanam Sharanam Deva\nParthi Puri Parameshwara Dayamaya\nPrema Swaroopa Shanthi Pradayaka",
+        "meaning": "Victory to the Supreme Guru, Lord Sai, full of compassion and boundless grace! We seek refuge at Your divine lotus feet.",
+        "tempo": "Fast",
+        "audio_link": ""
+      },
+      {
+        "id": "bhajan-3",
+        "title": "Jaya Ho Jaya Ho Gopal",
+        "deity": "Krishna",
+        "lyrics": "Jaya Ho Jaya Ho Gopal\nAnanda Nanda Gopal\nRadhe Shyam Gopal\nGovinda Gopala Hare Hare",
+        "meaning": "Victory to Lord Gopala (Krishna), the embodiment of supreme bliss, who enchants the hearts of all devotees.",
+        "tempo": "Medium",
+        "audio_link": ""
+      },
+      {
+        "id": "bhajan-4",
+        "title": "Shambho Mahadeva Mallikarjuna",
+        "deity": "Shiva",
+        "lyrics": "Shambho Mahadeva Mallikarjuna\nGirija Ramana Parameshwara\nGangadhara Hara Bholanatha\nParthi Pureeshwara Sai Natha",
+        "meaning": "Salutations to Lord Shiva, the bearer of the holy Ganges, the tranquil ascetic, who is none other than Bhagawan Sri Sathya Sai Baba of Puttaparthi.",
+        "tempo": "Medium",
+        "audio_link": ""
+      },
+      {
+        "id": "bhajan-5",
+        "title": "Amba Mandahasa Vadani",
+        "deity": "Devi",
+        "lyrics": "Amba Mandahasa Vadani Manohari\nSai Jagat Janani\nKarunamayi Kripamayi\nPrema Mayi Jagat Janani",
+        "meaning": "O Mother Divine, with a compassionate gentle smile adorning Your countenance! Mother of the entire universe, overflowing with infinite love and mercy.",
+        "tempo": "Medium",
+        "audio_link": ""
+      }
+    ]
+  },
+  "daily_chanting": {
+    "title": "Daily Chanting & Spiritual Sadhana",
+    "tagline": "Sanctify every breath with sacred Vedic vibrations and Swami's divine name",
+    "description": "Bhagawan Baba emphasizes that regular repetition of the Gayatri Mantra, Sai Gayatri, Veda chanting, and Sri Sathya Sai 108 Ashtothram purifies our thoughts, grants protection, and elevates the spiritual consciousness of the entire family.",
+    "items": [
+      {
+        "id": "chant-gayatri",
+        "title": "The Universal Gayatri Mantra",
+        "category": "Vedic / Universal",
+        "sanskrit": "ॐ भूर्भुवः स्वः तत्सवितुर्वरेण्यं भर्गो देवस्य धीमहि धियो यो नः प्रचोदयात् ॥",
+        "transliteration": "Om Bhur Bhuva Suvaha\nTat Savitur Varenyam\nBhargo Devasya Dheemahi\nDhiyo Yo Nah Prachodayath",
+        "meaning": "We meditate upon the supreme divine brilliance of the Sun of spiritual consciousness, the creator of the physical, subtle, and celestial realms. May that Divine Light illuminate and inspire our intellect.",
+        "benefits": "Swami says chanting the Gayatri Mantra 3 times a day (morning, noon, evening) protects from harm, sharpens the intellect, dispels gloom, and leads to liberation.",
+        "recommended_count": "3, 9, 21, or 108 times daily"
+      },
+      {
+        "id": "chant-sai-gayatri",
+        "title": "Sri Sathya Sai Gayatri",
+        "category": "Avataric Gayatri",
+        "sanskrit": "ॐ सायि ईश्वराय विद्महे सत्य देवाय धीमहि । तन्नः सर्वः प्रचोदयात् ॥",
+        "transliteration": "Om Sayeeshwaraya Vidmahe\nSathya Devaya Dheemahi\nTannah Sarvah Prachodayath",
+        "meaning": "We know the Supreme Lord Sai. We meditate on the Embodiment of Absolute Truth (Sathya Deva). May that Omni-Divine Being enlighten our vision and guide all our actions.",
+        "benefits": "Invokes the direct presence, protection, and grace of Bhagawan Sri Sathya Sai Baba into our home and daily life.",
+        "recommended_count": "9, 21, or 108 times daily"
+      },
+      {
+        "id": "chant-ashtothram",
+        "title": "Sri Sathya Sai Ashtothra Shata Namavali (108 Names)",
+        "category": "Swami's 108 Holy Names",
+        "transliteration": "1. Om Sri Sathya Sai Bhagavathe Namah\n2. Om Sri Sathya Sai Sathya Swaroopaya Namah\n3. Om Sri Sathya Sai Sathya Dharma Parayanaya Namah\n4. Om Sri Sathya Sai Varadaya Namah\n5. Om Sri Sathya Sai Chithraroopaya Namah\n... 108. Om Sri Sathya Sai Sarva Devatha Swaroopaya Namah",
+        "meaning": "The 108 sacred names honoring Bhagawan Sri Sathya Sai Baba, celebrating His divine attributes: Embodiment of Truth, Bestower of boons, Friend of the meek, Supreme Master of the Universe.",
+        "benefits": "Chanted during Thursday and Sunday aarti or morning prayer. Cleanses negative vibrations in the home.",
+        "recommended_count": "108 Names with flower/akshata offering"
+      },
+      {
+        "id": "chant-rudram",
+        "title": "Sri Rudram - Namakam & Chamakam (Veda Chanting)",
+        "category": "Veda Chanting",
+        "transliteration": "Om Namo Bhagavate Rudraya\nNamaste Rudra Manyava Utota Ishave Namah...\nSham Cha Me Mayash Cha Me Priyam Cha Me Anukāmash Cha Me...",
+        "meaning": "Sacred Vedic hymn from the Krishna Yajur Veda invoking the all-pervading Cosmic Divine in every aspect of nature, asking for inner peace, purity, and universal well-being.",
+        "benefits": "Veda chanting generates profound healing frequencies. Balvikas students and devotees learn to chant with correct swaras (intonation).",
+        "recommended_count": "Namakam & Chamakam / Laghunyasam"
+      },
+      {
+        "id": "chant-mrityunjaya",
+        "title": "Maha Mrityunjaya Mantra (Healing & Protection)",
+        "category": "Healing Prayer",
+        "sanskrit": "ॐ त्र्यम्बकं यजामहे सुगन्धिं पुष्टिवर्धनम् । उर्वारुकमिव बन्धनान् मृत्योर्मुक्षीय मामृतात् ॥",
+        "transliteration": "Om Tryambakam Yajamahe\nSugandhim Pushti-Vardhanam\nUrvaarukamiva Bandhanaan\nMrityor Muksheeya Maamritaat",
+        "meaning": "We worship the Three-Eyed Lord Shiva, who is fragrant and nourishes all beings. Just as a ripe melon is effortlessly liberated from its vine, may He free us from the cycle of death and ignorance into the nectar of immortality.",
+        "benefits": "Universal healing mantra chanted for good health, recovery from illness, and emotional fortitude.",
+        "recommended_count": "11 or 21 times"
+      },
+      {
+        "id": "chant-peace",
+        "title": "Universal Peace Prayer (Samastha Lokah)",
+        "category": "Universal Well-being",
+        "sanskrit": "समस्ताः लोकाः सुखिनो भवन्तु ॥ ॐ शान्तिः शान्तिः शान्तिः ॥",
+        "transliteration": "Samastha Lokah Sukhino Bhavantu\nOm Shanthi Shanthi Shanthi-hi",
+        "meaning": "May all beings in all the worlds be happy, peaceful, and free from suffering. Om Peace, Peace, Peace.",
+        "benefits": "Swami instructed that this prayer replaces Loka Samastha so that every realm of creation receives divine peace.",
+        "recommended_count": "Chanted at the end of all center meetings & personal prayers (3 times)"
+      }
+    ]
+  },
+  "all_sevas": [
+    {
+      "id": "seva-fmsc",
+      "type": "fmsc",
+      "title": "Feed My Starving Children (FMSC) Monthly Packing Seva",
+      "frequency": "Monthly (Saturdays 2:30 PM - 4:00 PM)",
+      "badge": "Kids 5+ & Adults",
+      "location": "FMSC Tempe Site (1100 W Grove Pkwy, Tempe, AZ)",
+      "description": "Hand-packing life-saving MannaPack rice & soy meals for malnourished children worldwide. Great for whole families, kids 5+, and adults.",
+      "join_code": "1NXP4D",
+      "coordinator": "Manjunatha Arasaiah (Saibaba Group Phoenix SSSGC)"
+    },
+    {
+      "id": "seva-andre-house",
+      "type": "andre_house",
+      "title": "Andre House Homeless Hospitality & Dinner Service",
+      "frequency": "Monthly / Bi-Weekly Weekend Shifts",
+      "badge": "Ages 14+ & Adults",
+      "location": "213 S 11th Ave, Phoenix, AZ 85007 (Downtown Phoenix)",
+      "description": "Andre House serves over 500 hot dinners every single night to homeless and vulnerable neighbors in downtown Phoenix. Center devotees volunteer in dinner preparation, plating, table service, and clothing room hospitality.",
+      "shift_time": "3:00 PM - 7:00 PM",
+      "coordinator": "Center Seva Committee & YA Team"
+    },
+    {
+      "id": "seva-breakfast",
+      "type": "breakfast",
+      "title": "Bi-Weekly Homeless Hot Breakfast Serving Drive",
+      "frequency": "Bi-Weekly Sundays",
+      "badge": "Community Meal",
+      "location": "Pioneer Park / Mesa Homeless Shelter Area, Mesa, AZ",
+      "description": "Preparing and serving hot cooked oatmeal, hard-boiled eggs, fresh bananas, hot coffee, and juice for 80+ homeless brothers and sisters.",
+      "shift_time": "6:30 AM - 8:30 AM",
+      "coordinator": "Brother Venkatesh & Seva Volunteers"
+    },
+    {
+      "id": "seva-school-drive",
+      "type": "general",
+      "title": "Back-to-School Backpack & Winter Warmth Drive",
+      "frequency": "Seasonal",
+      "badge": "Mesa Community",
+      "location": "Mesa Public Schools / Local Family Shelters",
+      "description": "Collecting new backpacks, notebook supplies, and warm winter jackets and blankets for underprivileged children and families across the East Valley.",
+      "coordinator": "Mesa SSSE Gurus & Parents"
+    }
+  ],
+  "seva_fmsc": {
+    "title": "Feed My Starving Children (FMSC) Monthly Packing Seva",
+    "group_name": "Saibaba Group Phoenix SSSGC",
+    "location": "FMSC Tempe Site, 1100 West Grove Parkway, Tempe, AZ 85283",
+    "coordinator_name": "Manjunatha Arasaiah",
+    "coordinator_email": "manjuaras108@gmail.com",
+    "join_code": "1NXP4D",
+    "join_url": "http://www.fmsc.org/join-group?joincode=1NXP4D",
+    "hub_url": "fmsc_signup_hub/index.html",
+    "sessions": [
+      {
+        "id": "session-2026-11-07",
+        "date": "2026-11-07",
+        "date_formatted": "Saturday, November 07, 2026",
+        "time": "2:30 PM - 4:00 PM",
+        "arrival_time": "2:15 PM",
+        "location": "Tempe, AZ",
+        "spots_filled": 9,
+        "total_spots": 36,
+        "join_code": "1NXP4D",
+        "join_url": "http://www.fmsc.org/join-group?joincode=1NXP4D"
+      },
+      {
+        "id": "session-2026-12-05",
+        "date": "2026-12-05",
+        "date_formatted": "Saturday, December 05, 2026",
+        "time": "2:30 PM - 4:00 PM",
+        "arrival_time": "2:15 PM",
+        "location": "Tempe, AZ",
+        "spots_filled": 1,
+        "total_spots": 36,
+        "join_code": "1NXP4D",
+        "join_url": "http://www.fmsc.org/join-group?joincode=1NXP4D"
+      },
+      {
+        "id": "session-2027-02-06",
+        "date": "2027-02-06",
+        "date_formatted": "Saturday, February 06, 2027",
+        "time": "2:30 PM - 4:00 PM",
+        "arrival_time": "2:15 PM",
+        "location": "Tempe, AZ",
+        "spots_filled": 1,
+        "total_spots": 36,
+        "join_code": "1NXP4D",
+        "join_url": "http://www.fmsc.org/join-group?joincode=1NXP4D"
+      },
+      {
+        "id": "session-2027-03-06",
+        "date": "2027-03-06",
+        "date_formatted": "Saturday, March 06, 2027",
+        "time": "2:30 PM - 4:00 PM",
+        "arrival_time": "2:15 PM",
+        "location": "Tempe, AZ",
+        "spots_filled": 1,
+        "total_spots": 36,
+        "join_code": "1NXP4D",
+        "join_url": "http://www.fmsc.org/join-group?joincode=1NXP4D"
+      }
+    ],
+    "guidelines": [
+      { "icon": "👟", "title": "Closed-Toe Shoes Required", "desc": "Sneakers or work shoes required. No sandals, Crocs with holes, or flip-flops." },
+      { "icon": "💍", "title": "Strictly NO Jewelry", "desc": "FDA cleanroom packaging rule: NO rings, earrings, watches, or bracelets. Plain wedding bands permitted." },
+      { "icon": "👶", "title": "Ages 5+ Welcome", "desc": "Kids 5-9 (1 adult per 3 kids); Ages 10-17 (1 adult per 4 kids)." },
+      { "icon": "⏰", "title": "Arrive at 2:15 PM", "desc": "Arrive 15 minutes early for check-in, handwashing, and hairnet orientation." }
+    ]
+  },
+  "seva_andre_house": {
+    "title": "Andre House of Arizona - Homeless Hospitality & Dinner Service",
+    "address": "213 S 11th Ave, Phoenix, AZ 85007 (Downtown Phoenix)",
+    "shift_time": "3:00 PM - 7:00 PM",
+    "frequency": "Monthly Designated Volunteer Shifts",
+    "description": "Andre House was founded in 1984 to serve the poor and homeless of the Phoenix area, providing food, clothing, showers, and laundry. Devotees assist with chopping vegetables, cooking, setting dining tables, serving 500+ hot plates, and sanitizing the dining hall.",
+    "age_policy": "Minimum age is 14 years old. Volunteers under 18 must be accompanied by a parent or adult guardian.",
+    "dress_code": [
+      "Sturdy closed-toe shoes (non-slip soles recommended, no canvas shoes or sandals).",
+      "Short or long sleeve shirts (no sleeveless shirts or tank tops).",
+      "Pants or modest knee-length shorts.",
+      "Hair tied back neatly; hats or hairnets will be provided in food service areas."
+    ],
+    "upcoming_shifts": [
+      {
+        "id": "andre-shift-1",
+        "date": "Saturday, October 24, 2026",
+        "time": "3:00 PM - 7:00 PM",
+        "volunteers_needed": 12,
+        "volunteers_registered": [
+          { "name": "Mesa YA Wing Team", "count": 4, "role": "Food Prep & Plating" },
+          { "name": "Ramesh Kumar Family", "count": 2, "role": "Beverage & Dining Room" }
+        ]
+      },
+      {
+        "id": "andre-shift-2",
+        "date": "Saturday, November 21, 2026",
+        "time": "3:00 PM - 7:00 PM",
+        "volunteers_needed": 12,
+        "volunteers_registered": [
+          { "name": "Venkatesh M.", "count": 2, "role": "Kitchen Volunteer" }
+        ]
+      }
+    ]
+  },
+  "seva_breakfast": {
+    "title": "Bi-Weekly Homeless Hot Breakfast Seva",
+    "next_date": "Sunday, October 25, 2026",
+    "time": "6:30 AM - 8:30 AM",
+    "location": "Pioneer Park / Mesa Homeless Shelter Area, Mesa, AZ",
+    "coordinator_contact": "Brother Venkatesh (480-555-0192)",
+    "headcount_target": 80,
+    "items": [
+      { "id": "b-item-1", "name": "Hot Oatmeal (1 Large Foil Tray)", "needed": 2, "signed_up": [ { "volunteer": "Sunita Patel", "qty": 1, "phone": "480-555-1111" } ] },
+      { "id": "b-item-2", "name": "Boiled Eggs (Batch of 25)", "needed": 3, "signed_up": [ { "volunteer": "Ravi Kumar", "qty": 2, "phone": "480-555-2222" } ] },
+      { "id": "b-item-3", "name": "Fresh Bananas / Oranges (Box of 30)", "needed": 3, "signed_up": [ { "volunteer": "Anitha S.", "qty": 1, "phone": "480-555-3333" } ] },
+      { "id": "b-item-4", "name": "Hot Coffee / Tea Containers (5 Gal)", "needed": 2, "signed_up": [] },
+      { "id": "b-item-5", "name": "Orange Juice (Gallons)", "needed": 4, "signed_up": [ { "volunteer": "Deepak Shah", "qty": 2, "phone": "480-555-4444" } ] },
+      { "id": "b-item-6", "name": "Disposable Plates, Cups & Napkins", "needed": 1, "signed_up": [ { "volunteer": "Mesa Sai YA Wing", "qty": 1, "phone": "480-555-5555" } ] }
+    ]
+  },
+  "ya_wing": {
+    "title": "Young Adult (YA) Wing (Ages 18-35)",
+    "tagline": "Transforming Self to Transform the World through Service, Music, and Sadhana",
+    "description": "The Mesa Young Adult Wing actively empowers young adults in spiritual, devotional, service, and educational initiatives. YAs lead musical accompaniments, coordinate community sevas, run audio-visual engineering, and host youth study circles.",
+    "activities": [
+      {
+        "title": "🎵 Musical Leadership & Bhajan Accompaniment",
+        "description": "YA vocalists and instrumentalists lead Harmonium, Tabla, Dholak, Percussion, and vocal harmonies every Sunday and at special festival celebrations."
+      },
+      {
+        "title": "🤝 Hands-On Community Seva",
+        "description": "Leading volunteer teams at Andre House homeless shelter, FMSC food packaging, environmental park cleanups, and local food drives."
+      },
+      {
+        "title": "💡 YA Study Circles & Retreats",
+        "description": "Bi-weekly youth-led discussions applying Swami's universal teachings to university, career, relationships, and mental resilience."
+      }
+    ],
+    "upcoming_conference": {
+      "title": "Regional Young Adult Conference — October 2026",
+      "location": "Phoenix Regional Center / Mesa Venue",
+      "details": "Weekend conference featuring spiritual workshops, musical rehearsals, panel discussions, and collaborative seva."
+    }
+  },
+  "special_events": [
+    {
+      "id": "event-parthi-yatra",
+      "title": "Parthi Yatra 2027 — Zonal Pilgrimage to Prashanthi Nilayam",
+      "date": "July 2027",
+      "time": "10-Day Pilgrimage",
+      "location": "Prashanthi Nilayam, Puttaparthi, AP, India",
+      "category": "Pilgrimage",
+      "description": "Zonal pilgrimage trip to Swami's sacred Ashram in Puttaparthi. Highlights include daily Darshan and Bhajan at Sai Kulwant Hall, Veda chanting, group choir musical offering, and Seva in the ashram hospital and canteen.",
+      "coordinator": "Center Pilgrimage Committee",
+      "is_active": true
+    },
+    {
+      "id": "event-home-bhajans",
+      "title": "Unofficial Home Bhajans & House Satsangs",
+      "date": "Weekly / Bi-Weekly",
+      "time": "Flexible (Evenings)",
+      "location": "Member Residences (Mesa, Gilbert, Chandler, Tempe)",
+      "category": "Devotional",
+      "description": "Devotional bhajan sessions hosted at center families' residences for housewarmings, birthdays, or special family prayers. YA wing provides musical support.",
+      "coordinator": "Brother Sai Kumar & YA Bhajan Team",
+      "is_active": true
+    },
+    {
+      "id": "event-ya-conference",
+      "title": "Young-Adult (YA) Regional Conference 2026",
+      "date": "October 16-18, 2026",
+      "time": "Weekend Conference",
+      "location": "Phoenix Regional Center / Mesa Venue",
+      "category": "YA Wing",
+      "description": "Inspiring weekend conference for Young Adults (ages 18-35) with spiritual talks, choir practices, leadership workshops, and seva.",
+      "coordinator": "Mesa YA Representatives (youngadults.mesa@gmail.com)",
+      "is_active": true
+    }
+  ],
+  "special_event_rsvps": [
+    {
+      "id": "rsvp-1",
+      "event_id": "event-parthi-yatra",
+      "family_name": "Arasaiah Family",
+      "adults": 2,
+      "kids": 1,
+      "contact_phone": "",
+      "notes": "Parthi Yatra interest"
+    }
+  ]
+}

@@ -1,17 +1,1418 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="refresh" content="0; url=fmsc_signup_hub/">
-  <script>window.location.replace("fmsc_signup_hub/");</script>
-  <title>Sai Seva | FMSC Volunteer Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mesa Sathya Sai Center | Saibaba Group Phoenix SSSGC</title>
+  
+  <!-- PWA & Mobile Meta -->
+  <link rel="manifest" href="static/manifest.json">
+  <meta name="theme-color" content="#d97706">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Mesa Sai Center">
+  <link rel="apple-touch-icon" href="https://img.icons8.com/color/192/000000/lotus.png">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Alpine.js -->
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <style>
+    [x-cloak] { display: none !important; }
+    .gold-gradient { background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%); }
+    .card-dark { background-color: #0f172a; border: 1px solid #1e293b; }
+    .card-hover:hover { border-color: #f59e0b; }
+    .glass { background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(51, 65, 85, 0.6); }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #020617; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #475569; }
+  </style>
 </head>
-<body style="background:#0f172a; color:#f8fafc; font-family:system-ui,-apple-system,sans-serif; text-align:center; padding-top:25vh;">
-  <div style="max-width:400px; margin:0 auto; padding:20px; border-radius:12px; background:#1e293b; border:1px solid #334155;">
-    <h2 style="margin:0 0 10px 0; font-size:18px;">Sai Seva • FMSC Portal</h2>
-    <p style="color:#94a3b8; font-size:14px; margin-bottom:16px;">Redirecting you to the volunteer registration hub...</p>
-    <a href="fmsc_signup_hub/" style="display:inline-block; padding:10px 20px; background:#f59e0b; color:#0f172a; font-weight:bold; border-radius:8px; text-decoration:none;">Open Portal Now &rarr;</a>
+
+<body class="h-full font-sans antialiased flex flex-col justify-between selection:bg-amber-500 selection:text-slate-950"
+      x-data="saiApp()" x-init="initApp()">
+
+  <!-- ================= TOP HEADER BANNER ================= -->
+  <header class="sticky top-0 z-40 bg-slate-950/95 backdrop-blur border-b border-slate-800 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer" @click="activeTab = 'home'">
+        <div class="w-10 h-10 rounded-full gold-gradient p-0.5 shadow-lg flex items-center justify-center text-xl shrink-0">
+          🌸
+        </div>
+        <div>
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <h1 class="font-extrabold text-sm sm:text-base text-amber-400 leading-tight">Mesa Sathya Sai Center</h1>
+            <span class="text-[10px] bg-amber-500/20 text-amber-300 px-1.5 py-0.2 rounded font-semibold border border-amber-500/30">SSSGC</span>
+          </div>
+          <p class="text-[11px] text-slate-400">Saibaba Group Phoenix • SSSE, Bhajans, Seva & Pilgrimage</p>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="flex items-center space-x-2">
+        <!-- Direct Link to Standalone FMSC Hub -->
+        <a href="fmsc_signup_hub/index.html" title="Open Full FMSC Hub with WhatsApp Generator"
+           class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center space-x-1.5 transition">
+          <i class="fa-solid fa-box-open text-amber-400"></i>
+          <span class="hidden sm:inline">FMSC Hub</span>
+        </a>
+
+        <a :href="data.center_info?.whatsapp_group_link || 'https://chat.whatsapp.com/MesaSaiCenterAZ'" target="_blank"
+           class="bg-emerald-600 hover:bg-emerald-500 text-white px-2.5 py-1.5 rounded-lg text-xs font-semibold flex items-center space-x-1.5 shadow transition">
+          <i class="fa-brands fa-whatsapp text-sm"></i>
+          <span class="hidden md:inline">WhatsApp</span>
+        </a>
+
+        <!-- Install PWA Button -->
+        <button x-show="deferredPrompt" @click="installPWA()"
+                class="bg-amber-500 hover:bg-amber-400 text-slate-950 px-2.5 py-1.5 rounded-lg text-xs font-bold flex items-center space-x-1 shadow transition">
+          <i class="fa-solid fa-download"></i>
+          <span class="hidden sm:inline">Install App</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Desktop Navigation Bar -->
+    <nav class="hidden md:block bg-slate-900 border-t border-slate-800 overflow-x-auto custom-scroll">
+      <div class="max-w-7xl mx-auto px-4 flex space-x-1 text-xs font-medium py-1">
+        <button @click="activeTab = 'home'" :class="activeTab === 'home' ? 'text-amber-400 border-b-2 border-amber-400 bg-slate-850 font-bold' : 'text-slate-300 hover:text-white'" class="px-3 py-2 flex items-center space-x-1.5 transition">
+          <i class="fa-solid fa-house"></i><span>Home & Recaps</span>
+        </button>
+        <button @click="activeTab = 'balvikas'" :class="activeTab === 'balvikas' ? 'text-amber-400 border-b-2 border-amber-400 bg-slate-850 font-bold' : 'text-slate-300 hover:text-white'" class="px-3 py-2 flex items-center space-x-1.5 transition">
+          <i class="fa-solid fa-book-open"></i><span>SSSE Balvikas</span>
+        </button>
+        <button @click="activeTab = 'bhajans'" :class="activeTab === 'bhajans' ? 'text-amber-400 border-b-2 border-amber-400 bg-slate-850 font-bold' : 'text-slate-300 hover:text-white'" class="px-3 py-2 flex items-center space-x-1.5 transition">
+          <i class="fa-solid fa-music"></i><span>Bhajans</span>
+        </button>
+        <button @click="activeTab = 'seva'" :class="activeTab === 'seva' ? 'text-emerald-400 border-b-2 border-emerald-400 bg-slate-850 font-bold' : 'text-slate-300 hover:text-white'" class="px-3 py-2 flex items-center space-x-1.5 transition">
+          <i class="fa-solid fa-hands-holding-child text-emerald-400"></i><span class="text-emerald-300 font-bold">Seva & Service</span>
+        </button>
+        <button @click="activeTab = 'chanting'" :class="activeTab === 'chanting' ? 'text-amber-400 border-b-2 border-amber-400 bg-slate-850 font-bold' : 'text-slate-300 hover:text-white'" class="px-3 py-2 flex items-center space-x-1.5 transition">
+          <i class="fa-solid fa-om text-amber-400"></i><span>Daily Chanting</span>
+        </button>
+        <button @click="activeTab = 'events'" :class="activeTab === 'events' ? 'text-amber-400 border-b-2 border-amber-400 bg-slate-850 font-bold' : 'text-slate-300 hover:text-white'" class="px-3 py-2 flex items-center space-x-1.5 transition">
+          <i class="fa-solid fa-mountain-sun text-amber-300"></i><span>Parthi & Events</span>
+        </button>
+        <button @click="activeTab = 'ya'" :class="activeTab === 'ya' ? 'text-purple-400 border-b-2 border-purple-400 bg-slate-850 font-bold' : 'text-slate-300 hover:text-white'" class="px-3 py-2 flex items-center space-x-1.5 transition">
+          <i class="fa-solid fa-users text-purple-400"></i><span class="text-purple-300">YA Wing</span>
+        </button>
+        <button @click="activeTab = 'study'" :class="activeTab === 'study' ? 'text-amber-400 border-b-2 border-amber-400 bg-slate-850 font-bold' : 'text-slate-300 hover:text-white'" class="px-3 py-2 flex items-center space-x-1.5 transition">
+          <i class="fa-solid fa-brain"></i><span>Study Circle</span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ================= MAIN CONTENT AREA ================= -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-6 mb-20 md:mb-6">
+
+    <!-- Loading State -->
+    <div x-show="loading" class="flex flex-col items-center justify-center py-20">
+      <div class="w-12 h-12 border-4 border-amber-500 border-t-transparent rounded-full animate-spin"></div>
+      <p class="mt-4 text-slate-400 text-sm">Om Sri Sai Ram • Loading Mesa Sai Center Hub...</p>
+    </div>
+
+    <div x-show="!loading" x-cloak class="space-y-6">
+
+      <!-- ================= TAB 1: HOME & WEEKLY RECAPS ================= -->
+      <section x-show="activeTab === 'home'" class="space-y-6">
+        
+        <!-- Welcome Hero & Updated Schedule Bar -->
+        <div class="card-dark rounded-2xl p-6 border border-slate-800 shadow-xl relative overflow-hidden bg-gradient-to-r from-slate-900 via-slate-900 to-amber-950/40">
+          <div class="absolute -right-10 -bottom-10 w-48 h-48 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
+          
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+            <div class="space-y-2">
+              <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                <span>🙏 Om Sri Sai Ram</span>
+                <span>• Love All, Serve All</span>
+              </span>
+              <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Mesa Sathya Sai Center, AZ</h2>
+              <p class="text-slate-300 text-xs sm:text-sm max-w-xl leading-relaxed">
+                Central Community Portal for SSSE Spiritual Education (Balvikas), Devotional Bhajans, Hands-On Seva (FMSC & Andre House), Daily Chanting, and Parthi Pilgrimage.
+              </p>
+            </div>
+
+            <!-- Schedule Card -->
+            <div class="bg-slate-950/90 rounded-2xl p-4 border border-slate-800 text-xs space-y-2.5 min-w-[300px] shadow-lg">
+              <div class="text-amber-400 font-bold flex items-center justify-between border-b border-slate-800 pb-1.5">
+                <span class="flex items-center space-x-1.5">
+                  <i class="fa-regular fa-clock"></i>
+                  <span>Center Weekly Schedule</span>
+                </span>
+                <span class="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-mono">Phoenix MST</span>
+              </div>
+
+              <!-- Sunday Timings -->
+              <div class="space-y-1">
+                <span class="font-bold text-amber-300 block text-[11px]">🗓 In-Person Sundays:</span>
+                <div class="text-slate-300 flex justify-between pl-2">
+                  <span>SSSE (Balvikas):</span> <strong class="text-white font-mono">9:15 AM - 10:30 AM</strong>
+                </div>
+                <div class="text-slate-300 flex justify-between pl-2">
+                  <span>Study Circle:</span> <strong class="text-white font-mono">9:30 AM - 10:30 AM</strong>
+                </div>
+                <div class="text-slate-300 flex justify-between pl-2">
+                  <span>Devotional Bhajans:</span> <strong class="text-white font-mono">10:45 AM - 11:45 AM</strong>
+                </div>
+              </div>
+
+              <!-- Thursday Timings -->
+              <div class="pt-1 border-t border-slate-800">
+                <span class="font-bold text-purple-300 block text-[11px]">🗓 Midweek Thursdays:</span>
+                <div class="text-slate-300 flex justify-between pl-2">
+                  <span>Evening Bhajans:</span> <strong class="text-amber-300 font-mono">8:00 PM - 8:30 PM</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Activity Cards Grid (Seva, Chanting, Parthi, SSSE) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          <!-- Seva Hub Card -->
+          <div @click="activeTab = 'seva'" class="bg-gradient-to-br from-emerald-950/80 to-slate-900 p-4 rounded-xl border border-emerald-700/50 hover:border-emerald-400 transition cursor-pointer space-y-2 group shadow-md">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1">
+                <i class="fa-solid fa-hands-holding-child"></i> Seva Wing
+              </span>
+              <span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-bold">FMSC & Andre House</span>
+            </div>
+            <h3 class="font-bold text-white text-sm group-hover:text-emerald-300 transition">Community Seva Hub</h3>
+            <p class="text-[11px] text-slate-300 leading-snug">FMSC food packing, Andre House homeless dinners & hot breakfast.</p>
+            <span class="text-xs text-emerald-400 font-bold inline-flex items-center gap-1 pt-1">
+              <span>View Sevas &rarr;</span>
+            </span>
+          </div>
+
+          <!-- Daily Chanting Card -->
+          <div @click="activeTab = 'chanting'" class="bg-gradient-to-br from-amber-950/80 to-slate-900 p-4 rounded-xl border border-amber-700/50 hover:border-amber-400 transition cursor-pointer space-y-2 group shadow-md">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1">
+                <i class="fa-solid fa-om"></i> Sadhana
+              </span>
+              <span class="text-[9px] bg-amber-500/20 text-amber-300 px-1.5 py-0.5 rounded font-bold">108 Counter</span>
+            </div>
+            <h3 class="font-bold text-white text-sm group-hover:text-amber-300 transition">Daily Chanting & Mantras</h3>
+            <p class="text-[11px] text-slate-300 leading-snug">Gayatri, Sai Gayatri, 108 Ashtothram, Sri Rudram & Peace prayer.</p>
+            <span class="text-xs text-amber-400 font-bold inline-flex items-center gap-1 pt-1">
+              <span>Practice Now &rarr;</span>
+            </span>
+          </div>
+
+          <!-- Parthi Pilgrimage Card -->
+          <div @click="activeTab = 'events'" class="bg-gradient-to-br from-sky-950/80 to-slate-900 p-4 rounded-xl border border-sky-700/50 hover:border-sky-400 transition cursor-pointer space-y-2 group shadow-md">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1">
+                <i class="fa-solid fa-mountain-sun"></i> Pilgrimage
+              </span>
+              <span class="text-[9px] bg-sky-500/20 text-sky-300 px-1.5 py-0.5 rounded font-bold">July 2027</span>
+            </div>
+            <h3 class="font-bold text-white text-sm group-hover:text-sky-300 transition">Parthi Yatra 2027</h3>
+            <p class="text-[11px] text-slate-300 leading-snug">Zonal pilgrimage to Prashanthi Nilayam with choir, seva & Darshan.</p>
+            <span class="text-xs text-sky-400 font-bold inline-flex items-center gap-1 pt-1">
+              <span>Register Interest &rarr;</span>
+            </span>
+          </div>
+
+          <!-- SSSE Balvikas Slides Card -->
+          <div @click="activeTab = 'balvikas'" class="bg-gradient-to-br from-purple-950/80 to-slate-900 p-4 rounded-xl border border-purple-700/50 hover:border-purple-400 transition cursor-pointer space-y-2 group shadow-md">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-purple-400 flex items-center gap-1">
+                <i class="fa-solid fa-book-open"></i> Education
+              </span>
+              <span class="text-[9px] bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded font-bold">5 Human Values</span>
+            </div>
+            <h3 class="font-bold text-white text-sm group-hover:text-purple-300 transition">SSSE Balvikas & Slides</h3>
+            <p class="text-[11px] text-slate-300 leading-snug">Interactive lesson decks, gurus, homework, and weekly recaps.</p>
+            <span class="text-xs text-purple-400 font-bold inline-flex items-center gap-1 pt-1">
+              <span>View Lessons &rarr;</span>
+            </span>
+          </div>
+
+        </div>
+
+        <!-- Announcements Banner -->
+        <div class="card-dark p-5 rounded-2xl border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="font-bold text-white text-sm sm:text-base flex items-center gap-2">
+              <i class="fa-solid fa-bullhorn text-amber-400"></i>
+              <span>Center Announcements & Updates</span>
+            </h3>
+            <span class="text-xs text-slate-400" x-text="(data.announcements || []).length + ' Active'"></span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <template x-for="ann in (data.announcements || [])" :key="ann.id">
+              <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-800 space-y-1.5 flex flex-col justify-between">
+                <div>
+                  <div class="flex justify-between items-start gap-2">
+                    <h4 class="font-bold text-white text-xs sm:text-sm" x-text="ann.title"></h4>
+                    <span class="text-[9px] px-1.5 py-0.5 rounded font-bold bg-amber-500/20 text-amber-300 shrink-0" x-text="ann.category"></span>
+                  </div>
+                  <p class="text-xs text-slate-300 mt-1 leading-relaxed" x-text="ann.content"></p>
+                </div>
+                <span class="text-[10px] text-slate-500 font-mono" x-text="ann.date"></span>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <!-- "Missed a Session?" Weekly Recaps Feed -->
+        <div class="card-dark p-5 rounded-2xl border border-slate-800 space-y-4">
+          <div class="flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-white text-sm sm:text-base flex items-center gap-2">
+                <i class="fa-solid fa-clock-rotate-left text-amber-400"></i>
+                <span>"Missed a Session?" Weekly Recaps & Slides</span>
+              </h3>
+              <p class="text-xs text-slate-400">Review lesson highlights, study circle takeaways, and embedded presentation slides.</p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <template x-for="recap in (data.missed_session_recaps || [])" :key="recap.id">
+              <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 border-b border-slate-800 pb-2">
+                  <h4 class="font-bold text-amber-400 text-sm" x-text="recap.title"></h4>
+                  <span class="text-xs font-mono text-slate-400" x-text="recap.date"></span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                  <div class="bg-slate-950 p-3 rounded-lg border border-slate-850 space-y-1">
+                    <span class="font-bold text-purple-300 block flex items-center gap-1">
+                      <i class="fa-solid fa-graduation-cap"></i> SSSE Balvikas
+                    </span>
+                    <p class="text-slate-300 leading-relaxed" x-text="recap.balvikas_summary"></p>
+                    <template x-if="recap.slides_link">
+                      <button @click="openSlideModal(recap.slides_link)" class="mt-2 text-[11px] text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1">
+                        <i class="fa-solid fa-display"></i> View Lesson Slides &rarr;
+                      </button>
+                    </template>
+                  </div>
+
+                  <div class="bg-slate-950 p-3 rounded-lg border border-slate-850 space-y-1">
+                    <span class="font-bold text-sky-300 block flex items-center gap-1">
+                      <i class="fa-solid fa-brain"></i> Study Circle
+                    </span>
+                    <p class="text-slate-300 leading-relaxed" x-text="recap.study_circle_summary"></p>
+                  </div>
+
+                  <div class="bg-slate-950 p-3 rounded-lg border border-slate-850 space-y-1">
+                    <span class="font-bold text-emerald-300 block flex items-center gap-1">
+                      <i class="fa-solid fa-music"></i> Devotional Bhajans
+                    </span>
+                    <p class="text-slate-300 leading-relaxed" x-text="recap.bhajan_summary"></p>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- ================= TAB 2: SSSE BALVIKAS (Spiritual Education) ================= -->
+      <section x-show="activeTab === 'balvikas'" class="space-y-6">
+        <div class="card-dark p-6 rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-950/80 to-slate-900 shadow-xl space-y-2">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase">Education Wing</span>
+              <h2 class="text-2xl font-extrabold text-white mt-1">Sri Sathya Sai Spiritual Education (SSSE)</h2>
+              <p class="text-xs text-slate-300">Nurturing Truth (Sathya), Right Conduct (Dharma), Peace (Shanthi), Love (Prema), and Non-Violence (Ahimsa).</p>
+            </div>
+            <div class="text-xs bg-slate-900/90 p-3 rounded-xl border border-slate-800 text-slate-300 shrink-0">
+              <strong class="text-amber-400 block">Sundays 9:15 AM - 10:30 AM</strong>
+              <span>Mesa Sai Center Classrooms</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Groups Grid (Pre-SSSE to Group 4) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <template x-for="cls in (data.balvikas_classes || [])" :key="cls.id">
+            <div class="card-dark p-5 rounded-2xl border border-slate-800 hover:border-amber-500/50 transition space-y-3 flex flex-col justify-between">
+              <div class="space-y-2">
+                <div class="flex justify-between items-start gap-2">
+                  <h3 class="font-bold text-white text-base" x-text="cls.group_name"></h3>
+                  <span class="text-[10px] bg-amber-500/20 text-amber-300 border border-amber-500/30 px-2 py-0.5 rounded font-bold" x-text="cls.value_focus"></span>
+                </div>
+                <p class="text-xs text-slate-400" x-text="'Gurus: ' + cls.guru_names"></p>
+
+                <div class="bg-slate-950 p-3 rounded-xl border border-slate-850 space-y-1.5 text-xs">
+                  <div class="font-semibold text-amber-300" x-text="'📖 Current Lesson: ' + cls.current_lesson"></div>
+                  <p class="text-slate-300 leading-relaxed" x-text="cls.summary"></p>
+                </div>
+
+                <div class="bg-slate-900/80 p-2.5 rounded-lg border border-slate-800 text-xs">
+                  <span class="text-slate-400 font-semibold block text-[11px]">📝 Home Practice / Sadhana:</span>
+                  <p class="text-slate-300 mt-0.5" x-text="cls.homework"></p>
+                </div>
+              </div>
+
+              <!-- Interactive Slide Viewer Button -->
+              <template x-if="cls.slides_file">
+                <div class="pt-2">
+                  <button @click="openSlideModal(cls.slides_file)" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs py-2 rounded-xl transition shadow flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-display"></i>
+                    <span>Open Interactive Lesson Slides</span>
+                  </button>
+                </div>
+              </template>
+            </div>
+          </template>
+        </div>
+      </section>
+
+
+      <!-- ================= TAB 3: DEVOTIONAL BHAJANS ================= -->
+      <section x-show="activeTab === 'bhajans'" class="space-y-6">
+        <div class="card-dark p-6 rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-950/80 to-slate-900 shadow-xl space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase">Devotional Wing</span>
+              <h2 class="text-2xl font-extrabold text-white mt-1">Sai Devotional Bhajans & Songbook</h2>
+              <p class="text-xs text-slate-300">"Sing aloud the glory of God and recharge your batteries." — Sri Sathya Sai Baba</p>
+            </div>
+            <button @click="openHomeBhajanModal()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-3.5 py-2 rounded-xl transition shadow flex items-center gap-1.5 shrink-0">
+              <i class="fa-solid fa-house-chimney-user"></i>
+              <span>Host Home Bhajans</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Upcoming Singers Schedule -->
+        <div class="card-dark p-5 rounded-2xl border border-slate-800 space-y-3">
+          <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+            <h3 class="font-bold text-white text-sm sm:text-base flex items-center gap-2">
+              <i class="fa-solid fa-microphone-lines text-amber-400"></i>
+              <span>Upcoming Bhajan Lead Singers & Pitch Assignments</span>
+            </h3>
+            <span class="text-xs text-slate-400">Sunday 10:45 AM</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+            <template x-for="slot in (data.bhajans?.singers_schedule || [])" :key="slot.slot">
+              <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 space-y-1">
+                <div class="flex justify-between font-bold text-amber-300">
+                  <span x-text="'#' + slot.slot + ' ' + slot.song"></span>
+                </div>
+                <div class="text-slate-300 flex justify-between pt-1">
+                  <span x-text="'Lead: ' + slot.singer"></span>
+                  <span class="font-mono text-amber-400 font-semibold" x-text="slot.pitch"></span>
+                </div>
+                <div class="text-[10px] text-slate-500" x-text="'Deity: ' + slot.deity"></div>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <!-- Searchable Bhajan Songbook -->
+        <div class="card-dark p-5 rounded-2xl border border-slate-800 space-y-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h3 class="font-bold text-white text-sm sm:text-base flex items-center gap-2">
+                <i class="fa-solid fa-book text-amber-400"></i>
+                <span>Center Bhajan Songbook</span>
+              </h3>
+              <p class="text-xs text-slate-400">Search lyrics, transliteration, English meanings, and audio references.</p>
+            </div>
+            <div class="w-full sm:w-64">
+              <input type="text" x-model="bhajanSearch" placeholder="Search song, deity, lyrics..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-amber-400">
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <template x-for="b in filteredBhajans" :key="b.id">
+              <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-2">
+                <div class="flex justify-between items-start gap-2">
+                  <h4 class="font-bold text-amber-400 text-sm" x-text="b.title"></h4>
+                  <span class="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded font-semibold border border-slate-700" x-text="b.deity"></span>
+                </div>
+                <pre class="font-sans text-xs text-slate-200 whitespace-pre-wrap leading-relaxed bg-slate-950 p-3 rounded-lg border border-slate-850" x-text="b.lyrics"></pre>
+                <p class="text-[11px] text-slate-400 italic" x-text="'Meaning: ' + b.meaning"></p>
+              </div>
+            </template>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- ================= TAB 4: SEVA & SERVICE (Love in Action) ================= -->
+      <section x-show="activeTab === 'seva'" class="space-y-6">
+        <div class="card-dark p-6 rounded-2xl border border-emerald-500/40 bg-gradient-to-r from-emerald-950/80 to-slate-900 shadow-xl space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <span class="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase">Service Wing</span>
+              <h2 class="text-2xl font-extrabold text-white mt-1">Hands That Serve: Community Seva</h2>
+              <p class="text-xs text-slate-300">"Service to man is service to God." — Sri Sathya Sai Baba</p>
+            </div>
+            
+            <!-- Direct Link to Dedicated Standalone FMSC Hub -->
+            <a href="fmsc_signup_hub/index.html" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-4 py-2 rounded-xl transition shadow flex items-center gap-1.5 shrink-0">
+              <i class="fa-solid fa-bullhorn"></i>
+              <span>FMSC WhatsApp & Admin Hub &rarr;</span>
+            </a>
+          </div>
+
+          <!-- Seva Filter Pills -->
+          <div class="flex items-center gap-2 overflow-x-auto custom-scroll pt-2 border-t border-emerald-800/40">
+            <button @click="sevaSubTab = 'all'" :class="sevaSubTab === 'all' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-850 text-slate-300 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs transition shrink-0">All Seva Activities</button>
+            <button @click="sevaSubTab = 'fmsc'" :class="sevaSubTab === 'fmsc' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-850 text-slate-300 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs transition shrink-0 flex items-center gap-1.5">
+              <span>FMSC Food Packing</span>
+              <span class="text-[10px] bg-emerald-950 px-1 rounded font-bold">Nov, Dec, Feb, Mar</span>
+            </button>
+            <button @click="sevaSubTab = 'andre'" :class="sevaSubTab === 'andre' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-850 text-slate-300 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs transition shrink-0 flex items-center gap-1.5">
+              <span>Andre House Homeless Hospitality</span>
+              <span class="text-[10px] bg-amber-950 px-1 rounded font-bold">Phoenix</span>
+            </button>
+            <button @click="sevaSubTab = 'breakfast'" :class="sevaSubTab === 'breakfast' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-850 text-slate-300 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs transition shrink-0">Hot Breakfast Drive</button>
+          </div>
+        </div>
+
+        <!-- ---------------- SEVA SECTION 1: FMSC PACKING ---------------- -->
+        <div x-show="sevaSubTab === 'fmsc' || sevaSubTab === 'all'" class="space-y-4">
+          <div class="card-dark p-6 rounded-2xl border border-amber-500/40 space-y-4">
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-3 border-b border-slate-800 pb-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 text-xs font-bold uppercase">Feed My Starving Children (FMSC)</span>
+                  <span class="text-xs text-slate-400 font-mono">Tempe Site</span>
+                </div>
+                <h3 class="text-xl font-bold text-white mt-1">FMSC Monthly Volunteer Packing Drives</h3>
+                <p class="text-xs text-slate-300">
+                  Saibaba Group Phoenix SSSGC group sessions. Hand-packing nutritious MannaPack meals for starving children worldwide.
+                </p>
+              </div>
+
+              <div class="flex items-center gap-2 shrink-0">
+                <a href="fmsc_signup_hub/index.html" class="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 text-xs font-bold flex items-center gap-1.5 transition">
+                  <i class="fa-solid fa-up-right-from-square"></i>
+                  <span>Full Coordinator Tool</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- FMSC Sessions Multi-Month Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <template x-for="session in (data.seva_fmsc?.sessions || [])" :key="session.id">
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3 flex flex-col justify-between">
+                  <div class="space-y-2">
+                    <div class="flex justify-between items-start">
+                      <h4 class="font-bold text-white text-base" x-text="session.date_formatted"></h4>
+                      <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800/60" x-text="((session.total_spots || 36) - (session.spots_filled || 0)) + ' spots left'"></span>
+                    </div>
+
+                    <div class="text-xs text-slate-300 space-y-1">
+                      <div class="flex items-center gap-2">
+                        <i class="fa-regular fa-clock text-amber-400"></i>
+                        <span x-text="session.time + ' (Arrive ' + (session.arrival_time || '2:15 PM') + ')'"></span>
+                      </div>
+                      <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-location-dot text-amber-400"></i>
+                        <span>FMSC Tempe Site (1100 W Grove Pkwy)</span>
+                      </div>
+                    </div>
+
+                    <!-- Progress Bar -->
+                    <div class="pt-1">
+                      <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                        <span><strong class="text-white" x-text="session.spots_filled"></strong> of 36 filled</span>
+                        <span>Capacity: 36 volunteers</span>
+                      </div>
+                      <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden">
+                        <div class="h-full rounded-full bg-gradient-to-r from-amber-500 to-emerald-500" :style="'width: ' + Math.min(100, Math.round((session.spots_filled / 36) * 100)) + '%'"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 2-Step Sign-up Actions -->
+                  <div class="pt-2 border-t border-slate-800 space-y-2">
+                    <!-- Step 1: Direct FMSC.org -->
+                    <div class="flex items-center gap-2">
+                      <a :href="session.join_url" target="_blank" class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs py-2 px-3 rounded-lg text-center transition flex items-center justify-center gap-1.5 shadow">
+                        <span>1. Reserve on FMSC.org</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                      </a>
+                      <button @click="copyText(session.join_code, 'Join code copied!')" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-mono text-xs px-2.5 py-2 rounded-lg border border-slate-700" title="Copy Join Code">
+                        <span class="text-amber-400 font-bold" x-text="session.join_code"></span>
+                        <i class="fa-regular fa-copy ml-1"></i>
+                      </button>
+                    </div>
+
+                    <!-- Step 2: Inform Coordinator Manju -->
+                    <button @click="openFmscInformModal(session)" class="w-full bg-slate-850 hover:bg-slate-800 border border-sky-500/40 text-sky-300 font-bold text-xs py-2 px-3 rounded-lg transition flex items-center justify-center gap-2">
+                      <i class="fa-solid fa-clipboard-user text-sky-400"></i>
+                      <span>2. Inform Coordinator (Manju) & Carpool</span>
+                    </button>
+                  </div>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---------------- SEVA SECTION 2: ANDRE HOUSE HOMELESS SERVICES ---------------- -->
+        <div x-show="sevaSubTab === 'andre' || sevaSubTab === 'all'" class="space-y-4">
+          <div class="card-dark p-6 rounded-2xl border border-sky-500/40 space-y-4">
+            <div class="flex flex-col md:flex-row justify-between md:items-center gap-3 border-b border-slate-800 pb-3">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 text-xs font-bold uppercase">Homeless Dinner Hospitality</span>
+                  <span class="text-xs text-slate-400 font-mono">Downtown Phoenix</span>
+                </div>
+                <h3 class="text-xl font-bold text-white mt-1" x-text="data.seva_andre_house?.title || 'Andre House Homeless Services'"></h3>
+                <p class="text-xs text-slate-300 max-w-2xl leading-relaxed" x-text="data.seva_andre_house?.description"></p>
+              </div>
+
+              <div class="text-xs bg-slate-900 p-3 rounded-xl border border-slate-800 space-y-1 shrink-0">
+                <div class="text-sky-400 font-bold flex items-center gap-1.5">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <span>213 S 11th Ave, Phoenix, AZ</span>
+                </div>
+                <div class="text-slate-300 flex items-center gap-1.5">
+                  <i class="fa-regular fa-clock"></i>
+                  <span>Shift: 3:00 PM - 7:00 PM</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Guidelines & Age Policy -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs bg-slate-950 p-4 rounded-xl border border-slate-850">
+              <div>
+                <strong class="text-amber-400 block mb-1">👶 Volunteer Age Policy:</strong>
+                <p class="text-slate-300" x-text="data.seva_andre_house?.age_policy"></p>
+              </div>
+              <div>
+                <strong class="text-amber-400 block mb-1">👟 Kitchen Dress Code:</strong>
+                <ul class="text-slate-300 space-y-0.5 list-disc list-inside">
+                  <li>Sturdy closed-toe shoes (non-slip required).</li>
+                  <li>Shirts with sleeves (no sleeveless/tank tops).</li>
+                  <li>Pants or modest knee-length shorts. Hair tied.</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Upcoming Andre House Shifts -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+              <template x-for="shift in (data.seva_andre_house?.upcoming_shifts || [])" :key="shift.id">
+                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 space-y-3 flex flex-col justify-between">
+                  <div>
+                    <div class="flex justify-between items-start">
+                      <h4 class="font-bold text-white text-sm" x-text="shift.date"></h4>
+                      <span class="text-[10px] bg-sky-500/20 text-sky-300 px-2 py-0.5 rounded font-bold" x-text="shift.time"></span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1">Dinner preparation, plating meals, and dining hall hospitality.</p>
+                    
+                    <div class="mt-3 text-xs text-slate-300 space-y-1">
+                      <span class="text-slate-400 font-semibold block text-[11px]">Volunteers Registered:</span>
+                      <template x-for="v in shift.volunteers_registered" :key="v.name">
+                        <div class="flex justify-between text-slate-300">
+                          <span x-text="v.name"></span>
+                          <span class="text-sky-400 font-bold" x-text="v.count + ' people (' + v.role + ')'"></span>
+                        </div>
+                      </template>
+                    </div>
+                  </div>
+
+                  <button @click="openAndreHouseModal(shift)" class="w-full bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold text-xs py-2 rounded-xl transition shadow flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span>Sign Up for this Andre House Shift</span>
+                  </button>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+
+        <!-- ---------------- SEVA SECTION 3: HOT BREAKFAST DRIVE ---------------- -->
+        <div x-show="sevaSubTab === 'breakfast' || sevaSubTab === 'all'" class="space-y-4">
+          <div class="card-dark p-6 rounded-2xl border border-amber-500/40 space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+              <div>
+                <h3 class="text-xl font-bold text-white">Bi-Weekly Homeless Hot Breakfast Seva</h3>
+                <p class="text-xs text-slate-300" x-text="data.seva_breakfast?.location"></p>
+              </div>
+              <span class="text-xs bg-amber-950 text-amber-300 px-3 py-1 rounded font-bold" x-text="'Next: ' + (data.seva_breakfast?.next_date || 'Upcoming Sunday')"></span>
+            </div>
+
+            <!-- Item Checklist Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+              <template x-for="item in (data.seva_breakfast?.items || [])" :key="item.id">
+                <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-800 space-y-2 flex flex-col justify-between">
+                  <div>
+                    <div class="flex justify-between items-start">
+                      <h4 class="font-bold text-amber-300 text-xs" x-text="item.name"></h4>
+                      <span class="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded text-slate-300 font-semibold" x-text="calculatePledged(item) + '/' + item.needed"></span>
+                    </div>
+                    <div class="mt-2 space-y-1 text-[11px]">
+                      <template x-for="s in item.signed_up" :key="s.volunteer">
+                        <div class="text-slate-300 flex justify-between">
+                          <span x-text="s.volunteer"></span>
+                          <span class="text-amber-400 font-bold" x-text="'Qty: ' + s.qty"></span>
+                        </div>
+                      </template>
+                    </div>
+                  </div>
+                  <button @click="openItemSignupModal(item)" class="w-full bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs py-1.5 rounded-lg transition">+ Pledge Item</button>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+
+      <!-- ================= TAB 5: DAILY CHANTING & SADHANA ================= -->
+      <section x-show="activeTab === 'chanting'" class="space-y-6">
+        <div class="card-dark p-6 rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-950/80 to-slate-900 shadow-xl space-y-3">
+          <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase">Spiritual Sadhana</span>
+          <h2 class="text-2xl font-extrabold text-white mt-1">Daily Chanting, Mantras & Namasmarana</h2>
+          <p class="text-xs text-slate-300 leading-relaxed" x-text="data.daily_chanting?.description"></p>
+        </div>
+
+        <!-- Interactive 108 Japa Chanting Counter Tool -->
+        <div class="card-dark p-6 rounded-2xl border border-slate-800 flex flex-col items-center justify-center text-center space-y-4 bg-gradient-to-b from-slate-900 to-slate-950 shadow-xl">
+          <div class="space-y-1">
+            <span class="text-xs uppercase font-bold text-amber-400 tracking-wider">Interactive Sadhana Counter</span>
+            <h3 class="text-lg font-bold text-white">Daily 108 Japa / Chanting Mala</h3>
+            <p class="text-xs text-slate-400">Tap the sacred counter after each mantra chanting cycle.</p>
+          </div>
+
+          <!-- Counter Circle -->
+          <div class="relative cursor-pointer select-none" @click="incrementJapa()">
+            <div class="w-40 h-40 rounded-full gold-gradient p-1 shadow-2xl flex items-center justify-center transform active:scale-95 transition">
+              <div class="w-full h-full bg-slate-950 rounded-full flex flex-col items-center justify-center p-3">
+                <span class="text-4xl font-extrabold text-amber-400 font-mono" x-text="japaCount"></span>
+                <span class="text-[10px] text-slate-400 mt-1 uppercase tracking-wider">of 108 Repetitions</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Counter Controls -->
+          <div class="flex items-center gap-3">
+            <button @click="resetJapa()" class="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold">
+              <i class="fa-solid fa-rotate-left mr-1"></i> Reset
+            </button>
+            <span x-show="japaCount >= 108" class="text-xs font-bold text-emerald-400 animate-pulse">
+              🎉 108 Completed! Om Sri Sai Ram!
+            </span>
+          </div>
+        </div>
+
+        <!-- Chants & Mantras Cards List -->
+        <div class="space-y-4">
+          <template x-for="chant in (data.daily_chanting?.items || [])" :key="chant.id">
+            <div class="card-dark p-5 rounded-2xl border border-slate-800 space-y-3">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-850 pb-2">
+                <div>
+                  <h3 class="font-bold text-white text-base" x-text="chant.title"></h3>
+                  <span class="text-[11px] text-amber-400 font-semibold" x-text="chant.category"></span>
+                </div>
+                <span class="text-xs font-mono bg-slate-900 px-2.5 py-1 rounded text-slate-300 border border-slate-800" x-text="'Recommended: ' + chant.recommended_count"></span>
+              </div>
+
+              <!-- Sanskrit script if available -->
+              <template x-if="chant.sanskrit">
+                <p class="text-base text-amber-300/90 font-serif leading-relaxed" x-text="chant.sanskrit"></p>
+              </template>
+
+              <!-- Transliteration -->
+              <pre class="font-sans text-xs sm:text-sm text-slate-200 whitespace-pre-wrap leading-relaxed bg-slate-950 p-3.5 rounded-xl border border-slate-850" x-text="chant.transliteration"></pre>
+
+              <!-- Meaning & Benefits -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs pt-1">
+                <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                  <strong class="text-slate-300 block mb-1">🌸 Spiritual Meaning:</strong>
+                  <p class="text-slate-400 leading-relaxed" x-text="chant.meaning"></p>
+                </div>
+                <div class="bg-slate-900/80 p-3 rounded-lg border border-slate-800">
+                  <strong class="text-amber-400 block mb-1">✨ Swami's Guidance:</strong>
+                  <p class="text-slate-400 leading-relaxed" x-text="chant.benefits"></p>
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </section>
+
+
+      <!-- ================= TAB 6: PARTHI PILGRIMAGE & SPECIAL EVENTS ================= -->
+      <section x-show="activeTab === 'events'" class="space-y-6">
+        <div class="card-dark p-6 rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-950/80 to-slate-900 shadow-xl space-y-3">
+          <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase">Pilgrimage & Special Events</span>
+          <h2 class="text-2xl font-extrabold text-white mt-1">Parthi Yatra Pilgrimage & Center Satsangs</h2>
+          <p class="text-xs text-slate-300">Zonal pilgrimage trips to Prashanthi Nilayam, home devotional gatherings, and regional retreats.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <template x-for="event in (data.special_events || [])" :key="event.id">
+            <div class="card-dark p-5 rounded-2xl border border-slate-800 hover:border-amber-500/50 transition space-y-3 flex flex-col justify-between">
+              <div class="space-y-2">
+                <div class="flex justify-between items-start">
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30" x-text="event.category"></span>
+                  <span class="text-xs font-mono text-slate-400" x-text="event.date"></span>
+                </div>
+                <h3 class="font-bold text-white text-base" x-text="event.title"></h3>
+                <div class="text-xs text-amber-400 font-medium flex items-center gap-1.5">
+                  <i class="fa-solid fa-location-dot"></i>
+                  <span x-text="event.location"></span>
+                </div>
+                <p class="text-xs text-slate-300 leading-relaxed" x-text="event.description"></p>
+                <p class="text-[11px] text-slate-400 italic" x-text="'Coordinator: ' + event.coordinator"></p>
+              </div>
+
+              <button @click="openEventRSVPModal(event)" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs py-2 rounded-xl transition shadow flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-check"></i>
+                <span>Register Interest / RSVP</span>
+              </button>
+            </div>
+          </template>
+        </div>
+      </section>
+
+
+      <!-- ================= TAB 7: YOUNG ADULT (YA) WING ================= -->
+      <section x-show="activeTab === 'ya'" class="space-y-6">
+        <div class="card-dark p-6 rounded-2xl border border-purple-500/40 bg-gradient-to-r from-purple-950/80 to-slate-900 shadow-xl space-y-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <span class="bg-purple-500/20 text-purple-300 border border-purple-500/30 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase">Young Adult Wing (Ages 18-35)</span>
+              <h2 class="text-2xl font-extrabold text-white mt-1" x-text="data.ya_wing?.title || 'Young Adult (YA) Wing'"></h2>
+              <p class="text-xs text-purple-300 italic" x-text="data.ya_wing?.tagline"></p>
+            </div>
+            <button @click="activeTab = 'events'" class="bg-purple-600 hover:bg-purple-500 text-white font-bold text-xs px-3.5 py-2 rounded-xl transition shadow shrink-0">
+              Regional YA Conference &rarr;
+            </button>
+          </div>
+          <p class="text-xs text-slate-300 leading-relaxed" x-text="data.ya_wing?.description"></p>
+        </div>
+
+        <!-- YA Pillars Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <template x-for="act in (data.ya_wing?.activities || [])" :key="act.title">
+            <div class="card-dark p-5 rounded-2xl border border-slate-800 hover:border-purple-500/50 transition space-y-2">
+              <h3 class="font-bold text-white text-sm sm:text-base" x-text="act.title"></h3>
+              <p class="text-xs text-slate-300 leading-relaxed" x-text="act.description"></p>
+            </div>
+          </template>
+        </div>
+
+        <!-- Musical Leadership Spotlight -->
+        <div class="bg-slate-900/90 p-5 rounded-2xl border border-slate-800 space-y-3">
+          <h3 class="text-base font-bold text-purple-300 flex items-center gap-2">
+            <i class="fa-solid fa-music"></i>
+            <span>YA Musical Accompaniment & Sound Engineering</span>
+          </h3>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Mesa Young Adults manage harmonium, tabla rhythm, dholak, and sound mixing desk for weekly Sunday Bhajans and special festival concerts.
+          </p>
+        </div>
+      </section>
+
+
+      <!-- ================= TAB 8: ADULT STUDY CIRCLE ================= -->
+      <section x-show="activeTab === 'study'" class="space-y-6">
+        <div class="card-dark p-6 rounded-2xl border border-amber-500/40 bg-gradient-to-r from-amber-950/80 to-slate-900 shadow-xl space-y-3">
+          <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs font-bold px-2.5 py-0.5 rounded-full uppercase">Spiritual Inquiry</span>
+          <h2 class="text-2xl font-extrabold text-white mt-1">Adult Study Circle & Reflection</h2>
+          <p class="text-xs text-slate-300">Sundays 9:30 AM - 10:30 AM • In-depth study of Bhagawan's Vahinis and practical application in daily life.</p>
+        </div>
+
+        <div class="card-dark p-6 rounded-2xl border border-slate-800 space-y-4">
+          <div class="flex justify-between items-start gap-2 border-b border-slate-800 pb-3">
+            <div>
+              <span class="text-xs font-semibold text-amber-400">Current Study Series:</span>
+              <h3 class="text-lg font-bold text-white mt-0.5" x-text="data.study_circle?.next_topic"></h3>
+              <p class="text-xs text-slate-400 mt-1" x-text="'Facilitator: ' + (data.study_circle?.facilitator || 'Brother Anand')"></p>
+            </div>
+            <template x-if="data.study_circle?.reading_material_url">
+              <a :href="data.study_circle?.reading_material_url" target="_blank" class="px-3.5 py-2 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs font-bold flex items-center gap-1.5 hover:bg-amber-500/30 transition shrink-0">
+                <i class="fa-solid fa-file-pdf"></i>
+                <span>Open Vahini PDF</span>
+              </a>
+            </template>
+          </div>
+
+          <!-- Discussion Prompts -->
+          <div class="space-y-2">
+            <h4 class="font-bold text-slate-200 text-xs uppercase tracking-wider">Reflection Discussion Prompts:</h4>
+            <div class="space-y-2">
+              <template x-for="(prompt, pIdx) in (data.study_circle?.discussion_prompts || [])" :key="pIdx">
+                <div class="bg-slate-900 p-3 rounded-xl border border-slate-800 text-xs text-slate-200 flex items-start gap-2.5">
+                  <span class="w-5 h-5 rounded-full bg-amber-500 text-slate-950 font-bold flex items-center justify-center text-[10px] shrink-0" x-text="pIdx + 1"></span>
+                  <span class="mt-0.5 leading-relaxed" x-text="prompt"></span>
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- Slide Deck Modal (Embedded HTML Presentation Viewer) -->
+  <div x-show="showSlideModal" x-cloak class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-4xl h-[85vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="p-3.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+        <h3 class="font-bold text-amber-400 text-xs sm:text-sm flex items-center gap-2">
+          <i class="fa-solid fa-display"></i>
+          <span>SSSE Balvikas Interactive Slide Presentation</span>
+        </h3>
+        <button @click="showSlideModal = false" class="text-slate-400 hover:text-white p-1 text-base">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="flex-1 bg-black">
+        <iframe :src="activeSlideUrl" class="w-full h-full border-none"></iframe>
+      </div>
+    </div>
   </div>
+
+
+  <!-- FMSC Inform Coordinator Modal -->
+  <div x-show="showFmscModal" x-cloak class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl max-h-[92vh] overflow-y-auto custom-scroll">
+      <div class="flex justify-between items-start">
+        <div>
+          <span class="text-[10px] font-bold uppercase bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded">FMSC Seva</span>
+          <h3 class="font-bold text-white text-base mt-1">Inform Coordinator (Manju)</h3>
+          <p class="text-xs text-slate-400" x-text="activeFmscSession ? activeFmscSession.date_formatted : ''"></p>
+        </div>
+        <button @click="showFmscModal = false" class="text-slate-400 hover:text-white">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form @submit.prevent="submitFmscInform()" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Your Full Name / Family Name *</label>
+          <input type="text" x-model="fmscForm.name" required placeholder="e.g. Ramesh Sharma" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">WhatsApp / Phone *</label>
+            <input type="tel" x-model="fmscForm.phone" required placeholder="e.g. 480-555-0192" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Email</label>
+            <input type="email" x-model="fmscForm.email" placeholder="name@example.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Adults Count *</label>
+            <input type="number" min="1" max="10" x-model.number="fmscForm.adults_count" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Kids Count (5+ yrs)</label>
+            <input type="number" min="0" max="10" x-model.number="fmscForm.kids_count" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Carpool / Transport</label>
+          <select x-model="fmscForm.carpool" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400">
+            <option value="Driving Independently">🚗 Driving independently</option>
+            <option value="Can Offer Ride">🚙 Driving & can offer ride to others</option>
+            <option value="Need a Ride">🙏 Requesting a carpool ride</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Notes / Questions</label>
+          <input type="text" x-model="fmscForm.notes" placeholder="e.g. Can pick up 2 devotees from Chandler" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-amber-400">
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" @click="showFmscModal = false" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold shadow">Submit to Coordinator</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Andre House Volunteer Modal -->
+  <div x-show="showAndreModal" x-cloak class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-start">
+        <div>
+          <span class="text-[10px] font-bold uppercase bg-sky-500/20 text-sky-300 px-2 py-0.5 rounded">Andre House Seva</span>
+          <h3 class="font-bold text-white text-base mt-1">Sign Up for Homeless Dinner Service</h3>
+          <p class="text-xs text-slate-400" x-text="activeAndreShift ? activeAndreShift.date : ''"></p>
+        </div>
+        <button @click="showAndreModal = false" class="text-slate-400 hover:text-white">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form @submit.prevent="submitAndreHouseRsvp()" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Your Full Name / Family Name *</label>
+          <input type="text" x-model="andreForm.name" required placeholder="e.g. Sai Youth Volunteer" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-sky-400">
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">WhatsApp / Phone *</label>
+          <input type="tel" x-model="andreForm.phone" required placeholder="e.g. 480-555-0192" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-sky-400">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Adults Count</label>
+            <input type="number" min="1" max="10" x-model.number="andreForm.adults_count" required class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-sky-400">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Youth Count (14+ yrs)</label>
+            <input type="number" min="0" max="10" x-model.number="andreForm.youth_count" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-sky-400">
+          </div>
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Carpool from East Valley / Mesa</label>
+          <select x-model="andreForm.carpool" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-sky-400">
+            <option value="Driving Independently">🚗 Driving directly to Downtown Phoenix</option>
+            <option value="Can Offer Ride">🚙 Driving from Mesa & can offer rides</option>
+            <option value="Need a Ride">🙏 Requesting carpool from Mesa</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Notes</label>
+          <input type="text" x-model="andreForm.notes" placeholder="e.g. First time volunteer" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-sky-400">
+        </div>
+
+        <div class="pt-2 flex justify-end gap-2">
+          <button type="button" @click="showAndreModal = false" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700">Cancel</button>
+          <button type="submit" class="px-5 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-bold shadow">Confirm Sign-Up</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Breakfast Item Pledge Modal -->
+  <div x-show="selectedItem" x-cloak class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-start">
+        <h3 class="font-bold text-white text-base" x-text="'Bring Item: ' + selectedItem?.name"></h3>
+        <button @click="selectedItem = null" class="text-slate-400 hover:text-white">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form @submit.prevent="submitItemSignup()" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Your Name *</label>
+          <input type="text" x-model="itemSignupForm.volunteer" required placeholder="e.g. Priya Sharma"
+                 class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Phone Number</label>
+          <input type="tel" x-model="itemSignupForm.phone" placeholder="e.g. 480-555-0192"
+                 class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Quantity Pledged</label>
+          <input type="number" min="1" max="10" x-model="itemSignupForm.qty" required
+                 class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+        </div>
+
+        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2.5 rounded-lg shadow transition">
+          Confirm Item Pledge
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Special Event / Parthi Pilgrimage RSVP Modal -->
+  <div x-show="selectedEvent" x-cloak class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
+      <div class="flex justify-between items-start">
+        <h3 class="font-bold text-white text-base" x-text="'RSVP: ' + selectedEvent?.title"></h3>
+        <button @click="selectedEvent = null" class="text-slate-400 hover:text-white">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form @submit.prevent="submitEventRSVP()" class="space-y-3 text-xs">
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Family / Volunteer Name *</label>
+          <input type="text" x-model="eventRsvpForm.family_name" required placeholder="e.g. Arasaiah Family"
+                 class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Phone Number</label>
+          <input type="tel" x-model="eventRsvpForm.contact_phone" placeholder="e.g. 480-555-0192"
+                 class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Adults Count</label>
+            <input type="number" min="1" x-model="eventRsvpForm.adults" required
+                   class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-slate-300 font-semibold mb-1">Kids Count</label>
+            <input type="number" min="0" x-model="eventRsvpForm.kids" required
+                   class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+          </div>
+        </div>
+        <div>
+          <label class="block text-slate-300 font-semibold mb-1">Notes / Preferences</label>
+          <input type="text" x-model="eventRsvpForm.notes" placeholder="e.g. Interested in regional choir / seva"
+                 class="w-full bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:border-amber-500 focus:outline-none">
+        </div>
+
+        <button type="submit" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2.5 rounded-lg shadow transition">
+          Confirm RSVP / Interest
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- Toast Notification Alert -->
+  <div x-show="toast.show" x-cloak
+       class="fixed bottom-16 md:bottom-6 right-4 z-50 bg-slate-900 border border-amber-500/50 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-2 text-xs transition-all"
+       x-transition>
+    <span class="text-amber-400 text-base">🌸</span>
+    <span x-text="toast.message"></span>
+  </div>
+
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-950/95 backdrop-blur border-t border-slate-800 py-1.5 px-2">
+    <div class="grid grid-cols-7 gap-1 text-[9px] text-center">
+      <button @click="activeTab = 'home'" :class="activeTab === 'home' ? 'text-amber-400 font-bold' : 'text-slate-400'" class="p-1 flex flex-col items-center">
+        <i class="fa-solid fa-house mb-0.5"></i><span>Home</span>
+      </button>
+      <button @click="activeTab = 'balvikas'" :class="activeTab === 'balvikas' ? 'text-amber-400 font-bold' : 'text-slate-400'" class="p-1 flex flex-col items-center">
+        <i class="fa-solid fa-book-open mb-0.5"></i><span>SSSE</span>
+      </button>
+      <button @click="activeTab = 'bhajans'" :class="activeTab === 'bhajans' ? 'text-amber-400 font-bold' : 'text-slate-400'" class="p-1 flex flex-col items-center">
+        <i class="fa-solid fa-music mb-0.5"></i><span>Bhajans</span>
+      </button>
+      <button @click="activeTab = 'seva'" :class="activeTab === 'seva' ? 'text-emerald-400 font-bold' : 'text-slate-400'" class="p-1 flex flex-col items-center">
+        <i class="fa-solid fa-hands-holding-child mb-0.5 text-emerald-400"></i><span>Seva</span>
+      </button>
+      <button @click="activeTab = 'chanting'" :class="activeTab === 'chanting' ? 'text-amber-400 font-bold' : 'text-slate-400'" class="p-1 flex flex-col items-center">
+        <i class="fa-solid fa-om mb-0.5 text-amber-400"></i><span>Chanting</span>
+      </button>
+      <button @click="activeTab = 'events'" :class="activeTab === 'events' ? 'text-amber-400 font-bold' : 'text-slate-400'" class="p-1 flex flex-col items-center">
+        <i class="fa-solid fa-mountain-sun mb-0.5"></i><span>Events</span>
+      </button>
+      <button @click="activeTab = 'ya'" :class="activeTab === 'ya' ? 'text-purple-400 font-bold' : 'text-slate-400'" class="p-1 flex flex-col items-center">
+        <i class="fa-solid fa-users mb-0.5 text-purple-400"></i><span>YA</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    function saiApp() {
+      return {
+        activeTab: 'home',
+        sevaSubTab: 'all',
+        loading: true,
+        data: {},
+        deferredPrompt: null,
+        bhajanSearch: '',
+        japaCount: 0,
+
+        toast: { show: false, message: '' },
+
+        // Slide Modal
+        showSlideModal: false,
+        activeSlideUrl: '',
+
+        // FMSC Inform Form State
+        showFmscModal: false,
+        activeFmscSession: null,
+        fmscForm: { name: '', phone: '', email: '', adults_count: 1, kids_count: 0, carpool: 'Driving Independently', notes: '' },
+
+        // Andre House Form State
+        showAndreModal: false,
+        activeAndreShift: null,
+        andreForm: { name: '', phone: '', adults_count: 1, youth_count: 0, carpool: 'Driving Independently', notes: '' },
+
+        // Breakfast Item Form State
+        selectedItem: null,
+        itemSignupForm: { volunteer: '', phone: '', qty: 1 },
+
+        // Special Events RSVP Form State
+        selectedEvent: null,
+        eventRsvpForm: { family_name: '', contact_phone: '', adults: 1, kids: 0, notes: '' },
+
+        async initApp() {
+          await this.loadData();
+          this.loading = false;
+          
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('static/sw.js').catch(err => console.log('SW error:', err));
+          }
+
+          window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            this.deferredPrompt = e;
+          });
+        },
+
+        async loadData() {
+          let loaded = false;
+          try {
+            const res = await fetch('data/app_data.json?t=' + Date.now());
+            if (res.ok) {
+              this.data = await res.json();
+              loaded = true;
+            }
+          } catch (e) {}
+
+          if (!loaded) {
+            const stored = localStorage.getItem('mesa_sai_app_data');
+            if (stored) {
+              try { this.data = JSON.parse(stored); loaded = true; } catch (e) {}
+            }
+          }
+
+          if (!loaded) {
+            try {
+              const res = await fetch('/api/data');
+              if (res.ok) {
+                this.data = await res.json();
+              }
+            } catch (e) {}
+          }
+        },
+
+        saveToLocalStorage() {
+          localStorage.setItem('mesa_sai_app_data', JSON.stringify(this.data));
+        },
+
+        showToastMsg(msg) {
+          this.toast = { show: true, message: msg };
+          setTimeout(() => { this.toast.show = false; }, 3500);
+        },
+
+        copyText(text, successMsg = 'Copied!') {
+          if (navigator.clipboard && window.isSecureContext) {
+            navigator.clipboard.writeText(text);
+          } else {
+            const ta = document.createElement("textarea");
+            ta.value = text;
+            ta.style.position = "fixed";
+            ta.style.left = "-999999px";
+            document.body.appendChild(ta);
+            ta.focus();
+            ta.select();
+            document.execCommand('copy');
+            ta.remove();
+          }
+          this.showToastMsg(successMsg);
+        },
+
+        incrementJapa() {
+          this.japaCount++;
+          if (navigator.vibrate) navigator.vibrate(40);
+          if (this.japaCount === 108) {
+            this.showToastMsg('Om Sri Sai Ram! 108 Chants Completed! 🙏');
+          }
+        },
+
+        resetJapa() {
+          this.japaCount = 0;
+        },
+
+        installPWA() {
+          if (this.deferredPrompt) {
+            this.deferredPrompt.prompt();
+            this.deferredPrompt.userChoice.then(() => {
+              this.deferredPrompt = null;
+            });
+          }
+        },
+
+        get filteredBhajans() {
+          const query = this.bhajanSearch.toLowerCase().trim();
+          if (!query) return this.data.bhajans?.songbook || [];
+          return (this.data.bhajans?.songbook || []).filter(b => 
+            b.title.toLowerCase().includes(query) || 
+            b.deity.toLowerCase().includes(query) || 
+            b.lyrics.toLowerCase().includes(query)
+          );
+        },
+
+        calculatePledged(item) {
+          if (!item.signed_up) return 0;
+          return item.signed_up.reduce((acc, curr) => acc + (parseInt(curr.qty) || 0), 0);
+        },
+
+        openSlideModal(url) {
+          this.activeSlideUrl = url;
+          this.showSlideModal = true;
+        },
+
+        // FMSC Modal & Inform
+        openFmscInformModal(session) {
+          this.activeFmscSession = session;
+          this.fmscForm = {
+            name: '',
+            phone: '',
+            email: '',
+            adults_count: 1,
+            kids_count: 0,
+            carpool: 'Driving Independently',
+            notes: ''
+          };
+          this.showFmscModal = true;
+        },
+
+        async submitFmscInform() {
+          if (!this.activeFmscSession) return;
+          const payload = {
+            type: 'FMSC',
+            session_date: this.activeFmscSession.date_formatted,
+            session_time: this.activeFmscSession.time,
+            ...this.fmscForm,
+            timestamp: new Date().toISOString()
+          };
+
+          this.sendToGoogleSheetWebhook(payload);
+          this.showToastMsg('Om Sri Sai Ram! Coordinator Manju notified.');
+          this.showFmscModal = false;
+        },
+
+        // Andre House Modal & Sign-up
+        openAndreHouseModal(shift) {
+          this.activeAndreShift = shift;
+          this.andreForm = {
+            name: '',
+            phone: '',
+            adults_count: 1,
+            youth_count: 0,
+            carpool: 'Driving Independently',
+            notes: ''
+          };
+          this.showAndreModal = true;
+        },
+
+        async submitAndreHouseRsvp() {
+          if (!this.activeAndreShift) return;
+          const payload = {
+            type: 'Andre House Homeless Service',
+            shift_date: this.activeAndreShift.date,
+            shift_time: this.activeAndreShift.time,
+            ...this.andreForm,
+            timestamp: new Date().toISOString()
+          };
+
+          if (this.activeAndreShift.volunteers_registered) {
+            this.activeAndreShift.volunteers_registered.push({
+              name: this.andreForm.name,
+              count: (this.andreForm.adults_count || 1) + (this.andreForm.youth_count || 0),
+              role: 'Volunteer'
+            });
+            this.saveToLocalStorage();
+          }
+
+          this.sendToGoogleSheetWebhook(payload);
+          this.showToastMsg('Om Sri Sai Ram! Andre House sign-up confirmed.');
+          this.showAndreModal = false;
+        },
+
+        // Breakfast Item Modal
+        openItemSignupModal(item) {
+          this.selectedItem = item;
+          this.itemSignupForm = { volunteer: '', phone: '', qty: 1 };
+        },
+
+        async submitItemSignup() {
+          if (!this.selectedItem) return;
+          if (!this.selectedItem.signed_up) this.selectedItem.signed_up = [];
+          this.selectedItem.signed_up.push({
+            volunteer: this.itemSignupForm.volunteer,
+            phone: this.itemSignupForm.phone,
+            qty: parseInt(this.itemSignupForm.qty) || 1
+          });
+          this.saveToLocalStorage();
+
+          this.sendToGoogleSheetWebhook({
+            type: 'Hot Breakfast Seva',
+            item_name: this.selectedItem.name,
+            ...this.itemSignupForm,
+            timestamp: new Date().toISOString()
+          });
+
+          this.showToastMsg('Thank you! Item pledge recorded.');
+          this.selectedItem = null;
+        },
+
+        // Special Events Modal
+        openEventRSVPModal(event) {
+          this.selectedEvent = event;
+          this.eventRsvpForm = { family_name: '', contact_phone: '', adults: 1, kids: 0, notes: '' };
+        },
+
+        async submitEventRSVP() {
+          if (!this.selectedEvent) return;
+          if (!this.data.special_event_rsvps) this.data.special_event_rsvps = [];
+          this.data.special_event_rsvps.unshift({
+            id: 'rsvp-' + Date.now(),
+            event_id: this.selectedEvent.id,
+            ...this.eventRsvpForm
+          });
+          this.saveToLocalStorage();
+
+          this.sendToGoogleSheetWebhook({
+            type: 'Special Event / Parthi Pilgrimage',
+            event_title: this.selectedEvent.title,
+            ...this.eventRsvpForm,
+            timestamp: new Date().toISOString()
+          });
+
+          this.showToastMsg('Om Sri Sai Ram! Event interest / RSVP recorded.');
+          this.selectedEvent = null;
+        },
+
+        // Home Bhajan Request
+        openHomeBhajanModal() {
+          this.openEventRSVPModal({
+            id: 'event-home-bhajans',
+            title: 'Unofficial Home Bhajans Hosting Request'
+          });
+        },
+
+        // Shared Google Sheet Webhook Sender
+        async sendToGoogleSheetWebhook(payload) {
+          const webappUrl = localStorage.getItem('sai_fmsc_sheet_webapp_url') || this.data.center_info?.google_sheet_webapp_url || '';
+          if (webappUrl && webappUrl.startsWith('http')) {
+            try {
+              await fetch(webappUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+                body: JSON.stringify(payload)
+              });
+            } catch (err) {
+              console.warn('Webhook warning:', err);
+            }
+          }
+        }
+      };
+    }
+  </script>
 </body>
 </html>
